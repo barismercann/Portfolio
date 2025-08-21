@@ -2,12 +2,14 @@
 
 import { Badge, Button } from '@/components/ui';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Code2, Sparkles, Star } from 'lucide-react';
+import { ArrowRight, BarChart3, CheckCircle, Code2, Sparkles, Star } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import TypewriterCode from '../animations/typewriterCode';
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+    <section className="px-20 relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -17,7 +19,7 @@ export function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen pt-20 pb-32">
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -33,7 +35,7 @@ export function HeroSection() {
             >
               <Badge variant="success" className="inline-flex items-center space-x-2 px-4 py-2 text-sm font-medium">
                 <CheckCircle className="w-4 h-4" />
-                <span>Elite Developer Certified</span>
+                <span>Hayallerini Geleceğe Taşı</span>
               </Badge>
             </motion.div>
 
@@ -66,11 +68,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-lg text-muted-foreground leading-relaxed max-w-lg"
+              className="text-lg text-muted-foreground leading-relaxed max-w-xl"
             >
-              Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici. 
-              En son teknolojilerde uzmanlaşmış, karmaşık problemler için imkansız 
-              çözümler üretiyorum.
+              Yarının dijital gerçekliğini bugünden inşa eden full-stack geliştirici. En son teknolojilerde uzmanlaşmış, karmaşık problemler için imkansız çözümler üretiyorum.
             </motion.p>
 
             {/* Stats */}
@@ -81,15 +81,15 @@ export function HeroSection() {
               className="grid grid-cols-3 gap-8 py-8"
             >
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">50+</div>
+                <div className="text-3xl font-bold text-lightBlue">20+</div>
                 <div className="text-sm text-muted-foreground">Tamamlanan Proje</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">40+</div>
+                <div className="text-3xl font-bold text-purple">30+</div>
                 <div className="text-sm text-muted-foreground">Mutlu Müşteri</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">8+</div>
+                <div className="text-3xl font-bold text-primary">5+</div>
                 <div className="text-sm text-muted-foreground">Yıl Tecrübe</div>
               </div>
             </motion.div>
@@ -108,7 +108,8 @@ export function HeroSection() {
                 </Link>
               </Button>
               <Button size="xl" variant="outline" asChild>
-                <Link href="/portfolio">
+                <Link
+                  href="/portfolio" >
                   Projelerimi Keşfet
                 </Link>
               </Button>
@@ -117,115 +118,63 @@ export function HeroSection() {
 
           {/* Right Content - 3D Visual */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative lg:h-[600px] flex items-center justify-center"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative lg:h-[600px] flex items-center justify-center"
+        >
+          {/* Main Image Container */}
+          <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-3xl bg-gradient-to-br from-[var(--dark-background-color)] to-gray-800 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+            <Image
+              src={"/images/hero.webp"}
+              width={400}
+              height={400}
+              alt=''
+              className='w-full h-full object-cover rounded-3xl'
+            />
+          </div>
+
+          {/* Floating Içons - Görsele daha yakın konumlandırıldı */}
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="absolute top-44 left-2 bg-blue-500 p-3 rounded-full shadow-lg"
           >
-            {/* Main Image Container */}
-            <div className="relative w-full max-w-lg">
-              {/* Background Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-3xl blur-3xl opacity-20 animate-pulse-slow" />
-              
-              {/* Main Visual */}
-              <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 border border-slate-700 shadow-2xl">
-                {/* Code Editor Mockup */}
-                <div className="space-y-4">
-                  {/* Header */}
-                  <div className="flex items-center space-x-2 pb-4 border-b border-slate-600">
-                    <div className="flex space-x-1">
-                      <div className="w-3 h-3 bg-red-500 rounded-full" />
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                      <div className="w-3 h-3 bg-green-500 rounded-full" />
-                    </div>
-                    <div className="text-sm text-slate-400 ml-4"> Expertise in action</div>
-                  </div>
-
-                  {/* Code Lines */}
-                  <div className="space-y-3 font-mono text-sm">
-                    <div className="text-slate-400">
-                      <span className="text-blue-400">const</span>{' '}
-                      <span className="text-green-400">developer</span> = {'{'}
-                    </div>
-                    <div className="text-slate-400 pl-4">
-                      <span className="text-purple-400">name:</span>{' '}
-                      <span className="text-yellow-400">&apos;Barış Mercan&apos;</span>,
-                    </div>
-                    <div className="text-slate-400 pl-4">
-                      <span className="text-purple-400">skills:</span> [
-                    </div>
-                    <div className="text-slate-400 pl-8">
-                      <span className="text-yellow-400">&apos;React&apos;</span>,{' '}
-                      <span className="text-yellow-400">&apos;Next.js&apos;</span>,
-                    </div>
-                    <div className="text-slate-400 pl-8">
-                      <span className="text-yellow-400">&apos;TypeScript&apos;</span>,{' '}
-                      <span className="text-yellow-400">&apos;Node.js&apos;</span>
-                    </div>
-                    <div className="text-slate-400 pl-4">],</div>
-                    <div className="text-slate-400 pl-4">
-                      <span className="text-purple-400">experience:</span>{' '}
-                      <span className="text-blue-400">8</span>,
-                    </div>
-                    <div className="text-slate-400 pl-4">
-                      <span className="text-purple-400">passion:</span>{' '}
-                      <span className="text-yellow-400">&apos;Unlimited&apos;</span>
-                    </div>
-                    <div className="text-slate-400">{'}'}</div>
-                  </div>
-                </div>
-
-                {/* Floating AI Badge */}
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 5, -5, 0],
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-orange-400 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-2"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>AI</span>
-                </motion.div>
-              </div>
-
-              {/* Floating Icons */}
-              <motion.div
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -top-8 left-8 bg-blue-500 p-3 rounded-xl shadow-lg"
-              >
-                <Code2 className="w-6 h-6 text-white" />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [10, -10, 10] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                className="absolute bottom-8 -left-8 bg-green-500 p-3 rounded-xl shadow-lg"
-              >
-                <Star className="w-6 h-6 text-white" />
-              </motion.div>
-
-              <motion.div
-                animate={{ 
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute -bottom-4 right-8 bg-purple-500 p-3 rounded-xl shadow-lg"
-              >
-                <Sparkles className="w-6 h-6 text-white" />
-              </motion.div>
-            </div>
+            <Code2 className="w-6 h-6 text-white" />
           </motion.div>
+
+          <motion.div
+            animate={{ y: [10, -10, 10] }}
+            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-20 left-14 bg-green-500 p-3 rounded-full shadow-lg"
+          >
+            <Star className="w-8 h-8 text-white" />
+          </motion.div>
+
+          <motion.div
+            animate={{ y: [10, -10, 10] }}
+            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-10 right-14 bg-purple-500 p-3 rounded-full shadow-lg"
+          >
+            <Sparkles className="w-6 h-6 text-white" />
+            </motion.div>
+            
+            <motion.div
+              animate={{ y: [-10, 10, -10] }}
+              transition={{ 
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute top-16 right-16 bg-orange-500 p-3 rounded-full shadow-lg"
+            >
+              <BarChart3 className="w-10 h-10 text-white" />
+            </motion.div>
+
+            <div className="absolute -bottom-14 left-12 transform">
+              <TypewriterCode />
+            </div>
+        </motion.div>
         </div>
       </div>
     </section>

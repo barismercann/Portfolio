@@ -42,7 +42,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici. 
+              Yarının dijital gerçekliğini bugünden inşa eden full-stack geliştirici. 
               Karmaşık problemler için imkansız çözümler üretiyorum.
             </p>
             <div className="flex space-x-4">

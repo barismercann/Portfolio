@@ -7,7 +7,7 @@ import { Sparkles } from 'lucide-react';
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-white to-blue-50">
+    <section id="about" className="px-30 py-20 bg-gradient-to-b from-white to-blue-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div

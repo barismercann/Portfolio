@@ -10,10 +10,10 @@
   "hero": {
     "title": "Barış Mercan",
     "subtitle": "The Code Architect",
-    "description": "Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici.",
+    "description": "Yarının dijital gerçekliğini bugünden inşa eden full-stack geliştirici.",
     "cta_primary": "Elite'yi İşe Al",
     "cta_secondary": "Projelerimi Keşfet",
-    "badge": "Elite Developer Certified"
+    "badge": "Hayallerini Geleceğe Taşı"
   },
   "about": {
     "title": "Tam Yığın Hakimiyeti",
@@ -54,7 +54,7 @@
     }
   },
   "footer": {
-    "description": "Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici. Karmaşık problemler için imkansız çözümler üretiyorum.",
+    "description": "Yarının dijital gerçekliğini bugünden inşa eden full-stack geliştirici. Karmaşık problemler için imkansız çözümler üretiyorum.",
     "services": "Hizmetlerim",
     "technologies": "Teknolojiler",
     "contact": "İletişim & Kaynaklar",

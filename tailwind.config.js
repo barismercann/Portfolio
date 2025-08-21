@@ -35,6 +35,10 @@ module.exports = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -57,6 +61,22 @@ module.exports = {
         },
         success: {
           DEFAULT: "#10b981",
+          foreground: "#ffffff",
+        },
+        lightBlue: {
+          DEFAULT: "#06b6d4",
+          foreground: "#ffffff",
+        },
+        purple: {
+          DEFAULT: "#9333ea",
+          foreground: "#ffffff",
+        },
+        dark: {
+          DEFAULT: "#111827",
+          foreground: "#ffffff",
+        },
+        darkBorder: {
+          DEFAULT: "#374151",
           foreground: "#ffffff",
         },
       },
