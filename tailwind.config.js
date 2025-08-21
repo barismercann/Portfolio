@@ -78,29 +78,29 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
         "fade-in": {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
         "slide-up": {
           from: { 
-            opacity: 0,
+            opacity: "0",
             transform: "translateY(30px)",
           },
           to: { 
-            opacity: 1,
+            opacity: "1",
             transform: "translateY(0px)",
           },
         },
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [import("tailwindcss-animate")],
 }

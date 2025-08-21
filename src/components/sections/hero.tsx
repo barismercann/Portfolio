@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -103,7 +103,7 @@ export function HeroSection() {
             >
               <Button size="xl" asChild className="group">
                 <Link href="/contact">
-                  Elite'yi İşe Al
+                  Elite&apos;yi İşe Al
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
@@ -138,7 +138,7 @@ export function HeroSection() {
                       <div className="w-3 h-3 bg-yellow-500 rounded-full" />
                       <div className="w-3 h-3 bg-green-500 rounded-full" />
                     </div>
-                    <div className="text-sm text-slate-400 ml-4">// Expertise in action</div>
+                    <div className="text-sm text-slate-400 ml-4"> Expertise in action</div>
                   </div>
 
                   {/* Code Lines */}
@@ -149,18 +149,18 @@ export function HeroSection() {
                     </div>
                     <div className="text-slate-400 pl-4">
                       <span className="text-purple-400">name:</span>{' '}
-                      <span className="text-yellow-400">'Barış Mercan'</span>,
+                      <span className="text-yellow-400">&apos;Barış Mercan&apos;</span>,
                     </div>
                     <div className="text-slate-400 pl-4">
                       <span className="text-purple-400">skills:</span> [
                     </div>
                     <div className="text-slate-400 pl-8">
-                      <span className="text-yellow-400">'React'</span>,{' '}
-                      <span className="text-yellow-400">'Next.js'</span>,
+                      <span className="text-yellow-400">&apos;React&apos;</span>,{' '}
+                      <span className="text-yellow-400">&apos;Next.js&apos;</span>,
                     </div>
                     <div className="text-slate-400 pl-8">
-                      <span className="text-yellow-400">'TypeScript'</span>,{' '}
-                      <span className="text-yellow-400">'Node.js'</span>
+                      <span className="text-yellow-400">&apos;TypeScript&apos;</span>,{' '}
+                      <span className="text-yellow-400">&apos;Node.js&apos;</span>
                     </div>
                     <div className="text-slate-400 pl-4">],</div>
                     <div className="text-slate-400 pl-4">
@@ -169,7 +169,7 @@ export function HeroSection() {
                     </div>
                     <div className="text-slate-400 pl-4">
                       <span className="text-purple-400">passion:</span>{' '}
-                      <span className="text-yellow-400">'Unlimited'</span>
+                      <span className="text-yellow-400">&apos;Unlimited&apos;</span>
                     </div>
                     <div className="text-slate-400">{'}'}</div>
                   </div>

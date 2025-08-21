@@ -1,4 +1,3 @@
-// src/types/global.types.ts
 export interface BaseEntity {
   id: string;
   createdAt: Date;

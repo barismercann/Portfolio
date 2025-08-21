@@ -1,18 +1,17 @@
-import { Footer } from '@/components/layout/footer';
-import { Header } from '@/components/layout/header';
 import { AboutSection } from '@/components/sections/about';
+import { ContactPreviewSection } from '@/components/sections/contact-preview';
 import { HeroSection } from '@/components/sections/hero';
+import { PortfolioSection } from '@/components/sections/portfolio';
+import { ServicesSection } from '@/components/sections/services';
 
 export default function HomePage() {
   return (
     <>
-      <Header />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        {/* Diğer sectionlar buraya eklenecek */}
-      </main>
-      <Footer />
+      <HeroSection />
+      <AboutSection />
+      <PortfolioSection />
+      <ServicesSection />
+      <ContactPreviewSection />
     </>
   );
 }

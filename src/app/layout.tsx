@@ -1,3 +1,5 @@
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 import { SITE_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
@@ -69,7 +71,13 @@ export default async function RootLayout({
     <html lang="tr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>
