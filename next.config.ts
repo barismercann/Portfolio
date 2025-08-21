@@ -1,8 +1,20 @@
-import type { NextConfig } from "next";
+const createNextIntlPlugin = require('next-intl/plugin');
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
+const withNextIntl = createNextIntlPlugin();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['localhost'],
+    formats: ['image/webp', 'image/avif'],
+  },
+  experimental: {
+    typedRoutes: true,
+  },
+  webpack: (config: { resolve: { alias: { canvas: boolean; }; }; }) => {
+    config.resolve.alias.canvas = false;
+    return config;
+  },
 };
 
-export default nextConfig;
+module.exports = withNextIntl(nextConfig);
