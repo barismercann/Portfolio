@@ -22,6 +22,22 @@
     "backend": "Backend Sorcery", 
     "cloud": "Cloud Architecture"
   },
+  "blog": {
+    "title": "Knowledge Treasury",
+    "description": "In-depth articles about the latest technologies, best practices and practical solutions",
+    "featured": "Featured",
+    "categories": "Categories",
+    "newsletter": "Newsletter",
+    "newsletter_description": "Stay updated with new articles and technology updates",
+    "popular_tags": "Popular Tags",
+    "recent_posts": "Recent Posts",
+    "read_more": "Read More",
+    "read_article": "Read Article",
+    "subscribe": "Subscribe",
+    "all_posts": "View All Blog Posts",
+    "reading_time": "min read",
+    "share": "Share"
+  },
   "contact": {
     "title": "Ready to Start Your Project?",
     "description": "Share your project details, let us recommend the best solution and get back to you quickly.",

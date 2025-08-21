@@ -22,6 +22,22 @@
     "backend": "Backend Sorcery",
     "cloud": "Cloud Architecture"
   },
+  "blog": {
+    "title": "Bilgi Hazinem",
+    "description": "En son teknolojiler, best practice'ler ve pratik çözümler hakkında derinlemesine yazılar",
+    "featured": "Öne Çıkan",
+    "categories": "Kategoriler",
+    "newsletter": "Newsletter",
+    "newsletter_description": "Yeni yazılardan ve teknoloji güncellemelerinden haberdar olun",
+    "popular_tags": "Popüler Etiketler",
+    "recent_posts": "Son Yazılar",
+    "read_more": "Devamını Oku",
+    "read_article": "Makaleyi Oku",
+    "subscribe": "Abone Ol",
+    "all_posts": "Tüm Blog Yazılarını Gör",
+    "reading_time": "dk okuma",
+    "share": "Paylaş"
+  },
   "contact": {
     "title": "Projenizi Başlatmaya Hazır mısınız?",
     "description": "Proje bilgilerinizi paylaşın, size en uygun çözümü önerelim ve kısa sürede geri dönüş yapalım.",
