@@ -1,6 +1,6 @@
-const createNextIntlPlugin = require('next-intl/plugin');
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,9 +8,8 @@ const nextConfig = {
     domains: ['localhost'],
     formats: ['image/webp', 'image/avif'],
   },
-  experimental: {
-    typedRoutes: true,
-  },
+  typedRoutes: true,
+  outputFileTracingRoot: __dirname,
   webpack: (config: { resolve: { alias: { canvas: boolean; }; }; }) => {
     config.resolve.alias.canvas = false;
     return config;

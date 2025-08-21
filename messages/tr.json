@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "portfolio": "Portfolio",
+    "services": "Hizmetler",
+    "blog": "Blog",
+    "contact": "İletişim"
+  },
+  "hero": {
+    "title": "Barış Mercan",
+    "subtitle": "The Code Architect",
+    "description": "Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici.",
+    "cta_primary": "Elite'yi İşe Al",
+    "cta_secondary": "Projelerimi Keşfet",
+    "badge": "Elite Developer Certified"
+  },
+  "about": {
+    "title": "Tam Yığın Hakimiyeti",
+    "description": "Modern web teknolojilerinde derin uzmanlık ile karmaşık projeleri hayata geçiriyorum",
+    "frontend": "Frontend Mastery",
+    "backend": "Backend Sorcery",
+    "cloud": "Cloud Architecture"
+  },
+  "contact": {
+    "title": "Projenizi Başlatmaya Hazır mısınız?",
+    "description": "Proje bilgilerinizi paylaşın, size en uygun çözümü önerelim ve kısa sürede geri dönüş yapalım.",
+    "form": {
+      "name": "Ad Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "subject": "Konu",
+      "message": "Proje Detayları",
+      "projectType": "Proje Tipi",
+      "budget": "Bütçe Aralığı",
+      "submit": "Projeyi Gönder",
+      "sending": "Gönderiliyor..."
+    }
+  },
+  "footer": {
+    "description": "Yarının dijital gerçekliğini bugünden inşa eden elit full-stack geliştirici. Karmaşık problemler için imkansız çözümler üretiyorum.",
+    "services": "Hizmetlerim",
+    "technologies": "Teknolojiler",
+    "contact": "İletişim & Kaynaklar",
+    "copyright": "Tüm hakları saklıdır.",
+    "availability": "Yeni projeler için müsait"
+  }
+}

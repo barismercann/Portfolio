@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio", 
+    "services": "Services",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Barış Mercan",
+    "subtitle": "The Code Architect",
+    "description": "Elite full-stack developer building tomorrow's digital reality today.",
+    "cta_primary": "Hire Elite",
+    "cta_secondary": "Explore Projects",
+    "badge": "Elite Developer Certified"
+  },
+  "about": {
+    "title": "Full Stack Mastery",
+    "description": "Deep expertise in modern web technologies bringing complex projects to life",
+    "frontend": "Frontend Mastery",
+    "backend": "Backend Sorcery", 
+    "cloud": "Cloud Architecture"
+  },
+  "contact": {
+    "title": "Ready to Start Your Project?",
+    "description": "Share your project details, let us recommend the best solution and get back to you quickly.",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Project Details",
+      "projectType": "Project Type",
+      "budget": "Budget Range",
+      "submit": "Send Project",
+      "sending": "Sending..."
+    }
+  },
+  "footer": {
+    "description": "Elite full-stack developer building tomorrow's digital reality today. Creating impossible solutions for complex problems.",
+    "services": "My Services",
+    "technologies": "Technologies",
+    "contact": "Contact & Resources",
+    "copyright": "All rights reserved.",
+    "availability": "Available for new projects"
+  }
+}
