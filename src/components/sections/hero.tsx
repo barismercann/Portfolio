@@ -9,7 +9,7 @@ import TypewriterCode from '../animations/typewriterCode';
 
 export function HeroSection() {
   return (
-    <section className="px-20 relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+    <section className="px-24 relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -58,7 +58,7 @@ export function HeroSection() {
                 className="space-y-2"
               >
                 <h2 className="text-2xl lg:text-3xl font-light text-muted-foreground">
-                  The <span className="text-purple-600 font-semibold">Code Architect</span>
+                  Kod <span className="text-purple-600 font-semibold"> Mimarı</span>
                 </h2>
               </motion.div>
             </div>

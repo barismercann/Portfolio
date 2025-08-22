@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
   name: "Barış Mercan",
-  title: "Barış Mercan - The Code Architect",
+  title: "Barış Mercan - Kod Mimarı",
   description: "Yarının dijital gerçekliğini bugünden inşa eden full-stack geliştirici. En son teknolojilerde uzmanlaşmış, karmaşık problemler için imkansız çözümler üretiyorum.",
   url: "https://barismercan.com",
   ogImage: "/og-image.jpg",

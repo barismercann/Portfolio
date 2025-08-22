@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export function PortfolioSection() {
   return (
-    <section id="portfolio" className="px-30 py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section id="portfolio" className="px-24 py-20 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div

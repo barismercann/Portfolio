@@ -16,6 +16,8 @@ const badgeVariants = cva(
         outline: "text-foreground",
         success:
           "border-transparent bg-success text-success-foreground hover:bg-success/80",
+        gradient:
+          "border-transparent bg-gradient-to-r from-primary to-sky-400 text-white hover:from-primary/90 hover:to-sky-400/90",
       },
     },
     defaultVariants: {

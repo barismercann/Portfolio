@@ -14,7 +14,7 @@ export function ServicesSection() {
   };
 
   return (
-    <section id="services" className="px-30 py-20 bg-gradient-to-b from-white to-slate-50">
+    <section id="services" className="px-24 py-20 bg-gradient-to-b from-white to-slate-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
