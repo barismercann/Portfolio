@@ -83,20 +83,7 @@ export const PROJECTS = [
 ];
 
 export const SERVICES = [
-  {
-    id: "custom-development",
-    title: "Özel Yazılım Geliştirme",
-    description: "Proje kapsamına göre",
-    price: "₺25,000 - ₺150,000",
-    features: [
-      "Full-stack web uygulamaları",
-      "Mobil uygulama geliştirme",
-      "Veritabanı tasarım & optimizasyon",
-      "API geliştirme & entegrasyon"
-    ],
-    popular: false
-  },
-  {
+{
     id: "technical-consulting",
     title: "Teknik Danışmanlık",
     description: "Uzman seviye danışmanlık",
@@ -107,18 +94,31 @@ export const SERVICES = [
       "Teknoloji yığını seçimi",
       "Performans optimizasyon"
     ],
+    popular: false
+  },
+  {
+    id: "custom-development",
+    title: "Özel Yazılım Geliştirme",
+    description: "Proje kapsamına göre",
+    price: "₺10,000 - ₺150,000",
+    features: [
+      "Full-stack web uygulamaları",
+      "Mobil uygulama geliştirme",
+      "Veritabanı tasarım & optimizasyon",
+      "API geliştirme & entegrasyon"
+    ],
     popular: true
   },
   {
-    id: "devops-deployment",
-    title: "DevOps & Deployment",
-    description: "Altyapı kurulum & yönetim",
-    price: "₺15,000 - ₺50,000",
+    id: "project-updates",
+    title: "Proje Güncellemeleri",
+    description: "Mevcut proje geliştirmeleri",
+    price: "₺2,500 - ₺35,000",
     features: [
-      "AWS/Azure kurulum",
-      "CI/CD pipeline uygulaması",
-      "Docker konteynerizasyon",
-      "İzleme & bakım"
+      "Yeni özellik ekleme",
+      "Bug fix & performans iyileştirme",
+      "Dashboard & raporlama modülleri",
+      "API entegrasyonu & güncellemeler"
     ],
     popular: false
   }

@@ -3,15 +3,19 @@
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import { SERVICES } from '@/lib/constants';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Crown, Rocket, Zap } from 'lucide-react';
+import { ArrowRight, Check, Code, Crown, Headphones, RefreshCw, Rocket, Search, Triangle, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 export function ServicesSection() {
   const iconMap = {
-    'custom-development': Rocket,
     'technical-consulting': Crown,
+    'custom-development': Rocket,
     'devops-deployment': Zap,
+    'project-updates': RefreshCw, 
   };
+
+  // Process timeline icons
+  const processIcons = [Search, Triangle, Code, Rocket, Headphones];
 
   return (
     <section id="services" className="px-24 py-20 bg-gradient-to-b from-white to-slate-50">
@@ -112,32 +116,36 @@ export function ServicesSection() {
           
           <div className="grid md:grid-cols-5 gap-4">
             {[
-              { title: "Keşif & Planlama", time: "1-2 hafta", desc: "Gereksinim analizi, teknik planlama" },
-              { title: "Tasarım & Mimari", time: "1 hafta", desc: "Sistem mimarisi, veritabanı tasarımı" },
-              { title: "Geliştirme & Test", time: "4-12 hafta", desc: "Agile geliştirme, sürekli test" },
-              { title: "Deployment & Yayın", time: "1 hafta", desc: "Prodüksiyon deployment, optimizasyon" },
+              { title: "Keşif & Planlama", time: "3-4 gün", desc: "Gereksinim analizi, teknik planlama" },
+              { title: "Tasarım & Mimari", time: "1-2 hafta", desc: "Sistem mimarisi, veritabanı tasarımı" },
+              { title: "Geliştirme & Test", time: "4-12 hafta", desc: "Yazılım geliştirme" },
+              { title: "Deployment & Yayın", time: "1 hafta", desc: "Canlıya alma ve optimizasyon" },
               { title: "Bakım & Destek", time: "Sürekli", desc: "Bug fixes, özellik güncellemeleri" },
-            ].map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center relative"
-              >
-                <div className="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4 font-bold">
-                  {index + 1}
-                </div>
-                <h4 className="font-semibold mb-2">{step.title}</h4>
-                <p className="text-xs text-primary font-medium mb-2">{step.time}</p>
-                <p className="text-sm text-muted-foreground">{step.desc}</p>
-                
-                {index < 4 && (
-                  <div className="hidden md:block absolute top-6 left-full w-full h-0.5 bg-primary/20 -z-10" />
-                )}
-              </motion.div>
-            ))}
+            ].map((step, index) => {
+              const Icon = processIcons[index];
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="text-center relative"
+                >
+                  <div className="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-semibold mb-2">{step.title}</h4>
+                  <p className="text-xs text-primary font-medium mb-2">{step.time}</p>
+                  <p className="text-sm text-muted-foreground">{step.desc}</p>
+                  
+                  {index < 4 && (
+                    <div className="hidden md:block absolute top-6 left-full w-full h-0.5 bg-primary/20 -z-10" />
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -160,7 +168,7 @@ export function ServicesSection() {
                 Projeyi Başlat
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" asChild>
+            <Button size="lg" variant="outline" className="border-white text-dark hover:bg-white hover:text-primary" asChild>
               <Link href="/portfolio">
                 Geçmiş Çalışmalarım
               </Link>
