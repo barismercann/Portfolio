@@ -2,7 +2,7 @@
 
 import { Badge, Button, Card, CardContent } from '@/components/ui';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ExternalLink, Github, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 
 // Portfolio içerikleri - İleride admin panelden yönetilebilir
@@ -198,22 +198,16 @@ export function PortfolioSection() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-between items-center mt-auto">
-                      <div className="flex space-x-2">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                          <Link href={project.liveUrl}>
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
-                        </Button>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                          <Link href={project.githubUrl}>
-                            <Github className="w-4 h-4" />
-                          </Link>
-                        </Button>
-                      </div>
+                    <div className="flex items-center justify-between mt-auto">
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Web Sitesi
+                        </Link>
+                      </Button>
                       <Button variant="link" size="sm" className="p-0 text-primary" asChild>
-                        <Link href={project.caseStudyUrl}>
-                          Vaka Çalışmasını İncele
+                        <Link href={`/portfolio/${project.id}`}>
+                          Proje Detayı
                           <ArrowUpRight className="w-3 h-3 ml-1" />
                         </Link>
                       </Button>
