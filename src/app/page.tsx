@@ -1,5 +1,4 @@
 import { AboutSection } from '@/components/sections/about';
-import { BlogSection } from '@/components/sections/blog';
 import { ContactPreviewSection } from '@/components/sections/contact-preview';
 import { HeroSection } from '@/components/sections/hero';
 import { PortfolioSection } from '@/components/sections/portfolio';
@@ -12,7 +11,8 @@ export default function HomePage() {
       <AboutSection />
       <PortfolioSection />
       <ServicesSection />
-      <BlogSection />
+      {/* Blog Daha sonra eklenecek */}
+      {/* <BlogSection /> */}
       <ContactPreviewSection />
     </>
   );
