@@ -116,7 +116,7 @@ export function Footer() {
                 Blog Yazıları
               </Link>
               <Link href="/portfolio" className="block text-gray-300 hover:text-white transition-colors">
-                Vaka Çalışmaları
+                Projeler
               </Link>
               <Link href="/#contact" className="block text-gray-300 hover:text-white transition-colors">
                 Ücretsiz Danışmanlık
