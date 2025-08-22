@@ -1,21 +1,113 @@
 "use client";
 
-import { Badge, Button, Card, CardContent } from '@/components/ui';
+import { Badge, Button } from '@/components/ui';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Clock, Mail, MessageCircle, Phone } from 'lucide-react';
-import Link from 'next/link';
+import { Clock, Github, Linkedin, Mail, MapPin, MessageCircle, Phone, Rocket, Twitter, Users, Zap } from 'lucide-react';
 
 export function ContactPreviewSection() {
   return (
-    <section className="px-24 py-20 bg-gradient-to-b from-slate-50 to-white">
+    <section id="contact" className="px-4 lg:px-24 py-20 bg-gradient-to-b from-slate-50 to-white">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+        
+        {/* Project Start Form - Now Dark Theme */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-20 bg-dark rounded-3xl p-6 lg:p-8 text-white shadow-2xl"
+        >
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-600/20 text-blue-400 rounded-full text-sm font-medium mb-4">
+              <Rocket className="w-4 h-4 mr-2" />
+              Proje Başlat
+            </div>
+            <h3 className="text-3xl lg:text-4xl font-bold mb-4">Projenizi Hayata Geçirelim</h3>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Proje bilgilerinizi paylaşın, size özel çözüm önerisi hazırlayalım ve kısa sürede başlayalım.
+            </p>
+          </div>
+
+          {/* Project Start Form */}
+          <div className="max-w-4xl mx-auto">
+            <form className="space-y-6">
+              {/* Personal Info Row */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-200">Ad Soyad *</label>
+                  <input 
+                    type="text"
+                    placeholder="Adınız ve soyadınız"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-200">E-posta *</label>
+                  <input 
+                    type="email"
+                    placeholder="ornek@email.com"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  />
+                </div>
+              </div>
+
+              {/* Contact & Budget Row */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-200">Telefon</label>
+                  <input 
+                    type="tel"
+                    placeholder="0555 123 4567"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-200">Bütçe Aralığı</label>
+                  <select className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                    <option value="" className="bg-gray-800">Bütçe aralığınızı seçin</option>
+                    <option value="1500-5000" className="bg-gray-800">₺1,500 - ₺5,000</option>
+                    <option value="5000-15000" className="bg-gray-800">₺5,000 - ₺15,000</option>
+                    <option value="15000-50000" className="bg-gray-800">₺15,000 - ₺50,000</option>
+                    <option value="50000-100000" className="bg-gray-800">₺50,000 - ₺100,000</option>
+                    <option value="100000+" className="bg-gray-800">₺100,000+</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Project Details */}
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-200">Proje Detayları *</label>
+                <textarea 
+                  rows={4}
+                  placeholder="Projenizle ilgili detayları paylaşın... (Hedef kitle, özellikler, zaman çerçevesi, referans siteler vs.)"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="text-center pt-2">
+                <button 
+                  type="submit"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 inline-flex items-center transform hover:scale-105 shadow-lg"
+                >
+                  <Rocket className="w-5 h-5 mr-2" />
+                  Projeyi Gönder
+                </button>
+                <p className="text-sm text-gray-400 mt-3 flex items-center justify-center">
+                  <Clock className="w-4 h-4 mr-1" />
+                  Formunuzu aldıktan sonra 24 saat içinde size geri döneceğim
+                </p>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
+          {/* Left Content - Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="lg:col-span-2 space-y-8"
           >
             <div>
               <Badge variant="secondary" className="mb-4">
@@ -31,106 +123,163 @@ export function ContactPreviewSection() {
               </p>
             </div>
 
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+            {/* Contact Methods Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <div className="font-semibold">E-posta</div>
-                  <div className="text-muted-foreground">baris@example.com</div>
+                  <div className="font-semibold text-gray-900">E-posta</div>
+                  <a 
+                    href="mailto:barismercan53@gmail.com"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    barismercan53@gmail.com
+                  </a>
+                  <p className="text-xs text-gray-500 mt-1">En hızlı iletişim yolu</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+              <div className="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Phone className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <div className="font-semibold">Telefon</div>
-                  <div className="text-muted-foreground">+90 555 123 4567</div>
+                  <div className="font-semibold text-gray-900">Telefon</div>
+                  <a 
+                    href="tel:+905435535310"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    +90 543 553 5310
+                  </a>
+                  <p className="text-xs text-gray-500 mt-1">Acil durumlar için</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Lokasyon</div>
+                  <div className="text-muted-foreground">İstanbul, Türkiye</div>
+                  <p className="text-xs text-gray-500 mt-1">GMT+3 saat dilimi</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-6 h-6 text-orange-600" />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Hızlı Toplantı</div>
+                  <a 
+                    href="#"
+                    className="text-primary hover:text-primary/80 transition-colors font-medium"
+                  >
+                    Meet ile Hızlı Görüşme Ayarla
+                  </a>
+                  <p className="text-xs text-gray-500 mt-1">15-30 dk ücretsiz görüşme</p>
                 </div>
               </div>
             </div>
 
-            {/* Response Promise */}
-            <div className="flex items-center space-x-3 bg-green-50 border border-green-200 rounded-lg p-4">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-              <div className="text-sm">
-                <div className="font-semibold text-green-800">24 saat içinde yanıt garantisi</div>
-                <div className="text-green-600">Tüm mesajlarınıza hızlı dönüş sağlıyorum</div>
+            {/* Social Links */}
+            <div className="bg-gray-50 rounded-xl p-6">
+              <div className="font-semibold mb-4 text-gray-900">Sosyal Medya & Portföy</div>
+              <div className="flex flex-wrap gap-3">
+                <Button variant="outline" size="sm" asChild className="hover:bg-gray-900 hover:text-white transition-colors">
+                  <a href="https://github.com/barismercann" target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4 mr-2" />
+                    GitHub
+                  </a>
+                </Button>
+                <Button variant="outline" size="sm" asChild className="hover:bg-blue-600 hover:text-white transition-colors">
+                  <a href="https://www.linkedin.com/in/bar%C4%B1%C5%9F-mercan-28786b27a/" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="w-4 h-4 mr-2" />
+                    LinkedIn
+                  </a>
+                </Button>
+                <Button variant="outline" size="sm" asChild className="hover:bg-blue-400 hover:text-white transition-colors">
+                  <a href="https://x.com/Barismercan_" target="_blank" rel="noopener noreferrer">
+                    <Twitter className="w-4 h-4 mr-2" />
+                    Twitter
+                  </a>
+                </Button>
               </div>
             </div>
-
-            <Button size="lg" asChild className="group">
-              <Link href="/contact">
-                İletişim Formunu Doldur
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
           </motion.div>
 
-          {/* Right Content - Form Preview */}
+          {/* Right Content - Availability Card */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="space-y-6"
           >
-            <Card className="border-0 shadow-2xl">
-              <CardContent className="p-8">
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold mb-2">Hızlı İletişim</h3>
-                  <p className="text-muted-foreground">Projenizi kısaca anlatın, size geri dönelim</p>
+            {/* Availability Status */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border-0">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">Müsaitlik Durumu</h3>
+                  <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                    Yeni projeler için müsait
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  {/* Form Fields Preview */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">Ad Soyad</label>
-                      <div className="mt-1 h-10 bg-gray-100 rounded-md border border-gray-200" />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">E-posta</label>
-                      <div className="mt-1 h-10 bg-gray-100 rounded-md border border-gray-200" />
-                    </div>
+                <div className="space-y-3 text-left text-sm">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-muted-foreground flex items-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      Yanıt Süresi
+                    </span>
+                    <span className="font-semibold text-green-600">24 saat içinde</span>
                   </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Telefon</label>
-                    <div className="mt-1 h-10 bg-gray-100 rounded-md border border-gray-200" />
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-muted-foreground">Çalışma Saatleri</span>
+                    <span className="font-semibold">09:00 - 18:00</span>
                   </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Bütçe Aralığı</label>
-                    <div className="mt-1 h-10 bg-gray-100 rounded-md border border-gray-200 flex items-center px-3">
-                      <span className="text-muted-foreground text-sm">Bütçe aralığınızı seçin</span>
-                    </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-muted-foreground flex items-center">
+                      <Users className="w-4 h-4 mr-1" />
+                      Proje Kapasitesi
+                    </span>
+                    <span className="font-semibold text-orange-500">1/3 dolu</span>
                   </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Proje Detayları</label>
-                    <div className="mt-1 h-24 bg-gray-100 rounded-md border border-gray-200 p-3">
-                      <div className="text-muted-foreground text-sm">
-                        Projenizle ilgili detayları paylaşın... (Ne tür bir proje, hangi özellikler, hedef kitle, zaman çerçevesi vs.)
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button className="w-full" disabled>
-                    <Clock className="w-4 h-4 mr-2" />
-                    Formunuzu aldıktan sonra 24 saat içinde size geri döneceğim
-                  </Button>
                 </div>
+              </div>
+            </div>
 
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-sm text-blue-800">
-                    <strong>Not:</strong> Formunuzu aldıktan sonra size geri döneceğim
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Quick Benefits */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="font-semibold text-blue-900 mb-3">✨ Neden Benimle Çalışmalısınız?</h4>
+              <ul className="space-y-2 text-sm text-blue-800">
+                <li className="flex items-center">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2" />
+                  İlk 30 dakika ücretsiz danışmanlık
+                </li>
+                <li className="flex items-center">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2" />
+                  7/24 WhatsApp desteği
+                </li>
+                <li className="flex items-center">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2" />
+                  Modern teknolojiler ve best practices
+                </li>
+                <li className="flex items-center">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2" />
+                  Teslim sonrası 3 ay ücretsiz destek
+                </li>
+              </ul>
+            </div>
           </motion.div>
         </div>
       </div>

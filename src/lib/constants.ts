@@ -6,10 +6,10 @@ export const SITE_CONFIG = {
   ogImage: "/og-image.jpg",
   author: {
     name: "Barış Mercan",
-    email: "baris@example.com",
-    twitter: "@barismercan",
-    github: "barismercan",
-    linkedin: "barismercan"
+    email: "barismercan53@gmail.com",
+    twitter: "@Barismercan_",
+    github: "barismercann",
+    linkedin: "barış-mercan-28786b27a"
   }
 };
 
@@ -18,8 +18,8 @@ export const NAV_LINKS = [
   { href: "/#about", label: "Hakkımda", key: "about" },
   { href: "/portfolio", label: "Portfolio", key: "portfolio" },
   { href: "/services", label: "Hizmetler", key: "services" },
-  { href: "/blog", label: "Blog", key: "blog" },
-  { href: "/contact", label: "İletişim", key: "contact" }
+  // { href: "/blog", label: "Blog", key: "blog" },
+  { href: "/#contact", label: "İletişim", key: "contact" }
 ];
 
 export const SKILLS = {
@@ -33,13 +33,13 @@ export const SKILLS = {
     { name: "Node.js", level: 85 },
     { name: "Express", level: 80 },
     { name: "PostgreSQL", level: 75 },
-    { name: "MongoDB", level: 70 }
+    { name: "MongoDB", level: 95 }
   ],
   cloud: [
-    { name: "AWS", level: 75 },
-    { name: "Docker", level: 70 },
-    { name: "Vercel", level: 85 },
-    { name: "CI/CD", level: 68 }
+    { name: "AWS", level: 85 },
+    { name: "Docker", level: 95 },
+    { name: "Vercel", level: 95 },
+    { name: "CI/CD", level: 78 }
   ]
 };
 

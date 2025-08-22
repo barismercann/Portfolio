@@ -15,7 +15,7 @@ const PORTFOLIO_PROJECTS = [
     category: "ERP Sistemi",
     metrics: "40% verimlilik artışı, 3x hızlı raporlama",
     image: "/api/placeholder/400/300",
-    liveUrl: "#",
+    liveUrl: "https://fabrikam360.com/",
     githubUrl: "#",
     caseStudyUrl: "#",
     gradient: "from-blue-600 to-purple-700"
@@ -103,7 +103,7 @@ export function PortfolioSection() {
             Öne Çıkan Çalışmalar
           </Badge>
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Başarı <span className="text-primary">Hikayeleri</span>
+            Başarılı <span className="text-primary">Projeler</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             İş büyümesini tetikleyen, üretime hazır çözümler geliştiriyorum

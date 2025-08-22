@@ -22,9 +22,9 @@
    - ✅ Hero Section
    - ✅ About Section
    - ✅ Portfolio Section
-   - ✅ Services Section
-   - ✅ Blog Section (**YENİ EKLENDI**)
-   - ✅ Contact Preview Section
+   - ✅ Services Section (Proje başlatma formu ile güncellendiş)
+   - ✅ Blog Section (**YENİ EKLENDI ve ANA SAYFAYA DAHİL EDİLDİ**)
+   - ✅ Contact Preview Section (**YENİ TASARIM - İletişim seçenekleri odaklı**)
 
 2. ✅ **Responsive tasarım optimizasyonu**
    - ✅ Mobile navigation
@@ -40,17 +40,30 @@
 4. ✅ **Form componentleri geliştirme**
    - ✅ Contact Form
    - ✅ Newsletter subscription form (Blog section'da)
+   - ✅ **YENİ: Proje başlatma formu (Services section'da)**
 
 5. ✅ **Blog sayfa tasarımları**
-   - ✅ Blog section (Ana sayfa)
+   - ✅ Blog section (Ana sayfa) (**TAMAMLANDI ve ANA SAYFAYA EKLENDİ**)
    - ✅ Blog listing sayfası (Coming Soon page)
    - ✅ Blog detail sayfası (Coming Soon page)
+
+6. ✅ **Landing Page Tamamlandı**
+   - ✅ Hero Section
+   - ✅ About Section
+   - ✅ Portfolio Section
+   - ✅ Services Section (Proje başlatma formu ile)
+   - ✅ Blog Section (Ana sayfada)
+   - ✅ Contact Section (İletişim seçenekleri odaklı)
 
 ### ✅ Çözülen Teknik Sorunlar:
 - ✅ PostCSS ESM syntax hatası düzeltildi
 - ✅ TypeScript route typing hatası çözüldü
 - ✅ Next.js 15 uyumluluk sorunları giderildi
-- ✅ Types klasörü düzenlendi
+- ✅ Types klasörü src/types/ olarak düzenlendi
+- ✅ Contact form tasarımı basitleştirildi ve iletişim seçenekleri odaklı yapıldı
+- ✅ Services section'da proje başlatma formu eklendi
+
+---
 
 ---
 
@@ -59,6 +72,7 @@
 ### 📋 Öncelikli Yapılacaklar:
 1. 🔄 **API Routes Oluşturma**
    - ⏳ Contact form API endpoint
+   - ⏳ Project start form API endpoint (**YENİ EKLENEN FORM İÇİN**)
    - ⏳ Newsletter subscription API
    - ⏳ Blog API endpoints (gelecek için)
 
@@ -75,11 +89,12 @@
 4. ⏳ **Email Service**
    - ⏳ Nodemailer kurulumu
    - ⏳ Contact form email handling
+   - ⏳ Project start form email handling (**YENİ**)
    - ⏳ Newsletter email system
 
-### 🎯 Bir Sonraki Adım: Contact Form API Endpoint
+### 🎯 Bir Sonraki Adım: Project Start Form API Endpoint
 
-**Şimdi Contact Form için API endpoint oluşturalım:**
+**Şimdi Services section'da eklenen Project Start Form için API endpoint oluşturalım:**
 
 ---
 
@@ -94,22 +109,25 @@
 
 ## Mevcut Özellikler
 
-### Frontend Özellikleri (TAMAMLANDI)
+### Frontend Özellikleri (TAMAMLANDI) ✅
 - ✅ Tam responsive tasarım
 - ✅ Modern ve interaktif UI/UX
 - ✅ Smooth animasyonlar
 - ✅ Portfolio showcase
-- ✅ Blog sistemi (temel yapı)
+- ✅ Blog sistemi (temel yapı ve ana sayfa entegrasyonu)
 - ✅ İletişim formu (frontend)
+- ✅ **YENİ: Proje başlatma formu (Services section)**
+- ✅ **YENİ: İletişim seçenekleri odaklı contact section**
 - ✅ Çoklu dil desteği (TR/EN)
 - ✅ Component library (shadcn/ui)
 
-### Backend Özellikleri (BAŞLANACAK)
+### Backend Özellikleri (BAŞLANACAK) ⏳
 - ⏳ JWT Authentication
 - ⏳ Email doğrulama sistemi
 - ⏳ Admin panel
 - ⏳ Blog yönetimi
 - ⏳ İletişim formu yönetimi
+- ⏳ **YENİ: Proje başlatma formu yönetimi**
 - ⏳ Mail bildirimleri
 - ⏳ Rate limiting
 - ⏳ Input validation
@@ -167,10 +185,11 @@ baris-mercan-portfolio/
 │   │   │   ├── auth/
 │   │   │   ├── blogs/
 │   │   │   ├── contact/              # ⏳ İlk yapılacak
+│   │   │   ├── project-start/        # ⏳ YENİ EKLENEN FORM İÇİN
 │   │   │   └── admin/
 │   │   ├── globals.css ✅
 │   │   ├── layout.tsx ✅
-│   │   └── page.tsx ✅
+│   │   └── page.tsx ✅ (**Blog section eklendi**)
 │   ├── components/                   # ✅ TAMAMLANDI
 │   │   ├── ui/ ✅                   # Base UI Components
 │   │   │   ├── badge.tsx ✅
@@ -188,9 +207,9 @@ baris-mercan-portfolio/
 │   │   │   ├── hero.tsx ✅
 │   │   │   ├── about.tsx ✅
 │   │   │   ├── portfolio.tsx ✅
-│   │   │   ├── services.tsx ✅
-│   │   │   ├── blog.tsx ✅ (**YENİ**)
-│   │   │   └── contact-preview.tsx ✅
+│   │   │   ├── services.tsx ✅ (**Proje başlatma formu eklendi**)
+│   │   │   ├── blog.tsx ✅ (**Ana sayfaya eklendi**)
+│   │   │   └── contact-preview.tsx ✅ (**YENİ TASARIM - İletişim odaklı**)
 │   │   ├── forms/ ✅                # Form Components
 │   │   │   ├── contact-form.tsx ✅
 │   │   │   ├── login-form.tsx ⏳
@@ -218,7 +237,7 @@ baris-mercan-portfolio/
 │   │   ├── auth-store.ts ⏳
 │   │   ├── theme-store.ts ⏳
 │   │   └── global-store.ts ⏳
-│   ├── types/ ✅                    # TypeScript Types
+│   ├── types/ ✅                    # TypeScript Types (**TAŞINDI**)
 │   │   ├── contact.types.ts ✅
 │   │   ├── global.types.ts ✅
 │   │   ├── auth.types.ts ⏳
@@ -258,22 +277,29 @@ baris-mercan-portfolio/
 
 ### ✅ Faz 2: Frontend Development (2-3 hafta) - TAMAMLANDI
 1. ✅ Ana sayfa componentleri (100% tamamlandı)
+   - ✅ Hero Section
+   - ✅ About Section
+   - ✅ Portfolio Section
+   - ✅ Services Section (**Proje başlatma formu eklendi**)
+   - ✅ Blog Section (**Ana sayfaya dahil edildi**)
+   - ✅ Contact Section (**İletişim odaklı yeniden tasarlandı**)
 2. ✅ Responsive tasarım optimizasyonu
 3. ✅ Animasyonlar (tamamlandı)
-4. ✅ Form componentleri (Contact Form + Newsletter)
+4. ✅ Form componentleri (**Proje başlatma formu eklendi**)
 5. ✅ Blog sayfa tasarımları (temel yapı)
+6. ✅ **Landing Page Tamamen Tamamlandı**
 
 ### 🔄 Faz 3: Backend Development (2 hafta) - BAŞLAYACAK
 1. ⏳ Database schema
 2. ⏳ Authentication system
-3. ⏳ API endpoints
-4. ⏳ Email service
+3. ⏳ API endpoints (**Proje başlatma formu dahil**)
+4. ⏳ Email service (**İki form için**)
 5. ⏳ Admin panel backend
 
 ### ⏳ Faz 4: Admin Panel (1-2 hafta) - HENÜZ BAŞLANMADI
 1. ⏳ Admin dashboard
 2. ⏳ Blog yönetimi
-3. ⏳ Mesaj yönetimi
+3. ⏳ Mesaj yönetimi (**Proje başlatma formları dahil**)
 4. ⏳ Kullanıcı yönetimi
 
 ### ⏳ Faz 5: Testing & Deployment (1 hafta) - HENÜZ BAŞLANMADI
@@ -285,10 +311,11 @@ baris-mercan-portfolio/
 
 ## Sonraki Adımlar
 
-### 🎯 Hemen Şimdi: Contact Form API Endpoint
-1. `src/app/api/contact/route.ts` oluşturma
+### 🎯 Hemen Şimdi: Project Start Form API Endpoint
+1. `src/app/api/project-start/route.ts` oluşturma
 2. Nodemailer kurulumu ve konfigürasyonu
-3. Contact form backend entegrasyonu
+3. Project start form backend entegrasyonu
+4. Email template'leri oluşturma
 
 ### 📋 Bu Haftada:
 1. Database kurulumu (Prisma + PostgreSQL)
@@ -304,6 +331,13 @@ baris-mercan-portfolio/
 
 ## Önemli Notlar
 
+### ✅ Son Yapılan Değişiklikler:
+- **Services Section:** Proje başlatma formu eklendi (direkt landing page'de)
+- **Contact Section:** Form kaldırılarak iletişim seçenekleri odaklı tasarlandı
+- **Blog Section:** Ana sayfaya dahil edildi
+- **Types Klasörü:** src/types/ olarak taşındı
+- **Landing Page:** Tamamen tamamlandı ve kullanıma hazır
+
 ### ✅ Çözülen Sorunlar:
 - **PostCSS ESM Syntax Hatası:** `module.exports` yerine `export default` kullanıldı
 - **TypeScript Route Hatası:** `typedRoutes: false` yapılarak dinamik route'lar için çözüldü
@@ -316,11 +350,22 @@ baris-mercan-portfolio/
 - `tailwind.config.js` - Tam konfigürasyon
 - `tsconfig.json` - Strict mode, path mapping
 
-## Proje Durumu: %70 Tamamlandı
+## Proje Durumu: %75 Tamamlandı ⬆️
 
-**Frontend: %100** ✅  
+**Frontend: %100** ✅ (**Landing Page tamamen tamamlandı**)  
 **Backend: %0** ⏳  
 **Testing: %0** ⏳  
 **Deployment: %0** ⏳  
 
-**Sonraki büyük adım:** Contact Form API endpoint oluşturulması ve email servisi kurulumu.
+**Sonraki büyük adım:** Project Start Form API endpoint oluşturulması ve email servisi kurulumu.
+
+## Landing Page Özeti ✅ TAMAMLANDI
+
+1. ✅ **Hero Section** - Ana tanıtım ve CTA'lar
+2. ✅ **About Section** - Teknoloji uzmanlığı ve skills
+3. ✅ **Portfolio Section** - Öne çıkan projeler
+4. ✅ **Services Section** - Hizmetler + Proje başlatma formu
+5. ✅ **Blog Section** - Son yazılar ve newsletter
+6. ✅ **Contact Section** - İletişim seçenekleri ve müsaitlik
+
+**Landing page artık kullanıma hazır ve müşteri etkileşimi için optimize edilmiş durumda.**

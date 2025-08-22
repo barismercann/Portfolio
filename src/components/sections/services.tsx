@@ -14,11 +14,10 @@ export function ServicesSection() {
     'project-updates': RefreshCw, 
   };
 
-  // Process timeline icons
   const processIcons = [Search, Triangle, Code, Rocket, Headphones];
 
   return (
-    <section id="services" className="px-24 py-20 bg-gradient-to-b from-white to-slate-50">
+    <section id="services" className="px-24 py-10 bg-gradient-to-b from-white to-slate-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -92,8 +91,8 @@ export function ServicesSection() {
                       variant={service.popular ? "default" : "outline"}
                       asChild
                     >
-                      <Link href="/contact">
-                        {service.popular ? "Danışmanlık Rezerve Et" : "Teklif Al"}
+                      <Link href="/#contact">
+                        Teklif Al
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Link>
                     </Button>
@@ -146,33 +145,6 @@ export function ServicesSection() {
                 </motion.div>
               );
             })}
-          </div>
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center bg-gradient-to-r from-primary to-purple-600 rounded-3xl p-8 lg:p-12 text-white"
-        >
-          <h3 className="text-3xl font-bold mb-4">Projenizi Başlatmaya Hazır mısınız?</h3>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Proje bilgilerinizi paylaşın, size en uygun çözümü önerelim ve kısa sürede geri dönüş yapalım.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/contact">
-                <Rocket className="w-5 h-5 mr-2" />
-                Projeyi Başlat
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-dark hover:bg-white hover:text-primary" asChild>
-              <Link href="/portfolio">
-                Geçmiş Çalışmalarım
-              </Link>
-            </Button>
           </div>
         </motion.div>
       </div>

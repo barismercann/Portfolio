@@ -9,7 +9,7 @@ export function Footer() {
   const socialLinks = [
     { icon: Github, href: `https://github.com/${SITE_CONFIG.author.github}`, label: 'GitHub' },
     { icon: Linkedin, href: `https://linkedin.com/in/${SITE_CONFIG.author.linkedin}`, label: 'LinkedIn' },
-    { icon: Twitter, href: SITE_CONFIG.author.twitter, label: 'Twitter' },
+    { icon: Twitter, href: `https://x.com/${SITE_CONFIG.author.twitter}`, label: 'Twitter' },
   ];
 
   const services = [
@@ -68,7 +68,7 @@ export function Footer() {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service}>
-                  <Link href="/services" className="text-gray-300 hover:text-white transition-colors">
+                  <Link href="/#services" className="text-gray-300 hover:text-white transition-colors">
                     {service}
                   </Link>
                 </li>
@@ -102,8 +102,8 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <Phone className="w-5 h-5 text-primary" />
-                <a href="tel:+905551234567" className="hover:text-white transition-colors">
-                  +90 555 123 4567
+                <a href="tel:+905435535310" className="hover:text-white transition-colors">
+                  +90 543 553 5310
                 </a>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
@@ -118,7 +118,7 @@ export function Footer() {
               <Link href="/portfolio" className="block text-gray-300 hover:text-white transition-colors">
                 Vaka Çalışmaları
               </Link>
-              <Link href="/contact" className="block text-gray-300 hover:text-white transition-colors">
+              <Link href="/#contact" className="block text-gray-300 hover:text-white transition-colors">
                 Ücretsiz Danışmanlık
               </Link>
             </div>

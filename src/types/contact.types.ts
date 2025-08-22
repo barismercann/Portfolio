@@ -1,4 +1,5 @@
-import { BaseEntity } from './global.types';
+import { BaseEntity } from "./global.types";
+
 
 export interface ContactMessage extends BaseEntity {
   name: string;
