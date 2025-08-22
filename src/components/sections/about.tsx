@@ -329,7 +329,7 @@ export function AboutSection() {
             duration: 0.6,
             ease: "easeOut"
           }}
-          className="mt-16 bg-slate-900 rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden"
+          className="mt-16 bg-dark rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden"
         >
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
