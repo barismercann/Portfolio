@@ -5,12 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-interface BlogDetailPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 // Mock project data - bu gerçek projede API'den gelecek
 const PORTFOLIO_PROJECTS = [
   {
@@ -99,15 +93,23 @@ const PORTFOLIO_PROJECTS = [
   }
 ];
 
+// Types for Next.js 15 compatibility
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
 // Project slug'ını ID'ye çevirme fonksiyonu
 function getProjectBySlug(slug: string) {
   return PORTFOLIO_PROJECTS.find(project => project.id === slug);
 }
 
 // Metadata generation
-export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps
+): Promise<Metadata> {
+  const params = await props.params;
   const project = getProjectBySlug(params.slug);
-  
+
   if (!project) {
     return {
       title: 'Proje Bulunamadı - Barış Mercan',
@@ -138,7 +140,8 @@ const getStatusBadge = (status: string) => {
   return statusConfig[status as keyof typeof statusConfig] || statusConfig.demo;
 };
 
-export default function PortfolioDetailPage({ params }: BlogDetailPageProps) {
+export default async function PortfolioDetailPage(props: PageProps) {
+  const params = await props.params;
   const project = getProjectBySlug(params.slug);
 
   if (!project) {

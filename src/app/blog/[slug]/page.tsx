@@ -2,13 +2,16 @@ import { Badge } from '@/components/ui';
 import { ArrowLeft, BookOpen, Calendar, Clock } from 'lucide-react';
 import Link from 'next/link';
 
+// Doğru tip tanımı
 interface BlogDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params;
+
   return (
     <section className="py-20 pt-32 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
@@ -28,7 +31,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
               Frontend
             </Badge>
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-              {params.slug.split('-').map(word => 
+              {slug.split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
               ).join(' ')}
             </h1>
@@ -56,7 +59,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800">
-                <strong>📝 Makale Konusu:</strong> {params.slug.split('-').join(' ')}
+                <strong>📝 Makale Konusu:</strong> {slug.split('-').join(' ')}
               </p>
             </div>
           </div>
