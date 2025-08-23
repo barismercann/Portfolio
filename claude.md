@@ -87,7 +87,6 @@
 ### 📋 Öncelikli Yapılacaklar:
 1. ✅ **API Routes Oluşturma** (**KISMEN TAMAMLANDI**)
    - ✅ Project start form API endpoint (**TAMAMLANDI**)
-   - ⏳ Contact form API endpoint (basit iletişim için)
    - ⏳ Newsletter subscription API
    - ⏳ Blog API endpoints (gelecek için)
 
@@ -107,9 +106,6 @@
    - ✅ Auto-reply email templates (**TAMAMLANDI**)
    - ⏳ Newsletter email system
 
-### 🎯 Sonraki Adım: Contact Form API Endpoint
-
-**Şimdi basit contact form için API endpoint ekleyelim** (iletişim sayfasında opsiyonel kullanım için):
 
 ---
 
@@ -159,8 +155,6 @@
 - ⏳ Email doğrulama sistemi
 - ⏳ Admin panel
 - ⏳ Blog yönetimi
-- ⏳ Contact form API endpoint
-- ⏳ **YENİ: Contact form yönetimi**
 - ⏳ Mail bildirimleri (newsletter)
 - ⏳ Rate limiting
 - ⏳ Input validation
@@ -220,7 +214,6 @@ baris-mercan-portfolio/
 │   │   ├── api/                      # 🔄 BAŞLANDI: API routes
 │   │   │   ├── auth/
 │   │   │   ├── blogs/
-│   │   │   ├── contact/              # ⏳ Sonraki yapılacak
 │   │   │   ├── project-start/        # ✅ **TAMAMLANDI**
 │   │   │   │   └── route.ts ✅       # ✅ **Project start form API**
 │   │   │   └── admin/
@@ -354,7 +347,6 @@ baris-mercan-portfolio/
 ### 🔄 Faz 3: Backend Development (2 hafta) - KISMEN BAŞLANDI
 1. ✅ **API Routes** (**KISMEN TAMAMLANDI**)
    - ✅ Project start form API endpoint (**TAMAMLANDI**)
-   - ⏳ Contact form API endpoint (basit contact için)
    - ⏳ Newsletter subscription API
 2. ⏳ Database schema
 3. ⏳ Authentication system
@@ -379,11 +371,6 @@ baris-mercan-portfolio/
 5. ⏳ Monitoring setup
 
 ## Sonraki Adımlar
-
-### 🎯 Hemen Şimdi: Contact Form API Endpoint
-1. `src/app/api/contact/route.ts` oluşturma (basit contact için)
-2. Contact form component oluşturma (opsiyonel kullanım)
-3. Contact form backend entegrasyonu
 
 ### 📋 Bu Haftada:
 1. Database kurulumu (Prisma + PostgreSQL)
@@ -567,7 +554,6 @@ baris-mercan-portfolio/
    - Success/failure responses
 
 ### ⏳ Gelecek API Endpoints:
-1. ⏳ **POST /api/contact** (basit contact form için)
 2. ⏳ **POST /api/newsletter** (newsletter subscription)
 3. ⏳ **GET /api/admin/messages** (admin panel için)
 4. ⏳ **POST /api/auth/login** (admin authentication)
