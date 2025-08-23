@@ -102,8 +102,8 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <Button size="xl" asChild className="group">
-                <Link href="/contact">
-                  Elite&apos;yi İşe Al
+                <Link href="/#contact">
+                  Proje Başlat
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>

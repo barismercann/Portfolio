@@ -63,7 +63,7 @@ export function Header() {
           <div className="hidden lg:flex items-center space-x-4">
             <Button asChild size="lg" className="group">
               <Link href="/contact">
-                Benimle Çalış
+                Benimle Çalış 
                 <ArrowUpRight className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Link>
             </Button>
@@ -104,7 +104,7 @@ export function Header() {
                 ))}
                 <div className="pt-4 border-t border-border/50">
                   <Button asChild size="lg" className="w-full">
-                    <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/#contact" onClick={() => setIsMenuOpen(false)}>
                       Benimle Çalış
                       <ArrowUpRight className="w-4 h-4 ml-2" />
                     </Link>

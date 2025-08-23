@@ -190,69 +190,171 @@ const getAutoReplyTemplate = (name: string) => {
       <head>
         <meta charset="utf-8">
         <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #10b981, #3b82f6); color: white; padding: 20px; text-align: center; border-radius: 10px; }
-          .content { padding: 20px; background: #f8fafc; border-radius: 10px; margin: 20px 0; }
-          .timeline { background: white; padding: 20px; border-radius: 8px; margin: 15px 0; }
-          .step { display: flex; align-items: center; margin: 10px 0; }
-          .step-number { width: 30px; height: 30px; background: #3b82f6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; }
-          .footer { text-align: center; color: #6b7280; font-size: 14px; margin-top: 20px; }
+          body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0; 
+            padding: 0;
+            background-color: #f8fafc;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+          .header { 
+            background: linear-gradient(135deg, #10b981, #3b82f6); 
+            color: white; 
+            padding: 30px 20px; 
+            text-align: center; 
+            border-radius: 10px;
+            margin-bottom: 30px;
+          }
+          .content { 
+            padding: 0 10px;
+          }
+          .timeline-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+          }
+          .timeline-step { 
+            display: flex; 
+            align-items: flex-start; 
+            margin: 20px 0;
+            position: relative;
+          }
+          .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 40px;
+            width: 2px;
+            height: 40px;
+            background: #e2e8f0;
+          }
+          .step-number { 
+            width: 32px; 
+            height: 32px; 
+            background: #3b82f6; 
+            color: white; 
+            border-radius: 50%; 
+            text-align: center; 
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 32px; 
+            display: inline-block;
+            padding-right: 2px;
+            margin-right: 15px;
+            flex-shrink: 0;
+          }
+          .step-content {
+            flex: 1;
+          }
+          .step-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+            font-size: 15px;
+          }
+          .step-description {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.4;
+          }
+          .step-number {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          @media (max-width: 480px) {
+            .timeline-step {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+            .step-number {
+              margin-bottom: 8px;
+            }
+          }
+          .guarantee-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            margin: 25px 0;
+          }
+          .footer { 
+            text-align: center; 
+            color: #6b7280; 
+            font-size: 14px; 
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+          }
+          .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1 style="margin: 0;">✅ Talebiniz Başarıyla Alındı!</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">Merhaba ${name}, proje talebiniz için teşekkürler!</p>
+            <h1 style="margin: 0; font-size: 26px;">✅ Talebiniz Başarıyla Alındı!</h1>
+            <p style="margin: 12px 0 0 0; opacity: 0.9; font-size: 16px;">Merhaba ${name}, proje talebiniz için teşekkürler!</p>
           </div>
 
           <div class="content">
-            <h2 style="color: #1f2937; margin-top: 0;">📋 Sonraki Adımlar</h2>
+            <h2 style="color: #1f2937; margin: 0 0 20px 0; font-size: 22px;">📋 Sonraki Adımlar</h2>
             
-            <div class="timeline">
-              <div class="step">
+            <div class="timeline-container">
+              <div class="timeline-step">
                 <div class="step-number">1</div>
-                <div>
-                  <strong>İlk İnceleme</strong><br>
-                  <small style="color: #6b7280;">Talebinizi detaylı olarak inceliyorum (24 saat içinde)</small>
+                <div class="step-content">
+                  <div class="step-title">İlk İnceleme</div>
+                  <div class="step-description">Talebinizi detaylı olarak inceliyorum (24 saat içinde)</div>
                 </div>
               </div>
               
-              <div class="step">
+              <div class="timeline-step">
                 <div class="step-number">2</div>
-                <div>
-                  <strong>Teknik Analiz</strong><br>
-                  <small style="color: #6b7280;">Proje gereksinimlerini analiz edip önerimi hazırlıyorum</small>
+                <div class="step-content">
+                  <div class="step-title">Teknik Analiz</div>
+                  <div class="step-description">Proje gereksinimlerini belirmele.</div>
                 </div>
               </div>
               
-              <div class="step">
+              <div class="timeline-step">
                 <div class="step-number">3</div>
-                <div>
-                  <strong>Teklif & Görüşme</strong><br>
-                  <small style="color: #6b7280;">Size özel teklif ve görüşme önerisi gönderiyorum</small>
+                <div class="step-content">
+                  <div class="step-title">Teklif & Görüşme</div>
+                  <div class="step-description">Size özel teklif.</div>
                 </div>
               </div>
             </div>
 
-            <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6;">
-              <strong style="color: #1e40af;">⚡ Hızlı Yanıt Garantisi</strong><br>
-              Genellikle 24 saat içinde, en geç 48 saat içinde size geri dönüş yapıyorum.
+            <div class="guarantee-box">
+              <div style="font-weight: 600; color: #1e40af; margin-bottom: 8px;">⚡ Hızlı Yanıt Garantisi</div>
+              <div style="color: #1e40af;">Genellikle 24 saat içinde, en geç 48 saat içinde size geri dönüş yapıyorum.</div>
             </div>
           </div>
 
           <div class="footer">
-            <p><strong>Barış Mercan</strong><br>
-            Full-Stack Developer<br>
-            📧 barismercan53@gmail.com<br>
-            📱 +90 543 553 5310</p>
-            
-            <p style="margin-top: 20px;">
-              <a href="https://barismercan.com" style="color: #3b82f6; text-decoration: none;">
-                barismercan.com
-              </a>
-            </p>
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #1f2937;">Barış Mercan</strong><br>
+              <span style="color: #6b7280;">Full-Stack Developer</span>
+            </div>
+            <div style="margin-bottom: 15px;">
+              📧 <a href="mailto:barismercan53@gmail.com">barismercan53@gmail.com</a><br>
+              📱 <a href="tel:+905435535310">+90 543 553 5310</a>
+            </div>
+            <div>
+              <a href="https://barismercan.com" style="font-weight: 500;">barismercan.com</a>
+            </div>
           </div>
         </div>
       </body>

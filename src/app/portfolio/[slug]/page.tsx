@@ -436,7 +436,7 @@ export default function PortfolioDetailPage({ params }: BlogDetailPageProps) {
             <Button size="lg" variant="secondary" asChild>
               <Link href="/#contact">
                 <Zap className="w-5 h-5 mr-2" />
-                Benimle Çalış
+                Proje Başlat
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary" asChild>
