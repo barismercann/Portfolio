@@ -3,6 +3,7 @@
 import { Badge, Button } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { Clock, Github, Linkedin, Mail, MapPin, MessageCircle, Phone, Rocket, Twitter, Users, Zap } from 'lucide-react';
+import { ProjectStartForm } from '../forms/project-start-form';
 
 export function ContactPreviewSection() {
   return (
@@ -27,77 +28,9 @@ export function ContactPreviewSection() {
             </p>
           </div>
 
-          {/* Project Start Form */}
+          
           <div className="max-w-4xl mx-auto">
-            <form className="space-y-6">
-              {/* Personal Info Row */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-200">Ad Soyad *</label>
-                  <input 
-                    type="text"
-                    placeholder="Adınız ve soyadınız"
-                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-200">E-posta *</label>
-                  <input 
-                    type="email"
-                    placeholder="ornek@email.com"
-                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  />
-                </div>
-              </div>
-
-              {/* Contact & Budget Row */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-200">Telefon</label>
-                  <input 
-                    type="tel"
-                    placeholder="0555 123 4567"
-                    className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-200">Bütçe Aralığı</label>
-                  <select className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                    <option value="" className="bg-gray-800">Bütçe aralığınızı seçin</option>
-                    <option value="1500-5000" className="bg-gray-800">₺1,500 - ₺5,000</option>
-                    <option value="5000-15000" className="bg-gray-800">₺5,000 - ₺15,000</option>
-                    <option value="15000-50000" className="bg-gray-800">₺15,000 - ₺50,000</option>
-                    <option value="50000-100000" className="bg-gray-800">₺50,000 - ₺100,000</option>
-                    <option value="100000+" className="bg-gray-800">₺100,000+</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Project Details */}
-              <div>
-                <label className="block text-sm font-semibold mb-2 text-gray-200">Proje Detayları *</label>
-                <textarea 
-                  rows={4}
-                  placeholder="Projenizle ilgili detayları paylaşın... (Hedef kitle, özellikler, zaman çerçevesi, referans siteler vs.)"
-                  className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200"
-                />
-              </div>
-
-              {/* Submit Button */}
-              <div className="text-center pt-2">
-                <button 
-                  type="submit"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 inline-flex items-center transform hover:scale-105 shadow-lg"
-                >
-                  <Rocket className="w-5 h-5 mr-2" />
-                  Projeyi Gönder
-                </button>
-                <p className="text-sm text-gray-400 mt-3 flex items-center justify-center">
-                  <Clock className="w-4 h-4 mr-1" />
-                  Formunuzu aldıktan sonra 24 saat içinde size geri döneceğim
-                </p>
-              </div>
-            </form>
+            <ProjectStartForm />
           </div>
         </motion.div>
 
