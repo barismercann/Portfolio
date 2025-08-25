@@ -3,42 +3,64 @@
 import { Button } from '@/components/ui';
 import { LogOut, Menu, Settings, User, X } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-// ✅ Admin Panel için tamamen özel layout
+
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  console.log('🔍 ADMIN LAYOUT: Current pathname:', pathname);
+
+
+  const isLoginPage = pathname === '/admin/login';
+  
+  console.log('🔍 ADMIN LAYOUT: isLoginPage:', isLoginPage);
+
+
   const checkAuth = useCallback(async () => {
+    if (isLoginPage) {
+      console.log('⏭️  ADMIN LAYOUT: Skipping auth check for login page');
+      setIsLoading(false);
+      return;
+    }
+
     try {
+      console.log('🔍 ADMIN LAYOUT: Starting auth check...');
       const response = await fetch('/api/auth/me');
+      console.log('🔍 ADMIN LAYOUT: Auth response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('🔍 ADMIN LAYOUT: Auth response data:', data);
+        
         if (data.success) {
           setUser(data.user);
+          console.log('✅ ADMIN LAYOUT: User authenticated:', data.user.email);
         } else {
+          console.log('❌ ADMIN LAYOUT: Auth failed, redirecting to login');
           router.push('/admin/login');
         }
       } else {
+        console.log('❌ ADMIN LAYOUT: Auth request failed, redirecting to login');
         router.push('/admin/login');
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error('❌ ADMIN LAYOUT: Auth check error:', error);
       router.push('/admin/login');
     } finally {
       setIsLoading(false);
     }
-  }, [router]);
+  }, [isLoginPage, router]);
 
-  // Check authentication on mount
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -54,7 +76,6 @@ export default function AdminLayout({
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Force logout even if API fails
       router.push('/');
     }
   };
@@ -82,8 +103,15 @@ export default function AdminLayout({
     }
   ];
 
-  // Show loading state
+  if (isLoginPage) {
+    console.log('✅ ADMIN LAYOUT: Login page detected, rendering children only');
+    return <>{children}</>;
+  }
+
+  console.log('✅ ADMIN LAYOUT: Protected admin page, checking auth...');
+
   if (isLoading) {
+    console.log('🔍 ADMIN LAYOUT: Showing loading state');
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -94,14 +122,24 @@ export default function AdminLayout({
     );
   }
 
-  // Don't render if no user (will redirect)
   if (!user) {
+    console.log('❌ ADMIN LAYOUT: No user, should redirect to login');
     return null;
   }
 
-  // ✅ Tamamen bağımsız admin layout - Root layout'tan etkilenmez
+  console.log('✅ ADMIN LAYOUT: Rendering full admin layout for user:', user.email);
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Debug Info */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed top-0 left-0 z-[9999] bg-green-500 text-white p-2 text-xs font-mono">
+          <div>ADMIN LAYOUT ACTIVE</div>
+          <div>Path: {pathname}</div>
+          <div>User: {user.name}</div>
+        </div>
+      )}
+
       {/* Sidebar */}
       <div className={`${isSidebarOpen ? 'w-64' : 'w-16'} bg-white shadow-lg transition-all duration-300 flex flex-col`}>
         {/* Sidebar Header */}
