@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  console.log('🚀 MIDDLEWARE: Processing', pathname);
+  // console.log('🚀 MIDDLEWARE: Processing', pathname);
 
   // Skip middleware for API routes, static files, and public routes
   if (
@@ -19,69 +19,69 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/portfolio/') ||
     pathname.startsWith('/blog/')
   ) {
-    console.log('⏭️  MIDDLEWARE: Skipping for public route:', pathname);
+    // console.log('⏭️  MIDDLEWARE: Skipping for public route:', pathname);
     return NextResponse.next();
   }
 
   // Protect admin routes
   if (pathname.startsWith('/admin')) {
-    console.log('🔒 MIDDLEWARE: Processing admin route:', pathname);
+    // console.log('🔒 MIDDLEWARE: Processing admin route:', pathname);
     
     // ✅ Allow access to login page without redirect loop
     if (pathname === '/admin/login') {
-      console.log('🚪 MIDDLEWARE: Admin login page - checking existing auth');
+      // console.log('🚪 MIDDLEWARE: Admin login page - checking existing auth');
       
       const token = request.cookies.get('auth-token')?.value;
       if (token) {
-        console.log('🍪 MIDDLEWARE: Found existing token, verifying...');
+        // console.log('🍪 MIDDLEWARE: Found existing token, verifying...');
         const payload = await verifyJWT(token);
         if (payload) {
-          console.log('✅ MIDDLEWARE: Valid token, redirecting to dashboard');
+          // console.log('✅ MIDDLEWARE: Valid token, redirecting to dashboard');
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         }
       }
-      console.log('🚪 MIDDLEWARE: No valid token, allowing login page');
+      // console.log('🚪 MIDDLEWARE: No valid token, allowing login page');
       return NextResponse.next();
     }
 
     // ✅ Handle /admin root path - redirect to dashboard if authenticated, login if not
     if (pathname === '/admin') {
-      console.log('🏠 MIDDLEWARE: Admin root path, checking auth...');
+      // console.log('🏠 MIDDLEWARE: Admin root path, checking auth...');
       
       const token = request.cookies.get('auth-token')?.value;
       if (token) {
         const payload = await verifyJWT(token);
         if (payload) {
-          console.log('✅ MIDDLEWARE: Valid token, redirecting /admin to /admin/dashboard');
+          // console.log('✅ MIDDLEWARE: Valid token, redirecting /admin to /admin/dashboard');
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         }
       }
       
-      console.log('❌ MIDDLEWARE: No valid token, redirecting /admin to /admin/login');
+      // console.log('❌ MIDDLEWARE: No valid token, redirecting /admin to /admin/login');
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
     // ✅ For all other admin routes, check authentication
-    console.log('🛡️  MIDDLEWARE: Checking auth for protected admin route:', pathname);
+    // console.log('🛡️  MIDDLEWARE: Checking auth for protected admin route:', pathname);
     const token = request.cookies.get('auth-token')?.value;
     
     if (!token) {
-      console.log('❌ MIDDLEWARE: No auth token found, redirecting to login');
+      // console.log('❌ MIDDLEWARE: No auth token found, redirecting to login');
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
     try {
-      console.log('🔍 MIDDLEWARE: Verifying JWT token...');
+      // console.log('🔍 MIDDLEWARE: Verifying JWT token...');
       const payload = await verifyJWT(token);
       
       if (!payload) {
-        console.log('❌ MIDDLEWARE: Invalid token, redirecting to login');
+        // console.log('❌ MIDDLEWARE: Invalid token, redirecting to login');
         const redirectResponse = NextResponse.redirect(new URL('/admin/login', request.url));
         redirectResponse.cookies.delete('auth-token');
         return redirectResponse;
       }
 
-      console.log('✅ MIDDLEWARE: Valid token for user:', payload.email);
+      // console.log('✅ MIDDLEWARE: Valid token for user:', payload.email);
       return NextResponse.next();
       
     } catch (error) {
@@ -92,7 +92,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  console.log('✅ MIDDLEWARE: Completed processing for:', pathname);
+  // console.log('✅ MIDDLEWARE: Completed processing for:', pathname);
   return NextResponse.next();
 }
 
