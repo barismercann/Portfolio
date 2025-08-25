@@ -1,14 +1,14 @@
-import { prisma, subscribeToNewsletter, trackEvent } from '@/lib/database';
-import { newsletterSchema } from '@/lib/validations';
+import { contactFormSchema } from '@/lib/validations';
+
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-// Email transporter (reuse from contact form)
+// Email transporter configuration
 const createTransporter = () => {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: false,
+    secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -16,12 +16,175 @@ const createTransporter = () => {
   });
 };
 
-// Welcome email template
-const getWelcomeEmailTemplate = (name?: string) => {
-  const displayName = name || 'Değerli takipçi';
-  
+// Form data type
+interface ProjectStartFormData {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  budget?: string;
+  projectType: string;
+}
+
+// Email template for project start request
+const getProjectStartEmailTemplate = (data: ProjectStartFormData) => {
   return {
-    subject: '🎉 Newsletter\'a Hoş Geldiniz! - Barış Mercan',
+    subject: `🚀 Yeni Proje Başlatma Talebi - ${data.name}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Yeni Proje Talebi</title>
+        <style>
+          body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0; 
+            padding: 0;
+            background-color: #f8fafc;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+          .header { 
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6); 
+            color: white; 
+            padding: 20px; 
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+          }
+          .field { 
+            margin: 15px 0; 
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 8px 8px 0;
+          }
+          .field strong { 
+            color: #1f2937; 
+            display: block; 
+            margin-bottom: 5px;
+          }
+          .message-content {
+            background: #eff6ff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dbeafe;
+            margin: 15px 0;
+          }
+          .footer { 
+            text-align: center; 
+            margin-top: 30px; 
+            padding-top: 20px; 
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 14px;
+          }
+          .priority-high {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+          }
+          .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 style="margin: 0; font-size: 24px;">🚀 Yeni Proje Talebi</h1>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">Portfolio sitesinden gelen proje başlatma formu</p>
+          </div>
+
+          <div class="field">
+            <strong>👤 İsim:</strong>
+            <span style="font-size: 16px; font-weight: 600;">${data.name}</span>
+          </div>
+
+          <div class="field">
+            <strong>📧 E-posta:</strong>
+            <a href="mailto:${data.email}" style="color: #3b82f6; text-decoration: none;">${data.email}</a>
+          </div>
+
+          ${data.phone ? `
+          <div class="field">
+            <strong>📱 Telefon:</strong>
+            <a href="tel:${data.phone}" style="color: #3b82f6; text-decoration: none;">${data.phone}</a>
+          </div>
+          ` : ''}
+
+          ${data.budget ? `
+          <div class="field">
+            <strong>💰 Bütçe Aralığı:</strong>
+            <span class="badge">${data.budget}</span>
+          </div>
+          ` : ''}
+
+          <div class="message-content">
+            <strong style="color: #1f2937; margin-bottom: 10px; display: block;">📋 Proje Detayları:</strong>
+            <div style="white-space: pre-wrap; line-height: 1.8;">${data.message}</div>
+          </div>
+
+          <div class="field">
+            <strong>📅 Talep Tarihi:</strong>
+            ${new Date().toLocaleString('tr-TR', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric', 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })}
+          </div>
+
+          <div class="footer">
+            <p><strong>⚡ Hızlı Aksiyon Gerekli!</strong></p>
+            <p>Bu tür projelere genellikle 24 saat içinde yanıt veriyorsun.</p>
+            <p style="margin-top: 20px;">
+              <a href="mailto:${data.email}" style="color: #3b82f6; text-decoration: none;">
+                Hemen Yanıtla →
+              </a>
+            </p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `,
+    text: `
+      Yeni Proje Başlatma Talebi
+      
+      İsim: ${data.name}
+      E-posta: ${data.email}
+      Telefon: ${data.phone || 'Belirtilmemiş'}
+      Bütçe: ${data.budget || 'Belirtilmemiş'}
+      
+      Proje Detayları:
+      ${data.message}
+      
+      Tarih: ${new Date().toLocaleString('tr-TR')}
+    `
+  };
+};
+
+// Auto-reply email template for user
+const getAutoReplyTemplate = (name: string) => {
+  return {
+    subject: '✅ Proje Talebiniz Alındı - Barış Mercan',
     html: `
       <!DOCTYPE html>
       <html>
@@ -45,7 +208,7 @@ const getWelcomeEmailTemplate = (name?: string) => {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           }
           .header { 
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6); 
+            background: linear-gradient(135deg, #10b981, #3b82f6); 
             color: white; 
             padding: 30px 20px; 
             text-align: center; 
@@ -54,6 +217,76 @@ const getWelcomeEmailTemplate = (name?: string) => {
           }
           .content { 
             padding: 0 10px;
+          }
+          .timeline-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+          }
+          .timeline-step { 
+            display: flex; 
+            align-items: flex-start; 
+            margin: 20px 0;
+            position: relative;
+          }
+          .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 40px;
+            width: 2px;
+            height: 40px;
+            background: #e2e8f0;
+          }
+          .step-number { 
+            width: 32px; 
+            height: 32px; 
+            background: #3b82f6; 
+            color: white; 
+            border-radius: 50%; 
+            text-align: center; 
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 32px; 
+            display: inline-block;
+            padding-right: 2px;
+            margin-right: 15px;
+            flex-shrink: 0;
+          }
+          .step-content {
+            flex: 1;
+          }
+          .step-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+            font-size: 15px;
+          }
+          .step-description {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.4;
+          }
+          .step-number {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          @media (max-width: 480px) {
+            .timeline-step {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+            .step-number {
+              margin-bottom: 8px;
+            }
+          }
+          .guarantee-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            margin: 25px 0;
           }
           .footer { 
             text-align: center; 
@@ -72,50 +305,57 @@ const getWelcomeEmailTemplate = (name?: string) => {
       <body>
         <div class="container">
           <div class="header">
-            <h1 style="margin: 0; font-size: 28px;">🎉 Hoş Geldiniz!</h1>
-            <p style="margin: 12px 0 0 0; opacity: 0.9; font-size: 16px;">Newsletter aboneliğiniz başarıyla tamamlandı</p>
+            <h1 style="margin: 0; font-size: 26px;">✅ Talebiniz Başarıyla Alındı!</h1>
+            <p style="margin: 12px 0 0 0; opacity: 0.9; font-size: 16px;">Merhaba ${name}, proje talebiniz için teşekkürler!</p>
           </div>
 
           <div class="content">
-            <h2 style="color: #1f2937; margin: 0 0 20px 0; font-size: 22px;">Merhaba ${displayName}!</h2>
+            <h2 style="color: #1f2937; margin: 0 0 20px 0; font-size: 22px;">📋 Sonraki Adımlar</h2>
             
-            <p style="margin-bottom: 20px; line-height: 1.8;">
-              Barış Mercan newsletter'ına hoş geldiniz! Bundan böyle modern web teknolojileri, 
-              best practice'ler ve pratik çözümler hakkında en güncel içerikleri sizinle paylaşacağım.
-            </p>
-
-            <h3 style="color: #1f2937; margin: 24px 0 16px 0;">📚 Neler Bulacaksınız?</h3>
-            <ul style="line-height: 1.8; color: #4b5563;">
-              <li>Next.js, React ve TypeScript ile ilgili güncel yazılar</li>
-              <li>Performans optimizasyon teknikleri</li>
-              <li>Full-stack geliştirme best practice'leri</li>
-              <li>Yeni proje case study'leri</li>
-              <li>Sektördeki önemli gelişmeler</li>
-            </ul>
-
-            <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 20px; margin: 24px 0; border-radius: 0 8px 8px 0;">
-              <p style="margin: 0; color: #1e40af;">
-                <strong>💡 İlk İçeriğimiz Çok Yakında!</strong><br>
-                Bu hafta Next.js 15'in yeni özellikleri hakkında detaylı bir yazı paylaşacağım.
-              </p>
+            <div class="timeline-container">
+              <div class="timeline-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <div class="step-title">İlk İnceleme</div>
+                  <div class="step-description">Talebinizi detaylı olarak inceliyorum (24 saat içinde)</div>
+                </div>
+              </div>
+              
+              <div class="timeline-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <div class="step-title">Teknik Analiz</div>
+                  <div class="step-description">Proje gereksinimlerini belirmele.</div>
+                </div>
+              </div>
+              
+              <div class="timeline-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <div class="step-title">Teklif & Görüşme</div>
+                  <div class="step-description">Size özel teklif.</div>
+                </div>
+              </div>
             </div>
 
-            <p style="margin: 24px 0;">
-              Herhangi bir sorunuz varsa doğrudan bu e-postayı yanıtlayabilir veya 
-              <a href="https://barismercan.com/contact" style="color: #3b82f6;">iletişim sayfası</a>ndan bana ulaşabilirsiniz.
-            </p>
+            <div class="guarantee-box">
+              <div style="font-weight: 600; color: #1e40af; margin-bottom: 8px;">⚡ Hızlı Yanıt Garantisi</div>
+              <div style="color: #1e40af;">Genellikle 24 saat içinde, en geç 48 saat içinde size geri dönüş yapıyorum.</div>
+            </div>
           </div>
 
           <div class="footer">
-            <p><strong>Barış Mercan</strong> - Full-Stack Developer</p>
-            <p>
-              📧 <a href="mailto:barismercan53@gmail.com">barismercan53@gmail.com</a> | 
-              🌐 <a href="https://barismercan.com">barismercan.com</a>
-            </p>
-            <p style="margin-top: 20px; font-size: 12px; color: #9ca3af;">
-              Bu e-postayı almak istemiyor musunuz? 
-              <a href="https://barismercan.com/unsubscribe?email=${encodeURIComponent('{{email}}')}">Abonelikten çık</a>
-            </p>
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #1f2937;">Barış Mercan</strong><br>
+              <span style="color: #6b7280;">Full-Stack Developer</span>
+            </div>
+            <div style="margin-bottom: 15px;">
+              📧 <a href="mailto:barismercan53@gmail.com">barismercan53@gmail.com</a><br>
+              📱 <a href="tel:+905435535310">+90 543 553 5310</a>
+            </div>
+            <div>
+              <a href="https://barismercan.com" style="font-weight: 500;">barismercan.com</a>
+            </div>
           </div>
         </div>
       </body>
@@ -129,190 +369,72 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Validate form data
-    const validatedData = newsletterSchema.parse(body);
+    const validatedData = contactFormSchema.parse(body);
 
-    // Get client information
-    const clientInfo = {
-      ipAddress: request.headers.get('x-forwarded-for') || 
-                 request.headers.get('x-real-ip') || 
-                 'unknown',
-      userAgent: request.headers.get('user-agent') || 'unknown',
-      referrer: request.headers.get('referer') || undefined,
-    };
+    // Create email transporter
+    const transporter = createTransporter();
 
-    // Determine source from referrer
-    const source = clientInfo.referrer ? 
-      new URL(clientInfo.referrer).pathname : 
-      'direct';
+    // Verify transporter configuration
+    await transporter.verify();
 
-    // Save to database
-    const subscription = await subscribeToNewsletter(
-      validatedData.email, 
-      validatedData.name, 
-      source
-    );
+    // Prepare email templates
+    const adminEmail = getProjectStartEmailTemplate(validatedData);
+    const userAutoReply = getAutoReplyTemplate(validatedData.name);
 
-    // Send welcome email (only for new subscriptions)
-    if (subscription) {
-      try {
-        const transporter = createTransporter();
-        const welcomeEmail = getWelcomeEmailTemplate(validatedData.name);
-        
-        await transporter.sendMail({
-          from: `"Barış Mercan" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-          to: validatedData.email,
-          subject: welcomeEmail.subject,
-          html: welcomeEmail.html,
-        });
-      } catch (emailError) {
-        console.error('❌ Welcome email failed:', emailError);
-        // Don't fail the API if email fails
-      }
-    }
-
-    // Track analytics
-    await trackEvent('newsletter_subscribe', source, {
-      email: validatedData.email,
-      hasName: !!validatedData.name,
-      isNewSubscription: !!subscription,
-    }, clientInfo);
-
-    console.log('✅ Newsletter subscription processed:', {
-      email: validatedData.email,
-      source,
-      isNew: !!subscription,
+    // Send email to admin (you)
+    await transporter.sendMail({
+      from: `"Portfolio Website" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: process.env.ADMIN_EMAIL || 'barismercan53@gmail.com',
+      subject: adminEmail.subject,
+      html: adminEmail.html,
+      text: adminEmail.text,
+      replyTo: validatedData.email,
     });
+
+    // Send auto-reply to user
+    await transporter.sendMail({
+      from: `"Barış Mercan" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: validatedData.email,
+      subject: userAutoReply.subject,
+      html: userAutoReply.html,
+    });
+
+    // Log the successful submission (you can later save to database)
+    console.log('✅ Project start request received:', {
+      name: validatedData.name,
+      email: validatedData.email,
+      budget: validatedData.budget,
+      timestamp: new Date().toISOString(),
+  });
 
     return NextResponse.json({
       success: true,
-      message: 'Newsletter aboneliğiniz başarıyla tamamlandı! Hoş geldin e-postanızı kontrol edin.',
+      message: 'Proje talebiniz başarıyla gönderildi. Kısa sürede size geri döneceğim!',
     });
 
   } catch (error) {
-    console.error('❌ Newsletter API error:', error);
-
-    // Track error
-    await trackEvent('newsletter_error', 'api', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-    });
-
+    console.error('❌ Project start API error:', error);
     // Handle validation errors
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json({
         success: false,
-        message: 'Geçerli bir e-posta adresi girin.',
+        message: 'Form verilerinde eksiklik var. Lütfen tüm gerekli alanları doldurun.',
         errors: error,
       }, { status: 400 });
     }
 
-    // Handle duplicate email (Prisma unique constraint)
-    if (error instanceof Error && error.message.includes('Unique constraint')) {
+    // Handle email sending errors
+    if (error instanceof Error && error.message.includes('SMTP')) {
       return NextResponse.json({
-        success: true,
-        message: 'Bu e-posta adresi zaten newsletter listesinde kayıtlı.',
-      });
+        success: false,
+        message: 'E-posta gönderiminde sorun oluştu. Lütfen doğrudan e-posta ile iletişime geçin.',
+      }, { status: 500 });
     }
 
     // Generic error handling
     return NextResponse.json({
       success: false,
-      message: 'Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.',
-    }, { status: 500 });
-  }
-}
-
-// GET endpoint for admin to retrieve newsletter subscribers
-export async function GET(request: NextRequest) {
-  try {
-    // Basic authentication check
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const isActive = searchParams.get('active') === 'true';
-
-    const skip = (page - 1) * limit;
-    
-    const [subscribers, totalCount] = await Promise.all([
-      prisma.newsletter.findMany({
-        where: isActive ? { isActive: true } : {},
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          isActive: true,
-          source: true,
-          createdAt: true,
-        },
-      }),
-      prisma.newsletter.count({
-        where: isActive ? { isActive: true } : {},
-      }),
-    ]);
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        subscribers,
-        pagination: {
-          page,
-          limit,
-          total: totalCount,
-          totalPages: Math.ceil(totalCount / limit),
-        },
-      },
-    });
-
-  } catch (error) {
-    console.error('❌ Get newsletter subscribers error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to retrieve subscribers',
-    }, { status: 500 });
-  }
-}
-
-// DELETE endpoint to unsubscribe
-export async function DELETE(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email');
-
-    if (!email) {
-      return NextResponse.json({
-        success: false,
-        message: 'E-posta adresi gerekli',
-      }, { status: 400 });
-    }
-
-    await prisma.newsletter.update({
-      where: { email },
-      data: { 
-        isActive: false,
-        updatedAt: new Date(),
-      },
-    });
-
-    // Track unsubscribe event
-    await trackEvent('newsletter_unsubscribe', 'api', { email });
-
-    return NextResponse.json({
-      success: true,
-      message: 'Newsletter aboneliğiniz başarıyla iptal edildi.',
-    });
-
-  } catch (error) {
-    console.error('❌ Newsletter unsubscribe error:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Abonelik iptali sırasında hata oluştu.',
+      message: 'Beklenmedik bir hata oluştu. Lütfen tekrar deneyin veya doğrudan iletişime geçin.',
     }, { status: 500 });
   }
 }
