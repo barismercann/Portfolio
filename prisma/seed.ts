@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { BudgetRange, MessageStatus, PostStatus, PrismaClient, ProjectStatus, ProjectType } from '@prisma/client';
+
+
 
 const prisma = new PrismaClient();
 
@@ -27,7 +29,7 @@ async function main() {
       content: 'Next.js 15 ile gelen yenilikler web geliştirme dünyasında çığır açıyor...',
       category: 'Frontend',
       tags: ['Next.js', 'React', 'Performance'],
-      status: 'PUBLISHED',
+      status: PostStatus.PUBLISHED, // Use enum instead of string
       publishedAt: new Date(),
       readTime: 8,
     },
@@ -38,7 +40,7 @@ async function main() {
       content: 'TypeScript\'in güçlü tip sistemi ile enterprise seviye uygulamalar geliştirmek...',
       category: 'Backend',
       tags: ['TypeScript', 'Design Patterns'],
-      status: 'PUBLISHED',
+      status: PostStatus.PUBLISHED, // Use enum instead of string
       publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
       readTime: 12,
     },
@@ -49,7 +51,7 @@ async function main() {
       content: 'Yapay zeka teknolojilerinin web uygulamalarına entegrasyonu...',
       category: 'AI/ML',
       tags: ['AI', 'OpenAI', 'Integration'],
-      status: 'PUBLISHED',
+      status: PostStatus.PUBLISHED, // Use enum instead of string
       publishedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
       readTime: 15,
     },
@@ -78,7 +80,7 @@ async function main() {
       mainImage: '/images/projects/erp-preview.webp',
       gallery: ['/images/projects/erp-preview.webp', '/images/projects/erp-dashboard.webp'],
       liveUrl: 'https://fabrikam360.com/',
-      status: 'LIVE',
+      status: ProjectStatus.LIVE, // Use enum instead of string
       featured: true,
       duration: '3 ay',
       teamSize: '1 kişi',
@@ -96,7 +98,7 @@ async function main() {
       mainImage: '/images/projects/ecommerce-preview.webp',
       gallery: ['/images/projects/ecommerce-preview.webp'],
       liveUrl: 'https://www.aycay.com/',
-      status: 'LIVE',
+      status: ProjectStatus.LIVE, // Use enum instead of string
       featured: true,
       duration: '2.5 ay',
       teamSize: '1 kişi',
@@ -116,33 +118,34 @@ async function main() {
 
   // Create sample contact messages
   const sampleMessages = [
-    {
-      name: 'Ahmet Yılmaz',
-      email: 'ahmet@example.com',
-      phone: '+90 555 123 4567',
-      message: 'E-ticaret sitesi için teklif istiyorum. 50 ürünlü bir mağaza olacak.',
-      budget: 'RANGE_5000_15000',
-      projectType: 'WEB_DEVELOPMENT',
-      priority: 'HIGH',
-      status: 'NEW',
-    },
-    {
-      name: 'Fatma Kaya',
-      email: 'fatma@example.com',
-      message: 'Mevcut web sitemizi Next.js\'e geçirmek istiyoruz. Danışmanlık hizmeti alabilir miyiz?',
-      budget: 'RANGE_15000_50000',
-      projectType: 'CONSULTING',
-      priority: 'MEDIUM',
-      status: 'NEW',
-    },
-  ];
+  {
+    name: 'Ahmet Yılmaz',
+    email: 'ahmet@example.com',
+    phone: '+90 555 123 4567',
+    message: 'E-ticaret sitesi için teklif istiyorum. 50 ürünlü bir mağaza olacak.',
+    budget: BudgetRange.RANGE_5000_15000,
+    projectType: ProjectType.WEB_DEVELOPMENT,
+    status: MessageStatus.NEW,
+  },
+  {
+    name: 'Fatma Kaya',
+    email: 'fatma@example.com',
+    message: 'Mevcut web sitemizi Next.js\'e geçirmek istiyoruz. Danışmanlık hizmeti alabilir miyiz?',
+    budget: BudgetRange.RANGE_15000_50000,
+    projectType: ProjectType.CONSULTING,
+    status: MessageStatus.NEW,
+  },
+];
+
 
   for (const message of sampleMessages) {
-    const created = await prisma.contactMessage.create({
-      data: message,
-    });
-    console.log('✅ Sample contact message created:', created.name);
-  }
+  const created = await prisma.contactMessage.create({
+    data: message,
+  });
+  console.log('✅ Sample contact message created:', created.name);
+}
+
+
 
   // Create sample newsletter subscriptions
   const sampleSubscribers = [
