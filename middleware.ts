@@ -25,6 +25,10 @@ export async function middleware(request: NextRequest) {
 
   // Protect admin routes
   if (pathname.startsWith('/admin')) {
+    // ✅ IMPORTANT: Set header for ALL admin routes including login
+    const response = NextResponse.next();
+    response.headers.set('x-pathname', pathname);
+
     // Allow access to login page
     if (pathname === '/admin/login') {
       // If already authenticated, redirect to dashboard
@@ -35,9 +39,7 @@ export async function middleware(request: NextRequest) {
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         }
       }
-      const response = NextResponse.next();
-      response.headers.set('x-pathname', pathname);
-      return response;
+      return response; // ✅ Login sayfası için header set edip return et
     }
 
     // For all other admin routes, check authentication
@@ -53,23 +55,19 @@ export async function middleware(request: NextRequest) {
       
       if (!payload) {
         console.log('❌ Invalid token, redirecting to login');
-        const response = NextResponse.redirect(new URL('/admin/login', request.url));
-        response.cookies.delete('auth-token');
-        return response;
+        const redirectResponse = NextResponse.redirect(new URL('/admin/login', request.url));
+        redirectResponse.cookies.delete('auth-token');
+        return redirectResponse;
       }
 
       console.log('✅ Valid token for user:', payload.email);
-      // Token is valid, allow access
-      const response = NextResponse.next();
-      response.headers.set('x-pathname', pathname);
       return response;
       
     } catch (error) {
       console.error('❌ JWT verification error in middleware:', error);
-      // Token verification failed, redirect to login
-      const response = NextResponse.redirect(new URL('/admin/login', request.url));
-      response.cookies.delete('auth-token');
-      return response;
+      const redirectResponse = NextResponse.redirect(new URL('/admin/login', request.url));
+      redirectResponse.cookies.delete('auth-token');
+      return redirectResponse;
     }
   }
 

@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from 'next/headers';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,7 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// src/app/layout.tsx - Enhanced metadata section
+
 export const metadata: Metadata = {
   title: {
     default: SITE_CONFIG.title,
@@ -110,25 +109,20 @@ export default async function RootLayout({
   // Get messages for the current locale
   const messages = await getMessages();
   
-  // Get pathname to check if it's admin route
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '';
-  const isAdminRoute = pathname.startsWith('/admin');
+
 
   return (
     <html lang="tr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <div className="min-h-screen flex flex-col">
-            {/* Only show Header for non-admin routes */}
-            {!isAdminRoute && <Header />}
             
-            <main className={isAdminRoute ? "min-h-screen" : "flex-1"}>
-              {children}
-            </main>
+            <Header />
+              <main>
+                {children}
+              </main>
+            <Footer />
             
-            {/* Only show Footer for non-admin routes */}
-            {!isAdminRoute && <Footer />}
           </div>
         </NextIntlClientProvider>
       </body>

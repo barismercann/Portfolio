@@ -213,13 +213,29 @@
 - ✅ **Message status updates** - Read/unread status management
 
 ### ⏳ Devam Eden Admin Panel Görevleri:
-1. 🔄 **Blog Management UI** (**BAŞLANACAK - BU HAFTA**)
+1. 🔄 **ADMIN ISLEMLERI LOGIN/LAYOUT/** (**BAŞLANACAK - BU HAFTA**)
+   - ⏳ [tamamen boş gorunuyor acil ilgilen layout veya başka bir alanda sorun var ustuste binme yada klasor yapisi sorunu olabilir](http://localhost:3000/admin/login)
+   - ⏳ .env.local de ADMIN_EMAIL ve ADMIN_PASSWORD tanimli ama gorunmuyor zorla login denemesi de basarisiz 
+   - ⏳ [header ve footer componentim gorunuyor admin panelde bunlar olmayacak](http://localhost:3000/admin/login)
+   - ⏳ export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen">
+      {children}
+    </div>
+  );
+} admin layout bu sekilde temizlendiginde login ekrani gorunuyor 
+
+2. 🔄 **Blog Management UI** (**BAŞLANACAK - BU HAFTA**)
    - ⏳ Blog post creation form
    - ⏳ Rich text editor integration
    - ⏳ Image upload system
    - ⏳ SEO optimization tools
 
-2. 🔄 **Advanced Analytics Dashboard** (**BAŞLANACAK - BU HAFTA**)
+3. 🔄 **Advanced Analytics Dashboard** (**BAŞLANACAK - BU HAFTA**)
    - ⏳ Detailed form submission analytics
    - ⏳ Visitor statistics
    - ⏳ Performance metrics
