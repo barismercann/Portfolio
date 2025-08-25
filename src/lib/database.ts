@@ -1,4 +1,4 @@
-import { BudgetRange, MessagePriority, MessageStatus, PrismaClient, ProjectType } from '@prisma/client';
+import { BudgetRange, MessagePriority, MessageStatus, Prisma, PrismaClient, ProjectType } from '@prisma/client';
 
 // Global Prisma instance to prevent connection issues
 const globalForPrisma = globalThis as unknown as {
@@ -178,7 +178,7 @@ export async function getBlogPosts(published = true) {
 export async function trackEvent(
   event: string,
   page?: string,
-  data?: Record<string, unknown>, // Proper typing instead of any
+  data?: Prisma.JsonValue,
   sessionInfo?: SessionInfo
 ) {
   try {
@@ -186,7 +186,7 @@ export async function trackEvent(
       data: {
         event,
         page,
-        data,
+        data: data ?? Prisma.JsonNull,
         sessionId: sessionInfo?.sessionId,
         ipAddress: sessionInfo?.ipAddress,
         userAgent: sessionInfo?.userAgent,

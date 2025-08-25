@@ -1,0 +1,43 @@
+# docker-compose.dev.yml
+services:
+  # Portfolio PostgreSQL Database
+  portfolio-postgres:
+    image: postgres:15-alpine
+    container_name: portfolio-postgres
+    environment:
+      POSTGRES_DB: portfolio_dev
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: portfolio_password
+    ports:
+      - "5434:5432"  
+    volumes:
+      - portfolio_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio_user -d portfolio_dev"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Adminer for database management
+  adminer:
+    image: adminer
+    container_name: portfolio-adminer
+    ports:
+      - "8081:8080" 
+    networks:
+      - portfolio-network
+    depends_on:
+      portfolio-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  portfolio_postgres_data:
+
+networks:
+  portfolio-network:
+    driver: bridge
