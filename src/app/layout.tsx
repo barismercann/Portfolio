@@ -1,10 +1,8 @@
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
 import { SITE_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Geist, Geist_Mono } from "next/font/google";
+import { ClientLayout } from './client-layout';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,7 +14,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: {
@@ -106,25 +103,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log('🔍 ROOT LAYOUT: Starting render...');
+  
   // Get messages for the current locale
   const messages = await getMessages();
-  
-
+  console.log('✅ ROOT LAYOUT: Messages loaded, passing to client layout');
 
   return (
     <html lang="tr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <div className="min-h-screen flex flex-col">
-            
-            <Header />
-              <main>
-                {children}
-              </main>
-            <Footer />
-            
-          </div>
-        </NextIntlClientProvider>
+        <ClientLayout messages={messages}>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
 export default function AdminPage() {
-  // Admin ana sayfası dashboard'a yönlendirsin
+  // ✅ Admin ana sayfası dashboard'a yönlendirsin - SERVER SIDE
   redirect('/admin/dashboard');
 }

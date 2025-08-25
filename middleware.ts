@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  console.log('🚀 MIDDLEWARE: Processing', pathname);
 
   // Skip middleware for API routes, static files, and public routes
   if (
@@ -17,64 +19,81 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/portfolio/') ||
     pathname.startsWith('/blog/')
   ) {
-    // Add pathname header for layout detection
-    const response = NextResponse.next();
-    response.headers.set('x-pathname', pathname);
-    return response;
+    console.log('⏭️  MIDDLEWARE: Skipping for public route:', pathname);
+    return NextResponse.next();
   }
 
   // Protect admin routes
   if (pathname.startsWith('/admin')) {
-    // ✅ IMPORTANT: Set header for ALL admin routes including login
-    const response = NextResponse.next();
-    response.headers.set('x-pathname', pathname);
-
-    // Allow access to login page
+    console.log('🔒 MIDDLEWARE: Processing admin route:', pathname);
+    
+    // ✅ Allow access to login page without redirect loop
     if (pathname === '/admin/login') {
-      // If already authenticated, redirect to dashboard
+      console.log('🚪 MIDDLEWARE: Admin login page - checking existing auth');
+      
+      const token = request.cookies.get('auth-token')?.value;
+      if (token) {
+        console.log('🍪 MIDDLEWARE: Found existing token, verifying...');
+        const payload = await verifyJWT(token);
+        if (payload) {
+          console.log('✅ MIDDLEWARE: Valid token, redirecting to dashboard');
+          return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        }
+      }
+      console.log('🚪 MIDDLEWARE: No valid token, allowing login page');
+      return NextResponse.next();
+    }
+
+    // ✅ Handle /admin root path - redirect to dashboard if authenticated, login if not
+    if (pathname === '/admin') {
+      console.log('🏠 MIDDLEWARE: Admin root path, checking auth...');
+      
       const token = request.cookies.get('auth-token')?.value;
       if (token) {
         const payload = await verifyJWT(token);
         if (payload) {
+          console.log('✅ MIDDLEWARE: Valid token, redirecting /admin to /admin/dashboard');
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         }
       }
-      return response; // ✅ Login sayfası için header set edip return et
+      
+      console.log('❌ MIDDLEWARE: No valid token, redirecting /admin to /admin/login');
+      return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
-    // For all other admin routes, check authentication
+    // ✅ For all other admin routes, check authentication
+    console.log('🛡️  MIDDLEWARE: Checking auth for protected admin route:', pathname);
     const token = request.cookies.get('auth-token')?.value;
     
     if (!token) {
-      console.log('❌ No auth token found, redirecting to login');
+      console.log('❌ MIDDLEWARE: No auth token found, redirecting to login');
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
     try {
+      console.log('🔍 MIDDLEWARE: Verifying JWT token...');
       const payload = await verifyJWT(token);
       
       if (!payload) {
-        console.log('❌ Invalid token, redirecting to login');
+        console.log('❌ MIDDLEWARE: Invalid token, redirecting to login');
         const redirectResponse = NextResponse.redirect(new URL('/admin/login', request.url));
         redirectResponse.cookies.delete('auth-token');
         return redirectResponse;
       }
 
-      console.log('✅ Valid token for user:', payload.email);
-      return response;
+      console.log('✅ MIDDLEWARE: Valid token for user:', payload.email);
+      return NextResponse.next();
       
     } catch (error) {
-      console.error('❌ JWT verification error in middleware:', error);
+      console.error('❌ MIDDLEWARE: JWT verification error:', error);
       const redirectResponse = NextResponse.redirect(new URL('/admin/login', request.url));
       redirectResponse.cookies.delete('auth-token');
       return redirectResponse;
     }
   }
 
-  // Add pathname header for all other routes
-  const response = NextResponse.next();
-  response.headers.set('x-pathname', pathname);
-  return response;
+  console.log('✅ MIDDLEWARE: Completed processing for:', pathname);
+  return NextResponse.next();
 }
 
 export const config = {

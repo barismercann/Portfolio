@@ -6,8 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, ArrowLeft, Eye, EyeOff, Loader2, Lock, Mail, Shield } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -18,6 +18,13 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
+
+  // 🔍 Debug: Client-side pathname
+  useEffect(() => {
+    console.log('🔍 LOGIN PAGE: Client pathname:', pathname);
+    console.log('🔍 LOGIN PAGE: Window location:', window.location.pathname);
+  }, [pathname]);
 
   const {
     register,
@@ -32,7 +39,7 @@ export default function AdminLoginPage() {
     setError('');
 
     try {
-      console.log('🔐 Attempting login for:', data.email);
+      console.log('🔐 LOGIN PAGE: Attempting login for:', data.email);
       
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -43,27 +50,33 @@ export default function AdminLoginPage() {
       });
 
       const result = await response.json();
-      console.log('📡 Login response:', result);
+      console.log('📡 LOGIN PAGE: Login response:', result);
 
       if (result.success) {
-        console.log('✅ Login successful, redirecting to dashboard');
+        console.log('✅ LOGIN PAGE: Login successful, redirecting to dashboard');
         router.push('/admin/dashboard');
         router.refresh(); // Refresh to update middleware state
       } else {
-        console.log('❌ Login failed:', result.message);
+        console.log('❌ LOGIN PAGE: Login failed:', result.message);
         setError(result.message || 'Giriş başarısız');
       }
     } catch (error) {
-      console.error('❌ Login error:', error);
+      console.error('❌ LOGIN PAGE: Login error:', error);
       setError('Bağlantı hatası. Lütfen tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      {/* 🔍 Debug Info */}
+      <div className="fixed top-0 left-0 z-50 bg-green-500 text-white p-2 text-xs font-mono">
+        <div>LOGIN PAGE RENDERED</div>
+        <div>Client Path: {pathname}</div>
+        <div>Window Path: {typeof window !== 'undefined' ? window.location.pathname : 'SSR'}</div>
+      </div>
+
       <div className="max-w-md w-full">
         {/* Back to Home Link */}
         <motion.div

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-// Admin Panel için özel layout
+// ✅ Admin Panel için tamamen özel layout
 export default function AdminLayout({
   children,
 }: {
@@ -99,8 +99,7 @@ export default function AdminLayout({
     return null;
   }
 
-  
-
+  // ✅ Tamamen bağımsız admin layout - Root layout'tan etkilenmez
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
