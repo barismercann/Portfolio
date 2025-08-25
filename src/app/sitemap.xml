@@ -1,0 +1,83 @@
+import { MetadataRoute } from 'next'
+
+// Portfolio projects for dynamic sitemap
+const PORTFOLIO_PROJECTS = [
+  'kurumsal-erp-sistemi',
+  'e-ticaret-platformu', 
+  'saas-analytics-dashboard',
+  'ai-chatbot-sistemi',
+  'blockchain-voting-system',
+  'iot-monitoring-dashboard'
+];
+
+// Blog posts (placeholder - will be dynamic when CMS added)
+const BLOG_POSTS = [
+  'nextjs-15-yenilikleri',
+  'typescript-advanced-patterns',
+  'ai-integration-web-apps',
+  'performance-optimization-react'
+];
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://barismercan.com';
+  
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/portfolio`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/contact`, 
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly', 
+      priority: 0.7,
+    },
+  ];
+
+  // Portfolio project pages
+  const portfolioPages: MetadataRoute.Sitemap = PORTFOLIO_PROJECTS.map((project) => ({
+    url: `${baseUrl}/portfolio/${project}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  // Blog post pages
+  const blogPages: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
+    url: `${baseUrl}/blog/${post}`,
+    lastModified: new Date(), 
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticPages,
+    ...portfolioPages,
+    ...blogPages,
+  ];
+}
+
+// Alternative: Dynamic sitemap generation
+// export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+//   // Fetch projects from database/CMS
+//   // const projects = await fetchProjects();
+//   // const posts = await fetchBlogPosts();
+//   
+//   // Generate dynamic sitemap
+//   return [...staticPages, ...dynamicPages];
+// }

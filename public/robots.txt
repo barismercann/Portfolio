@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Important pages - prioritize crawling
+Allow: /portfolio
+Allow: /contact
+Allow: /blog
+
+# Sitemaps
+Sitemap: https://barismercan.com/sitemap.xml
+
+# Block admin areas (when implemented)
+Disallow: /api/
+Disallow: /admin/
+
+# Block unnecessary paths
+Disallow: /_next/
+Disallow: /images/temp/
+
+# Crawl preferences
+Crawl-delay: 1
+
+# Host preference for canonical URLs
+Host: https://barismercan.com

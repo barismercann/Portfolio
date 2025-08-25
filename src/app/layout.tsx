@@ -17,12 +17,43 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// src/app/layout.tsx - Enhanced metadata section
 export const metadata: Metadata = {
-  title: SITE_CONFIG.title,
+  title: {
+    default: SITE_CONFIG.title,
+    template: '%s | Barış Mercan'
+  },
   description: SITE_CONFIG.description,
-  keywords: ["Full-stack Developer", "Next.js", "React", "TypeScript", "Web Development", "Barış Mercan"],
+  keywords: [
+    'Barış Mercan',
+    'full-stack developer',
+    'web developer İstanbul',
+    'Next.js developer',
+    'React developer',
+    'TypeScript',
+    'modern web development',
+    'özel yazılım geliştirme',
+    'freelance developer Turkey',
+    'ERP sistem geliştirme',
+    'e-ticaret platformu',
+    'web application development'
+  ],
   authors: [{ name: SITE_CONFIG.author.name, url: SITE_CONFIG.url }],
   creator: SITE_CONFIG.author.name,
+  publisher: SITE_CONFIG.author.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(SITE_CONFIG.url),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'tr-TR': '/',
+      'en-US': '/en',
+    },
+  },
   openGraph: {
     type: "website",
     locale: "tr_TR",
@@ -49,13 +80,24 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    nocache: true,
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      noimageindex: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
   },
 };
 

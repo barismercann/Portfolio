@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Contact Messages from Project Start Form
+model ContactMessage {
+  id          String            @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  message     String            @db.Text
+  budget      BudgetRange?
+  projectType ProjectType
+  
+  // Status tracking
+  isRead      Boolean           @default(false)
+  isReplied   Boolean           @default(false)
+  priority    MessagePriority   @default(MEDIUM)
+  status      MessageStatus     @default(NEW)
+  
+  // Reply tracking
+  replySubject String?
+  replyMessage String?          @db.Text
+  repliedAt    DateTime?
+  
+  // Metadata
+  ipAddress   String?
+  userAgent   String?
+  referrer    String?
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("contact_messages")
+}
+
+// Newsletter Subscriptions
+model Newsletter {
+  id          String            @id @default(cuid())
+  email       String            @unique
+  name        String?
+  isActive    Boolean           @default(true)
+  source      String?           // Where they subscribed from
+  tags        String[]          // For segmentation
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("newsletter_subscriptions")
+}
+
+// Blog Posts (Future use)
+model BlogPost {
+  id          String            @id @default(cuid())
+  title       String
+  slug        String            @unique
+  excerpt     String?
+  content     String            @db.Text
+  coverImage  String?
+  
+  // SEO
+  metaTitle   String?
+  metaDescription String?
+  keywords    String[]
+  
+  // Status
+  status      PostStatus        @default(DRAFT)
+  publishedAt DateTime?
+  
+  // Stats
+  viewCount   Int               @default(0)
+  readTime    Int?              // minutes
+  
+  // Categories and Tags
+  category    String?
+  tags        String[]
+  
+  // Author info (single author for now)
+  authorName  String            @default("Barış Mercan")
+  authorEmail String            @default("barismercan53@gmail.com")
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("blog_posts")
+}
+
+// Portfolio Projects (Future use)
+model Project {
+  id          String            @id @default(cuid())
+  title       String
+  slug        String            @unique
+  description String
+  fullDescription String?       @db.Text
+  
+  // Project details
+  category    String
+  technologies String[]
+  features    String[]
+  metrics     String?
+  
+  // Images
+  mainImage   String
+  gallery     String[]
+  
+  // Links
+  liveUrl     String?
+  githubUrl   String?
+  
+  // Status and meta
+  status      ProjectStatus     @default(LIVE)
+  featured    Boolean           @default(false)
+  duration    String?
+  teamSize    String?
+  client      String?
+  
+  // Stats
+  viewCount   Int               @default(0)
+  completedAt DateTime?
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("projects")
+}
+
+// Admin Users (Future use)
+model User {
+  id          String            @id @default(cuid())
+  email       String            @unique
+  name        String
+  role        UserRole          @default(ADMIN)
+  
+  // Authentication
+  hashedPassword String?
+  emailVerified  DateTime?
+  
+  // Profile
+  avatar      String?
+  bio         String?
+  
+  // Security
+  lastLoginAt DateTime?
+  loginCount  Int               @default(0)
+  isActive    Boolean           @default(true)
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("users")
+}
+
+// Analytics (Future use)
+model Analytics {
+  id          String            @id @default(cuid())
+  event       String            // 'page_view', 'form_submit', 'project_view'
+  page        String?
+  data        Json?             // Flexible data storage
+  
+  // Session info
+  sessionId   String?
+  ipAddress   String?
+  userAgent   String?
+  referrer    String?
+  
+  createdAt   DateTime          @default(now())
+  
+  @@map("analytics")
+}
+
+// Enums
+enum BudgetRange {
+  RANGE_1500_5000
+  RANGE_5000_15000
+  RANGE_15000_50000
+  RANGE_50000_100000
+  RANGE_100000_PLUS
+}
+
+enum ProjectType {
+  WEB_DEVELOPMENT
+  MOBILE_APP
+  CONSULTING
+  MAINTENANCE
+  OTHER
+}
+
+enum MessagePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum MessageStatus {
+  NEW
+  IN_PROGRESS
+  REPLIED
+  CLOSED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ProjectStatus {
+  LIVE
+  DEVELOPMENT
+  DEMO
+  BETA
+  ARCHIVED
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
