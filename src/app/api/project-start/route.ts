@@ -1,5 +1,5 @@
+import { saveContactMessage, trackEvent } from '@/lib/database';
 import { contactFormSchema } from '@/lib/validations';
-
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -106,7 +106,7 @@ const getProjectStartEmailTemplate = (data: ProjectStartFormData) => {
         </style>
       </head>
       <body>
-        <div class="container">
+                  <div class="container">
           <div class="header">
             <h1 style="margin: 0; font-size: 24px;">🚀 Yeni Proje Talebi</h1>
             <p style="margin: 10px 0 0 0; opacity: 0.9;">Portfolio sitesinden gelen proje başlatma formu</p>
@@ -272,15 +272,6 @@ const getAutoReplyTemplate = (name: string) => {
           .step-number {
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           }
-          @media (max-width: 480px) {
-            .timeline-step {
-              flex-direction: column;
-              align-items: flex-start;
-            }
-            .step-number {
-              margin-bottom: 8px;
-            }
-          }
           .guarantee-box {
             background: linear-gradient(135deg, #eff6ff, #dbeafe);
             padding: 20px;
@@ -325,7 +316,7 @@ const getAutoReplyTemplate = (name: string) => {
                 <div class="step-number">2</div>
                 <div class="step-content">
                   <div class="step-title">Teknik Analiz</div>
-                  <div class="step-description">Proje gereksinimlerini belirmele.</div>
+                  <div class="step-description">Proje gereksinimlerini belirleme ve çözüm önerisi</div>
                 </div>
               </div>
               
@@ -333,7 +324,7 @@ const getAutoReplyTemplate = (name: string) => {
                 <div class="step-number">3</div>
                 <div class="step-content">
                   <div class="step-title">Teklif & Görüşme</div>
-                  <div class="step-description">Size özel teklif.</div>
+                  <div class="step-description">Size özel teklif hazırlama ve detayları görüşme</div>
                 </div>
               </div>
             </div>
@@ -371,6 +362,40 @@ export async function POST(request: NextRequest) {
     // Validate form data
     const validatedData = contactFormSchema.parse(body);
 
+    // Get client information for database storage
+    const ipAddress = request.headers.get('x-forwarded-for') || 'unknown';
+    const userAgent = request.headers.get('user-agent') || 'unknown';
+    const referrer = request.headers.get('referer') || request.headers.get('referrer') || undefined;
+
+    // Save to database
+    try {
+      const savedMessage = await saveContactMessage({
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        message: validatedData.message,
+        budget: validatedData.budget,
+        projectType: validatedData.projectType,
+        ipAddress,
+        userAgent,
+        referrer,
+      });
+
+      console.log('✅ Contact message saved to database with ID:', savedMessage.id);
+      
+      // Track analytics event
+      await trackEvent('project_start_form_submission', '/', {
+        messageId: savedMessage.id,
+        projectType: validatedData.projectType,
+        budget: validatedData.budget,
+        hasPhone: !!validatedData.phone,
+      });
+
+    } catch (dbError) {
+      console.error('❌ Database save error:', dbError);
+      // Continue with email sending even if database save fails
+    }
+
     // Create email transporter
     const transporter = createTransporter();
 
@@ -399,21 +424,23 @@ export async function POST(request: NextRequest) {
       html: userAutoReply.html,
     });
 
-    // Log the successful submission (you can later save to database)
-    console.log('✅ Project start request received:', {
+    // Log the successful submission
+    console.log('✅ Project start request processed successfully:', {
       name: validatedData.name,
       email: validatedData.email,
       budget: validatedData.budget,
+      projectType: validatedData.projectType,
       timestamp: new Date().toISOString(),
-  });
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Proje talebiniz başarıyla gönderildi. Kısa sürede size geri döneceğim!',
+      message: 'Proje talebiniz başarıyla gönderildi ve veritabanına kaydedildi. Kısa sürede size geri döneceğim!',
     });
 
   } catch (error) {
     console.error('❌ Project start API error:', error);
+    
     // Handle validation errors
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json({
