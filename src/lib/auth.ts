@@ -109,20 +109,23 @@ export function hasRole(user: CustomJWTPayload, requiredRole: string): boolean {
 // Create initial admin user (run once)
 export async function createInitialAdmin() {
   try {
+    const adminEmail = process.env.ADMIN_EMAIL || 'barismercan53@gmail.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123!';
+
     const existingAdmin = await prisma.user.findFirst({
       where: { role: 'ADMIN' },
     });
 
     if (existingAdmin) {
-      console.log('✅ Admin user already exists');
-      return;
+      console.log('✅ Admin user already exists:', existingAdmin.email);
+      return existingAdmin;
     }
 
-    const hashedPassword = await hashPassword('admin123!'); // Change this!
+    const hashedPassword = await hashPassword(adminPassword);
     
     const admin = await prisma.user.create({
       data: {
-        email: 'barismercan53@gmail.com',
+        email: adminEmail,
         name: 'Barış Mercan',
         hashedPassword,
         role: 'ADMIN',
@@ -132,7 +135,7 @@ export async function createInitialAdmin() {
     });
 
     console.log('✅ Initial admin user created:', admin.email);
-    console.log('🔐 Default password: admin123! (PLEASE CHANGE IMMEDIATELY)');
+    console.log('🔐 Admin password from env:', adminPassword);
     
     return admin;
   } catch (error) {

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui';
 import { LogOut, Menu, Settings, User, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Admin Panel için özel layout
 export default function AdminLayout({
@@ -13,7 +13,35 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
+  const checkAuth = useCallback(async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setUser(data.user);
+        } else {
+          router.push('/admin/login');
+        }
+      } else {
+        router.push('/admin/login');
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      router.push('/admin/login');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  // Check authentication on mount
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const handleLogout = async () => {
     try {
@@ -26,6 +54,8 @@ export default function AdminLayout({
       }
     } catch (error) {
       console.error('Logout error:', error);
+      // Force logout even if API fails
+      router.push('/');
     }
   };
 
@@ -52,6 +82,23 @@ export default function AdminLayout({
     }
   ];
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Yetkilendirme kontrol ediliyor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if no user (will redirect)
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
@@ -62,7 +109,7 @@ export default function AdminLayout({
             {isSidebarOpen && (
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">Admin Panel</h2>
-                <p className="text-sm text-gray-500">Barış Mercan</p>
+                <p className="text-sm text-gray-500">{user.name}</p>
               </div>
             )}
             <Button
@@ -105,9 +152,9 @@ export default function AdminLayout({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">
-                    Barış Mercan
+                    {user.name}
                   </p>
-                  <p className="text-xs text-gray-500">Admin</p>
+                  <p className="text-xs text-gray-500">{user.email}</p>
                 </div>
               </div>
               
@@ -173,7 +220,7 @@ export default function AdminLayout({
             
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">Barış Mercan</p>
+                <p className="text-sm font-medium text-gray-900">{user.name}</p>
                 <p className="text-xs text-gray-500">Super Admin</p>
               </div>
               

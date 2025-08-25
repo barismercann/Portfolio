@@ -17,7 +17,10 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/portfolio/') ||
     pathname.startsWith('/blog/')
   ) {
-    return NextResponse.next();
+    // Add pathname header for layout detection
+    const response = NextResponse.next();
+    response.headers.set('x-pathname', pathname);
+    return response;
   }
 
   // Protect admin routes
@@ -32,13 +35,16 @@ export async function middleware(request: NextRequest) {
           return NextResponse.redirect(new URL('/admin/dashboard', request.url));
         }
       }
-      return NextResponse.next();
+      const response = NextResponse.next();
+      response.headers.set('x-pathname', pathname);
+      return response;
     }
 
-    // Check authentication for all other admin routes
+    // For all other admin routes, check authentication
     const token = request.cookies.get('auth-token')?.value;
     
     if (!token) {
+      console.log('❌ No auth token found, redirecting to login');
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
@@ -46,17 +52,20 @@ export async function middleware(request: NextRequest) {
       const payload = await verifyJWT(token);
       
       if (!payload) {
-        // Token is invalid, redirect to login
+        console.log('❌ Invalid token, redirecting to login');
         const response = NextResponse.redirect(new URL('/admin/login', request.url));
         response.cookies.delete('auth-token');
         return response;
       }
 
+      console.log('✅ Valid token for user:', payload.email);
       // Token is valid, allow access
-      return NextResponse.next();
+      const response = NextResponse.next();
+      response.headers.set('x-pathname', pathname);
+      return response;
       
     } catch (error) {
-      console.error('JWT verification error in middleware:', error);
+      console.error('❌ JWT verification error in middleware:', error);
       // Token verification failed, redirect to login
       const response = NextResponse.redirect(new URL('/admin/login', request.url));
       response.cookies.delete('auth-token');
@@ -64,7 +73,10 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  // Add pathname header for all other routes
+  const response = NextResponse.next();
+  response.headers.set('x-pathname', pathname);
+  return response;
 }
 
 export const config = {

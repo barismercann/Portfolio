@@ -5,18 +5,31 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // Create admin user
+  // Create admin user with env credentials
+  const adminEmail = process.env.ADMIN_EMAIL || 'barismercan53@gmail.com';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123!';
+
+  // Hash password before storing
+  const bcrypt = await import('bcryptjs');
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
+
   const admin = await prisma.user.upsert({
-    where: { email: 'barismercan53@gmail.com' },
-    update: {},
-    create: {
-      email: 'barismercan53@gmail.com',
-      name: 'Barış Mercan',
-      role: 'ADMIN',
+    where: { email: adminEmail },
+    update: {
+      hashedPassword,
       isActive: true,
     },
+    create: {
+      email: adminEmail,
+      name: 'Barış Mercan',
+      role: 'ADMIN',
+      hashedPassword,
+      isActive: true,
+      emailVerified: new Date(),
+    },
   });
-  console.log('✅ Admin user created:', admin.email);
+  console.log('✅ Admin user created/updated:', admin.email);
+  console.log('🔐 Password set from env:', adminPassword ? 'YES' : 'NO (using default)');
 
   // Create sample blog posts
   const blogPosts = [
