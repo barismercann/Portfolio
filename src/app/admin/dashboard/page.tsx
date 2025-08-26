@@ -15,8 +15,28 @@ import {
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-// Import the ContactMessage type from Prisma
-import type { ContactMessage } from '@prisma/client';
+// Define the ContactMessage type based on Prisma schema
+interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message: string;
+  budget?: string | null;
+  projectType: string;
+  isRead: boolean;
+  isReplied: boolean;
+  priority: string;
+  status: string;
+  replySubject?: string | null;
+  replyMessage?: string | null;
+  repliedAt?: Date | null;
+  ipAddress?: string | null;
+  userAgent?: string | null;
+  referrer?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 // Loading component
 function DashboardLoading() {
