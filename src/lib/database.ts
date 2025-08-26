@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-
+import { JsonValue } from '@prisma/client/runtime/library';
 // Global Prisma instance to prevent connection issues
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -184,7 +184,7 @@ export async function getBlogPosts(published = true) {
 export async function trackEvent(
   event: string,
   page?: string,
-  data?: Prisma.JsonValue,
+  data?: JsonValue,
   sessionInfo?: SessionInfo
 ) {
   try {
@@ -192,7 +192,7 @@ export async function trackEvent(
       data: {
         event,
         page,
-        data: data ?? Prisma.JsonNull,
+        data: data ?? Prisma.DbNull,
         sessionId: sessionInfo?.sessionId,
         ipAddress: sessionInfo?.ipAddress,
         userAgent: sessionInfo?.userAgent,
