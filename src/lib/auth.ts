@@ -127,7 +127,7 @@ export async function createInitialAdmin() {
       data: {
         email: adminEmail,
         name: 'Barış Mercan',
-        hashedPassword,
+        password : hashedPassword,
         role: 'ADMIN',
         isActive: true,
         emailVerified: new Date(),
