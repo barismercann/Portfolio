@@ -15,6 +15,9 @@ import {
 import Link from 'next/link';
 import { Suspense } from 'react';
 
+// Import the ContactMessage type from Prisma
+import type { ContactMessage } from '@prisma/client';
+
 // Loading component
 function DashboardLoading() {
   return (
@@ -52,11 +55,11 @@ async function DashboardContent() {
       limit: 100, // Get more data for analytics
     });
 
-    // Calculate statistics
+    // Calculate statistics with proper typing
     const totalMessages = messages.length;
-    const unreadMessages = messages.filter((m) => !m.isRead).length;
-    const repliedMessages = messages.filter((m) => m.status === 'REPLIED').length;
-    const todayMessages = messages.filter((m) => {
+    const unreadMessages = messages.filter((m: ContactMessage) => !m.isRead).length;
+    const repliedMessages = messages.filter((m: ContactMessage) => m.status === 'REPLIED').length;
+    const todayMessages = messages.filter((m: ContactMessage) => {
       const today = new Date();
       const messageDate = new Date(m.createdAt);
       return messageDate.toDateString() === today.toDateString();
@@ -66,24 +69,24 @@ async function DashboardContent() {
     const recentMessages = messages.slice(0, 5);
 
     // Project type analytics
-    const projectTypeStats = messages.reduce((acc, message) => {
+    const projectTypeStats = messages.reduce((acc: Record<string, number>, message: ContactMessage) => {
       acc[message.projectType] = (acc[message.projectType] || 0) + 1;
       return acc;
-    }, {} as Record<string, number>);
+    }, {});
 
     // Budget range analytics
-    const budgetStats = messages.reduce((acc, message) => {
+    const budgetStats = messages.reduce((acc: Record<string, number>, message: ContactMessage) => {
       if (message.budget) {
         acc[message.budget] = (acc[message.budget] || 0) + 1;
       }
       return acc;
-    }, {} as Record<string, number>);
+    }, {});
 
     // Weekly analytics (last 7 days)
     const weeklyStats = Array.from({ length: 7 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dayMessages = messages.filter((m) => {
+      const dayMessages = messages.filter((m: ContactMessage) => {
         const messageDate = new Date(m.createdAt);
         return messageDate.toDateString() === date.toDateString();
       }).length;
@@ -244,7 +247,7 @@ async function DashboardContent() {
             <CardContent>
               <div className="space-y-4">
                 {Object.entries(projectTypeStats)
-                  .sort(([,a], [,b]) => b - a)
+                  .sort(([,a], [,b]) => (b as number) - (a as number))
                   .map(([type, count]) => (
                   <div key={type} className="flex items-center justify-between">
                     <span className="text-sm text-gray-700">{getProjectTypeText(type)}</span>
@@ -253,11 +256,11 @@ async function DashboardContent() {
                         <div 
                           className="bg-gradient-to-r from-primary to-blue-600 rounded-full h-2"
                           style={{ 
-                            width: `${(count / totalMessages) * 100}%` 
+                            width: `${((count as number) / totalMessages) * 100}%` 
                           }}
                         />
                       </div>
-                      <span className="text-sm font-semibold w-8 text-right">{count}</span>
+                      <span className="text-sm font-semibold w-8 text-right">{count as number}</span>
                     </div>
                   </div>
                 ))}
@@ -285,7 +288,7 @@ async function DashboardContent() {
             <CardContent>
               <div className="space-y-4">
                 {recentMessages.length > 0 ? (
-                  recentMessages.map((message) => (
+                  recentMessages.map((message: ContactMessage) => (
                     <div key={message.id} className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
                       <div className={`w-2 h-2 rounded-full mt-2 ${!message.isRead ? 'bg-blue-500' : 'bg-gray-300'}`} />
                       <div className="flex-1 min-w-0">
@@ -375,10 +378,10 @@ async function DashboardContent() {
             <CardContent>
               <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {Object.entries(budgetStats)
-                  .sort(([,a], [,b]) => b - a)
+                  .sort(([,a], [,b]) => (b as number) - (a as number))
                   .map(([budget, count]) => (
                   <div key={budget} className="text-center p-4 bg-gray-50 rounded-lg">
-                    <div className="text-lg font-bold text-primary">{count}</div>
+                    <div className="text-lg font-bold text-primary">{count as number}</div>
                     <div className="text-xs text-gray-600 mt-1">{getBudgetText(budget)}</div>
                   </div>
                 ))}
