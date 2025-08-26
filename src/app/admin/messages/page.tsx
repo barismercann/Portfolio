@@ -227,7 +227,7 @@ async function MessagesContent() {
 
           <CardContent className="p-0">
             <div className="space-y-1">
-              {messages.map((message) => {
+              {messages.map((message:ContactMessage) => {
                 const statusBadge = getStatusBadge(message.status);
                 const priorityBadge = getPriorityBadge(message.priority);
                 
@@ -293,7 +293,7 @@ async function MessagesContent() {
                       </div>
                       <div>
                         <span className="text-gray-500">Bütçe: </span>
-                        <span className="font-medium">{getBudgetText(message.budget)}</span>
+                        <span className="font-medium">{getBudgetText(message.budget ?? null)}</span>
                       </div>
                       {message.ipAddress && (
                         <div>
