@@ -16,8 +16,6 @@ import {
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-// Define the ContactMessage type based on Prisma schema
-
 
 // Loading component
 function DashboardLoading() {
