@@ -54,9 +54,9 @@ async function DashboardContent() {
 
     // Calculate statistics
     const totalMessages = messages.length;
-    const unreadMessages = messages.filter(m => !m.isRead).length;
-    const repliedMessages = messages.filter(m => m.status === 'REPLIED').length;
-    const todayMessages = messages.filter(m => {
+    const unreadMessages = messages.filter((m) => !m.isRead).length;
+    const repliedMessages = messages.filter((m) => m.status === 'REPLIED').length;
+    const todayMessages = messages.filter((m) => {
       const today = new Date();
       const messageDate = new Date(m.createdAt);
       return messageDate.toDateString() === today.toDateString();
@@ -83,7 +83,7 @@ async function DashboardContent() {
     const weeklyStats = Array.from({ length: 7 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dayMessages = messages.filter(m => {
+      const dayMessages = messages.filter((m) => {
         const messageDate = new Date(m.createdAt);
         return messageDate.toDateString() === date.toDateString();
       }).length;

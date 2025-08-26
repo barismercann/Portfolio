@@ -148,7 +148,7 @@ export function AboutSection() {
             <p className='text-base'>Teknoloji Uzmanlığı</p>
           </Badge>
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Tam Yığın <span className="text-primary">Hakimiyeti</span>
+            Full Stack <span className="text-primary">Hakimiyeti</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Modern web teknolojilerinde ile SaaS, B2B/B2C, e-ticaretve kurumsal projeler geliştiriyorum
