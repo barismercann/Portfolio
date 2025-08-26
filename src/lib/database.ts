@@ -192,7 +192,7 @@ export async function trackEvent(
       data: {
         event,
         page,
-        data: data ?? Prisma.DbNull,
+        data: data ?? Prisma.JsonNull,
         sessionId: sessionInfo?.sessionId,
         ipAddress: sessionInfo?.ipAddress,
         userAgent: sessionInfo?.userAgent,
