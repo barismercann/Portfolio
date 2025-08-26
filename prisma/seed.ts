@@ -1,17 +1,25 @@
-import { BudgetRange, MessageStatus, PostStatus, PrismaClient, ProjectStatus, ProjectType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // Create admin user
+  // Create admin user with hashed password
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
+  
   const admin = await prisma.user.upsert({
     where: { email: 'barismercan53@gmail.com' },
-    update: {},
+    update: {
+      password: hashedPassword,
+      hashedPassword: hashedPassword,
+    },
     create: {
       email: 'barismercan53@gmail.com',
-      password: 'securepassword', 
+      password: hashedPassword,
+      hashedPassword: hashedPassword,
       name: 'Barış Mercan',
       role: 'ADMIN',
       isActive: true,
@@ -28,7 +36,7 @@ async function main() {
       content: 'Next.js 15 ile gelen yenilikler web geliştirme dünyasında çığır açıyor...',
       category: 'Frontend',
       tags: ['Next.js', 'React', 'Performance'],
-      status: PostStatus.PUBLISHED, // Use enum instead of string
+      status: 'PUBLISHED' as const, // Use string literal instead of enum
       publishedAt: new Date(),
       readTime: 8,
     },
@@ -39,7 +47,7 @@ async function main() {
       content: 'TypeScript\'in güçlü tip sistemi ile enterprise seviye uygulamalar geliştirmek...',
       category: 'Backend',
       tags: ['TypeScript', 'Design Patterns'],
-      status: PostStatus.PUBLISHED, // Use enum instead of string
+      status: 'PUBLISHED' as const, // Use string literal instead of enum
       publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
       readTime: 12,
     },
@@ -50,7 +58,7 @@ async function main() {
       content: 'Yapay zeka teknolojilerinin web uygulamalarına entegrasyonu...',
       category: 'AI/ML',
       tags: ['AI', 'OpenAI', 'Integration'],
-      status: PostStatus.PUBLISHED, // Use enum instead of string
+      status: 'PUBLISHED' as const, // Use string literal instead of enum
       publishedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
       readTime: 15,
     },
@@ -79,7 +87,7 @@ async function main() {
       mainImage: '/images/projects/erp-preview.webp',
       gallery: ['/images/projects/erp-preview.webp', '/images/projects/erp-dashboard.webp'],
       liveUrl: 'https://fabrikam360.com/',
-      status: ProjectStatus.LIVE, // Use enum instead of string
+      status: 'LIVE' as const, // Use string literal instead of enum
       featured: true,
       duration: '3 ay',
       teamSize: '1 kişi',
@@ -97,7 +105,7 @@ async function main() {
       mainImage: '/images/projects/ecommerce-preview.webp',
       gallery: ['/images/projects/ecommerce-preview.webp'],
       liveUrl: 'https://www.aycay.com/',
-      status: ProjectStatus.LIVE, // Use enum instead of string
+      status: 'LIVE' as const, // Use string literal instead of enum
       featured: true,
       duration: '2.5 ay',
       teamSize: '1 kişi',
@@ -122,17 +130,17 @@ async function main() {
     email: 'ahmet@example.com',
     phone: '+90 555 123 4567',
     message: 'E-ticaret sitesi için teklif istiyorum. 50 ürünlü bir mağaza olacak.',
-    budget: BudgetRange.RANGE_5000_15000,
-    projectType: ProjectType.WEB_DEVELOPMENT,
-    status: MessageStatus.NEW,
+    budget: 'RANGE_5000_15000' as const,
+    projectType: 'WEB_DEVELOPMENT' as const,
+    status: 'NEW' as const,
   },
   {
     name: 'Fatma Kaya',
     email: 'fatma@example.com',
     message: 'Mevcut web sitemizi Next.js\'e geçirmek istiyoruz. Danışmanlık hizmeti alabilir miyiz?',
-    budget: BudgetRange.RANGE_15000_50000,
-    projectType: ProjectType.CONSULTING,
-    status: MessageStatus.NEW,
+    budget: 'RANGE_15000_50000' as const,
+    projectType: 'CONSULTING' as const,
+    status: 'NEW' as const,
   },
 ];
 
@@ -143,8 +151,6 @@ async function main() {
   });
   console.log('✅ Sample contact message created:', created.name);
 }
-
-
 
   // Create sample newsletter subscriptions
   const sampleSubscribers = [
