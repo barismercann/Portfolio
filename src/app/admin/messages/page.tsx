@@ -1,5 +1,6 @@
 import { Badge, Button, Card, CardContent, CardHeader } from '@/components/ui';
 import { getContactMessages, markMessageAsRead } from '@/lib/database';
+import { ContactMessage } from '@/types/messages.types';
 import {
   Archive,
   CheckCircle,
@@ -105,9 +106,9 @@ async function MessagesContent() {
 
     // Calculate statistics
     const totalMessages = messages.length;
-    const unreadCount = messages.filter(m => !m.isRead).length;
-    const repliedCount = messages.filter(m => m.status === 'REPLIED').length;
-    const inProgressCount = messages.filter(m => m.status === 'IN_PROGRESS').length;
+    const unreadCount = messages.filter((m:ContactMessage) => !m.isRead).length;
+    const repliedCount = messages.filter((m:ContactMessage) => m.status === 'REPLIED').length;
+    const inProgressCount = messages.filter((m:ContactMessage) => m.status === 'IN_PROGRESS').length;
 
     if (messages.length === 0) {
       return (
