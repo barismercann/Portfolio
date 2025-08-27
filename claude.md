@@ -141,32 +141,21 @@ SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
 
 5A.3: Supabase Ready Check (İleride)
  Supabase project configuration
-
  Database migration from PostgreSQL to Supabase
-
  Authentication system update for Supabase Auth
-
  Environment variables update
-
-FAZ 5B: Code Cleanup & Optimization - YAPILACAK
-⚠️ Kullanıcı tarafından yapılacak - YZ hatırlatacak
-
-5B.1: Console Log Cleanup
  Tüm debug console.log'ları kaldır
-
  Development debug componentlerini kaldır  
-
  Production-ready error logging
-
  Only keep critical error logs
+ clear all mock data
 
-5B.2: Performance Optimization
+
+
+5B.2: Performance Optimization (en son)
  Image optimization (Next.js Image)
-
  Bundle size analysis
-
  Unused code elimination
-
  SEO meta tags optimization
 
 FAZ 6: Blog Management System - BAŞLANACAK

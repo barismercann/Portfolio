@@ -1,5 +1,4 @@
-export default function BlogPage() {
-  return <div>Blog Admin Page</div>;
-}
+import BlogAdminPage from "@/components/admin/BlogAdminPage";
 
 
+export default BlogAdminPage;
