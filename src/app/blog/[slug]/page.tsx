@@ -1,7 +1,10 @@
-// src/app/blog/[slug]/page.tsx
+
+"use client";
+
+
 import { Badge, Button } from '@/components/ui';
 import { ArrowLeft, BookOpen, Calendar, Clock, Eye, Share2, Tag, User } from 'lucide-react';
-import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -72,7 +75,7 @@ const BLOG_POSTS = {
     metaTitle: "TypeScript Design Patterns - İleri Seviye Rehber",
     metaDescription: "Enterprise uygulamalarda TypeScript design patterns kullanımı hakkında kapsamlı rehber."
   },
-  // Diğer blog yazıları da buraya eklenebilir
+
 };
 
 // Related posts
@@ -104,41 +107,41 @@ interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Metadata generation
-export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = BLOG_POSTS[slug as keyof typeof BLOG_POSTS];
+// // Metadata generation
+// export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+//   const { slug } = await params;
+//   const post = BLOG_POSTS[slug as keyof typeof BLOG_POSTS];
 
-  if (!post) {
-    return {
-      title: 'Blog Yazısı Bulunamadı - Barış Mercan',
-      description: 'Aradığınız blog yazısı bulunamadı.'
-    };
-  }
+//   if (!post) {
+//     return {
+//       title: 'Blog Yazısı Bulunamadı - Barış Mercan',
+//       description: 'Aradığınız blog yazısı bulunamadı.'
+//     };
+//   }
 
-  return {
-    title: post.metaTitle || `${post.title} - Barış Mercan Blog`,
-    description: post.metaDescription || post.excerpt,
-    keywords: post.tags,
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
-      type: 'article',
-      publishedTime: post.publishedAt,
-      authors: [post.author.name],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
-    }
-  };
-}
+//   return {
+//     title: post.metaTitle || `${post.title} - Barış Mercan Blog`,
+//     description: post.metaDescription || post.excerpt,
+//     keywords: post.tags,
+//     openGraph: {
+//       title: post.title,
+//       description: post.excerpt,
+//       images: post.coverImage ? [post.coverImage] : [],
+//       type: 'article',
+//       publishedTime: post.publishedAt,
+//       authors: [post.author.name],
+//     },
+//     twitter: {
+//       card: 'summary_large_image',
+//       title: post.title,
+//       description: post.excerpt,
+//       images: post.coverImage ? [post.coverImage] : [],
+//     }
+//   };
+// }
 
-export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = await params;
+export default function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = params as unknown as { slug: string };
   const post = BLOG_POSTS[slug as keyof typeof BLOG_POSTS];
 
   if (!post) {
@@ -216,10 +219,14 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             {post.coverImage && (
               <div className="mb-8">
                 <div className="aspect-video relative overflow-hidden rounded-2xl bg-gray-100">
-                  <img
+                  <Image
                     src={post.coverImage}
                     alt={post.title}
                     className="w-full h-full object-cover"
+                    width={800}
+                    height={450}
+                    priority
+                    // Hata durumunda resmi gizle
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -340,10 +347,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </article>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-6">
+          <aside className="lg:col-span-4 space-y-6 sticky top-20 self-start">
             
             {/* Table of Contents */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200 sticky top-8">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 top-8">
               <h3 className="font-semibold mb-4 flex items-center">
                 <BookOpen className="w-5 h-5 mr-2 text-primary" />
                 Bu Yazıda
