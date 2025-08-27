@@ -279,6 +279,220 @@ function convertProjectTypeToEnum(projectType: string): ProjectType {
   return typeMap[projectType] || 'OTHER';
 }
 
+export async function getBlogPostById(id: string) {
+  try {
+    return await prisma.blogPost.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        viewCount: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Failed to get blog post:', error);
+    throw error;
+  }
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  try {
+    const post = await prisma.blogPost.findUnique({
+      where: { 
+        slug,
+        status: 'PUBLISHED',
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        content: true,
+        coverImage: true,
+        metaTitle: true,
+        metaDescription: true,
+        keywords: true,
+        publishedAt: true,
+        readTime: true,
+        viewCount: true,
+        category: true,
+        tags: true,
+        authorName: true,
+        createdAt: true,
+      },
+    });
+
+    if (post) {
+      // Increment view count
+      await prisma.blogPost.update({
+        where: { id: post.id },
+        data: {
+          viewCount: { increment: 1 },
+        },
+      });
+    }
+
+    return post;
+  } catch (error) {
+    console.error('❌ Failed to get blog post by slug:', error);
+    throw error;
+  }
+}
+
+// Blog post kategorileri getir
+export async function getBlogCategories() {
+  try {
+    const categories = await prisma.blogPost.groupBy({
+      by: ['category'],
+      where: {
+        status: 'PUBLISHED',
+        category: { not: null },
+      },
+      _count: {
+        category: true,
+      },
+      orderBy: {
+        _count: {
+          category: 'desc',
+        },
+      },
+    });
+
+    return categories.map(cat => ({
+      name: cat.category,
+      count: cat._count.category,
+    }));
+  } catch (error) {
+    console.error('❌ Failed to get blog categories:', error);
+    return [];
+  }
+}
+
+// Blog post etiketleri getir
+export async function getBlogTags() {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        status: 'PUBLISHED',
+      },
+      select: {
+        tags: true,
+      },
+    });
+
+    // Tüm etiketleri flatten et ve say
+    const allTags = posts.flatMap(post => post.tags);
+    const tagCounts = allTags.reduce((acc, tag) => {
+      acc[tag] = (acc[tag] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    // En çok kullanılan etiketleri döndür
+    return Object.entries(tagCounts)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 20)
+      .map(([tag, count]) => ({ name: tag, count }));
+  } catch (error) {
+    console.error('❌ Failed to get blog tags:', error);
+    return [];
+  }
+}
+
+// Son blog yazıları - public
+export async function getRecentBlogPosts(limit = 6) {
+  try {
+    return await prisma.blogPost.findMany({
+      where: {
+        status: 'PUBLISHED',
+      },
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        coverImage: true,
+        publishedAt: true,
+        readTime: true,
+        viewCount: true,
+        category: true,
+        tags: true,
+        authorName: true,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Failed to get recent blog posts:', error);
+    return [];
+  }
+}
+
+// Featured blog post
+export async function getFeaturedBlogPost() {
+  try {
+    return await prisma.blogPost.findFirst({
+      where: {
+        status: 'PUBLISHED',
+      },
+      orderBy: {
+        viewCount: 'desc',
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        coverImage: true,
+        publishedAt: true,
+        readTime: true,
+        viewCount: true,
+        category: true,
+        tags: true,
+        authorName: true,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Failed to get featured blog post:', error);
+    return null;
+  }
+}
+
+// Blog istatistikleri
+export async function getBlogStats() {
+  try {
+    const [totalPosts, publishedPosts, totalViews] = await Promise.all([
+      prisma.blogPost.count(),
+      prisma.blogPost.count({ where: { status: 'PUBLISHED' } }),
+      prisma.blogPost.aggregate({
+        _sum: {
+          viewCount: true,
+        },
+        where: {
+          status: 'PUBLISHED',
+        },
+      }),
+    ]);
+
+    return {
+      totalPosts,
+      publishedPosts,
+      totalViews: totalViews._sum.viewCount || 0,
+    };
+  } catch (error) {
+    console.error('❌ Failed to get blog stats:', error);
+    return {
+      totalPosts: 0,
+      publishedPosts: 0,
+      totalViews: 0,
+    };
+  }
+}
+
 // Database connection test
 export async function testDatabaseConnection() {
   try {
