@@ -6,17 +6,18 @@ import { calculateReadingTime, generateSlug } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-    ArrowLeft,
-    BookOpen,
-    CheckCircle,
-    Eye,
-    Globe,
-    Loader2,
-    Save,
-    Send,
-    Tag,
-    X
+  ArrowLeft,
+  BookOpen,
+  CheckCircle,
+  Eye,
+  Globe,
+  Loader2,
+  Save,
+  Send,
+  Tag,
+  X
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -691,7 +692,7 @@ export default function BlogEditor({ postId, isEdit = false }: BlogEditorProps) 
                   {/* Cover Image Preview */}
                   {watchedValues.coverImage && (
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <img 
+                      <Image
                         src={watchedValues.coverImage} 
                         alt="Cover preview"
                         className="w-full h-full object-cover"
@@ -924,36 +925,6 @@ export default function BlogEditor({ postId, isEdit = false }: BlogEditorProps) 
           </div>
         </div>
       </form>
-
-      {/* Keyboard Shortcuts Help */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <div className="bg-gray-800 text-white text-xs p-2 rounded-lg opacity-75 hover:opacity-100 transition-opacity">
-          <div className="space-y-1">
-            <div><kbd className="bg-gray-700 px-1 rounded">Ctrl+S</kbd> Taslak kaydet</div>
-            <div><kbd className="bg-gray-700 px-1 rounded">Ctrl+Enter</kbd> Yayınla</div>
-            <div><kbd className="bg-gray-700 px-1 rounded">Esc</kbd> İptal</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Keyboard Shortcuts Handler */}
-      <div
-        onKeyDown={(e) => {
-          if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-            e.preventDefault();
-            handleSaveDraft();
-          }
-          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            e.preventDefault();
-            handlePublish();
-          }
-          if (e.key === 'Escape') {
-            router.push('/admin/blogs');
-          }
-        }}
-        className="sr-only"
-        tabIndex={-1}
-      />
     </div>
   );
 }

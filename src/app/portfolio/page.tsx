@@ -464,7 +464,7 @@ export default function PortfolioPage() {
                   <ArrowUpRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary" asChild>
+              <Button size="lg" variant="outline" className="text-dark border-white hover:bg-white hover:text-primary" asChild>
                 <Link href="/#contact">
                   Ücretsiz Danışmanlık
                 </Link>

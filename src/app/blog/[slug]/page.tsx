@@ -1,152 +1,194 @@
-
-"use client";
-
-
 import { Badge, Button } from '@/components/ui';
-import { ArrowLeft, BookOpen, Calendar, Clock, Eye, Share2, Tag, User } from 'lucide-react';
+import ShareButton from '@/components/ui/ShareButton';
+import {
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  Clock,
+  Eye,
+  Loader2,
+  Share2,
+  Tag,
+  User
+} from 'lucide-react';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-// Mock blog data - gerçek API'den gelecek
-const BLOG_POSTS = {
-  "nextjs-15-yenilikleri": {
-    id: "nextjs-15-yenilikleri",
-    title: "Next.js 15'te Gelen Devrim Niteliğinde Yenilikler",
-    excerpt: "React Server Components'tan Turbopack'e kadar Next.js 15'in performans ve geliştirici deneyimini nasıl dönüştürdüğünü keşfedin.",
-    content: `
-      <h2>Giriş</h2>
-      <p>Next.js 15, web geliştirme dünyasında yeni bir çağın başlangıcını işaret ediyor. Bu sürümle birlikte gelen yenilikler, hem performans hem de geliştirici deneyimi açısından önemli ilerlemeler sunuyor.</p>
-      
-      <h2>React Server Components</h2>
-      <p>React Server Components ile birlikte, sunucu tarafında işlenen componentler sayesinde daha hızlı sayfa yükleme süreleri ve daha iyi SEO performansı elde ediyoruz.</p>
-      
-      <h2>Turbopack Entegrasyonu</h2>
-      <p>Webpack'in yerini alan Turbopack, development sırasında 10x daha hızlı build süreleri sunuyor. Bu, geliştirme sürecini önemli ölçüde hızlandırıyor.</p>
-      
-      <h2>Yeni Caching Stratejileri</h2>
-      <p>Next.js 15'te gelen yeni cache stratejileri ile uygulama performansını optimize etmek artık daha kolay.</p>
-      
-      <h2>Sonuç</h2>
-      <p>Next.js 15, modern web geliştirme için güçlü araçlar sunarak geliştiricilerin daha verimli çalışmasını sağlıyor.</p>
-    `,
-    publishedAt: "2024-12-15",
-    readTime: 8,
-    viewCount: 1250,
-    category: "Frontend",
-    tags: ["Next.js", "React", "Performance", "Web Development"],
-    coverImage: "/images/blog/nextjs-15.jpg",
-    author: {
-      name: "Barış Mercan",
-      avatar: "/images/author.jpg",
-      bio: "Full-stack developer ve teknoloji yazarı"
-    },
-    metaTitle: "Next.js 15 Yenilikleri - Performans ve Geliştirici Deneyimi",
-    metaDescription: "Next.js 15'te gelen React Server Components, Turbopack ve yeni caching stratejileri hakkında detaylı rehber."
-  },
-  "typescript-advanced-patterns": {
-    id: "typescript-advanced-patterns",
-    title: "TypeScript'te İleri Seviye Design Pattern'lar",
-    excerpt: "Enterprise uygulamalarda TypeScript ile güçlü, tip-güvenli mimari yapıları nasıl oluşturacağınızı öğrenin.",
-    content: `
-      <h2>TypeScript ve Design Patterns</h2>
-      <p>Bu makalede TypeScript ile kullanabileceğiniz ileri seviye design pattern'ları inceleyeceğiz.</p>
-      
-      <h2>Factory Pattern</h2>
-      <p>Factory pattern, nesne oluşturma sürecini soyutlayarak tip güvenliğini artırır.</p>
-      
-      <h2>Observer Pattern</h2>
-      <p>Observer pattern ile reactive programlama yaklaşımlarını TypeScript'te nasıl uygulayacağımızı öğreneceğiz.</p>
-      
-      <h2>Decorator Pattern</h2>
-      <p>Decorator pattern, mevcut sınıfları genişletmek için güçlü bir yöntem sunuyor.</p>
-    `,
-    publishedAt: "2024-12-10",
-    readTime: 12,
-    viewCount: 890,
-    category: "Backend",
-    tags: ["TypeScript", "Design Patterns", "Enterprise", "Architecture"],
-    coverImage: "/images/blog/typescript.jpg",
-    author: {
-      name: "Barış Mercan",
-      avatar: "/images/author.jpg",
-      bio: "Full-stack developer ve teknoloji yazarı"
-    },
-    metaTitle: "TypeScript Design Patterns - İleri Seviye Rehber",
-    metaDescription: "Enterprise uygulamalarda TypeScript design patterns kullanımı hakkında kapsamlı rehber."
-  },
+// Types
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  content: string;
+  coverImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords: string[];
+  publishedAt?: string;
+  readTime?: number;
+  viewCount: number;
+  category?: string;
+  tags: string[];
+  authorName: string;
+  createdAt: string;
+}
 
-};
-
-// Related posts
-const RELATED_POSTS = [
-  {
-    id: "react-server-components",
-    title: "React Server Components Derinlemesine İnceleme",
-    excerpt: "React Server Components'ın nasıl çalıştığını ve performans avantajlarını keşfedin.",
-    readTime: 10,
-    category: "Frontend"
-  },
-  {
-    id: "performance-optimization-nextjs",
-    title: "Next.js Performans Optimizasyonu Rehberi",
-    excerpt: "Next.js uygulamalarınızda performansı maksimuma çıkarmak için pratik teknikler.",
-    readTime: 15,
-    category: "Frontend"
-  },
-  {
-    id: "modern-react-patterns",
-    title: "Modern React Pattern'ları ve Hook'lar",
-    excerpt: "2024'te React development için en güncel pattern'lar ve best practice'ler.",
-    readTime: 12,
-    category: "Frontend"
-  }
-];
+interface RelatedPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  readTime?: number;
+  category?: string;
+}
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// // Metadata generation
-// export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
-//   const { slug } = await params;
-//   const post = BLOG_POSTS[slug as keyof typeof BLOG_POSTS];
+// Safe HTML content renderer
+function SafeHTMLContent({ content }: { content: string }) {
+  // Ensure content is a string and not null/undefined
+  const safeContent = typeof content === 'string' ? content : '';
+  
+  return (
+    <div 
+      dangerouslySetInnerHTML={{ __html: safeContent }}
+      className="
+        prose prose-lg max-w-none
+        prose-headings:font-bold 
+        prose-headings:text-gray-900 
+        prose-p:text-gray-700 
+        prose-p:leading-relaxed
+        prose-h2:text-2xl
+        prose-h2:mt-8
+        prose-h2:mb-4
+        prose-h3:text-xl
+        prose-h3:mt-6
+        prose-h3:mb-3
+        prose-pre:bg-gray-900
+        prose-pre:text-gray-100
+        prose-code:text-pink-600
+        prose-code:bg-gray-100
+        prose-code:px-1
+        prose-code:py-0.5
+        prose-code:rounded
+        prose-blockquote:border-l-primary
+        prose-blockquote:bg-blue-50
+        prose-blockquote:p-4
+        prose-blockquote:rounded-r-lg
+      "
+    />
+  );
+}
 
-//   if (!post) {
-//     return {
-//       title: 'Blog Yazısı Bulunamadı - Barış Mercan',
-//       description: 'Aradığınız blog yazısı bulunamadı.'
-//     };
-//   }
+// Fetch blog post by slug
+async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blogs?slug=${slug}`, {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+    
+    if (!response.ok) {
+      return null;
+    }
+    
+    const data = await response.json();
+    
+    if (data.success && data.data.posts.length > 0) {
+      return data.data.posts[0];
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error fetching blog post:', error);
+    return null;
+  }
+}
 
-//   return {
-//     title: post.metaTitle || `${post.title} - Barış Mercan Blog`,
-//     description: post.metaDescription || post.excerpt,
-//     keywords: post.tags,
-//     openGraph: {
-//       title: post.title,
-//       description: post.excerpt,
-//       images: post.coverImage ? [post.coverImage] : [],
-//       type: 'article',
-//       publishedTime: post.publishedAt,
-//       authors: [post.author.name],
-//     },
-//     twitter: {
-//       card: 'summary_large_image',
-//       title: post.title,
-//       description: post.excerpt,
-//       images: post.coverImage ? [post.coverImage] : [],
-//     }
-//   };
-// }
+// Fetch related posts
+async function getRelatedPosts(category: string, currentSlug: string): Promise<RelatedPost[]> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blogs?category=${category}&limit=3`, {
+      next: { revalidate: 3600 }
+    });
+    
+    if (!response.ok) {
+      return [];
+    }
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      return data.data.posts
+        .filter((post: BlogPost) => post.slug !== currentSlug)
+        .slice(0, 3)
+        .map((post: BlogPost) => ({
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt,
+          readTime: post.readTime,
+          category: post.category,
+        }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Error fetching related posts:', error);
+    return [];
+  }
+}
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = params as unknown as { slug: string };
-  const post = BLOG_POSTS[slug as keyof typeof BLOG_POSTS];
+// Generate metadata
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getBlogPost(slug);
+  console.log("Post in metadata:", post);
+  console.log("Slug in metadata:", slug);
+  if (!post) {
+    return {
+      title: 'Blog Yazısı Bulunamadı - Barış Mercan',
+      description: 'Aradığınız blog yazısı bulunamadı.'
+    };
+  }
+
+  return {
+    title: post.metaTitle || `${post.title} - Barış Mercan Blog`,
+    description: post.metaDescription || post.excerpt || post.title,
+    keywords: post.keywords,
+    authors: [{ name: post.authorName }],
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || post.title,
+      images: post.coverImage ? [post.coverImage] : [],
+      type: 'article',
+      publishedTime: post.publishedAt,
+      authors: [post.authorName],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt || post.title,
+      images: post.coverImage ? [post.coverImage] : [],
+    }
+  };
+}
+
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params;
+  const post = await getBlogPost(slug);
 
   if (!post) {
     notFound();
   }
+
+  const relatedPosts = post.category ? await getRelatedPosts(post.category, slug) : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -170,24 +212,30 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             {/* Article Header */}
             <header className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <Badge variant="secondary">
-                  {post.category}
-                </Badge>
+                {post.category && (
+                  <Badge variant="secondary">
+                    {post.category}
+                  </Badge>
+                )}
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString('tr-TR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </time>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{post.readTime} dk okuma</span>
-                  </div>
+                  {post.publishedAt && (
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      <time dateTime={post.publishedAt}>
+                        {new Date(post.publishedAt).toLocaleDateString('tr-TR', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </time>
+                    </div>
+                  )}
+                  {post.readTime && (
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{post.readTime} dk okuma</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-1">
                     <Eye className="w-4 h-4" />
                     <span>{post.viewCount.toLocaleString()} görüntülenme</span>
@@ -199,9 +247,11 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 {post.title}
               </h1>
               
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                {post.excerpt}
-              </p>
+              {post.excerpt && (
+                <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                  {post.excerpt}
+                </p>
+              )}
 
               {/* Author Info */}
               <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
@@ -209,8 +259,8 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <User className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <div className="font-semibold">{post.author.name}</div>
-                  <div className="text-sm text-muted-foreground">{post.author.bio}</div>
+                  <div className="font-semibold">{post.authorName}</div>
+                  <div className="text-sm text-muted-foreground">Full-stack Developer</div>
                 </div>
               </div>
             </header>
@@ -222,11 +272,9 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <Image
                     src={post.coverImage}
                     alt={post.title}
-                    className="w-full h-full object-cover"
-                    width={800}
-                    height={450}
-                    priority
-                    // Hata durumunda resmi gizle
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -237,38 +285,26 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             )}
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none mb-12">
-              <div 
-                dangerouslySetInnerHTML={{ __html: post.content }}
-                className="
-                  prose-headings:font-bold 
-                  prose-headings:text-gray-900 
-                  prose-p:text-gray-700 
-                  prose-p:leading-relaxed
-                  prose-h2:text-2xl
-                  prose-h2:mt-8
-                  prose-h2:mb-4
-                  prose-h3:text-xl
-                  prose-h3:mt-6
-                  prose-h3:mb-3
-                "
-              />
+            <div className="mb-12">
+              <SafeHTMLContent content={post.content} />
             </div>
 
             {/* Tags */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <Tag className="w-5 h-5 mr-2 text-primary" />
-                Etiketler
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="text-sm">
-                    {tag}
-                  </Badge>
-                ))}
+            {post.tags && post.tags.length > 0 && (
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                  <Tag className="w-5 h-5 mr-2 text-primary" />
+                  Etiketler
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag, index) => (
+                    <Badge key={`${tag}-${index}`} variant="outline" className="text-sm">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Share Buttons */}
             <div className="border-t border-gray-200 pt-8 mb-8">
@@ -279,7 +315,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
               <div className="flex gap-3">
                 <Button variant="outline" size="sm" asChild>
                   <a 
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://barismercan.com/blog/${post.id}`)}`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://barismercan.com/blog/${post.slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -288,90 +324,67 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                   <a 
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://barismercan.com/blog/${post.id}`)}`}
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://barismercan.com/blog/${post.slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     LinkedIn
                   </a>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: post.title,
-                        text: post.excerpt,
-                        url: `https://barismercan.com/blog/${post.id}`
-                      });
-                    } else {
-                      navigator.clipboard.writeText(`https://barismercan.com/blog/${post.id}`);
-                      alert('Link kopyalandı!');
-                    }
-                  }}
-                >
-                  Link Kopyala
-                </Button>
+                <ShareButton post={post} />
               </div>
             </div>
 
             {/* Related Articles */}
-            <div>
-              <h3 className="text-2xl font-bold mb-6">İlgili Yazılar</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
-                {RELATED_POSTS.map((relatedPost) => (
-                  <div key={relatedPost.id} className="p-6 bg-white rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge variant="secondary" className="text-xs">
-                        {relatedPost.category}
-                      </Badge>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Clock className="w-3 h-3" />
-                        <span>{relatedPost.readTime} dk</span>
+            {relatedPosts.length > 0 && (
+              <div>
+                <h3 className="text-2xl font-bold mb-6">İlgili Yazılar</h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
+                  {relatedPosts.map((relatedPost) => (
+                    <div key={relatedPost.id} className="p-6 bg-white rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+                      <div className="flex items-center gap-2 mb-3">
+                        {relatedPost.category && (
+                          <Badge variant="secondary" className="text-xs">
+                            {relatedPost.category}
+                          </Badge>
+                        )}
+                        {relatedPost.readTime && (
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="w-3 h-3" />
+                            <span>{relatedPost.readTime} dk</span>
+                          </div>
+                        )}
                       </div>
+                      <h4 className="font-semibold mb-2 line-clamp-2">
+                        <Link href={`/blog/${relatedPost.slug}`} className="hover:text-primary transition-colors">
+                          {relatedPost.title}
+                        </Link>
+                      </h4>
+                      {relatedPost.excerpt && (
+                        <p className="text-sm text-muted-foreground line-clamp-3">
+                          {relatedPost.excerpt}
+                        </p>
+                      )}
                     </div>
-                    <h4 className="font-semibold mb-2 line-clamp-2">
-                      <Link href={`/blog/${relatedPost.id}`} className="hover:text-primary transition-colors">
-                        {relatedPost.title}
-                      </Link>
-                    </h4>
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {relatedPost.excerpt}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
           </article>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-6 sticky top-20 self-start">
+          <aside className="lg:col-span-4 space-y-6">
             
-            {/* Table of Contents */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200 top-8">
+            {/* Table of Contents - Simple version */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 sticky top-8">
               <h3 className="font-semibold mb-4 flex items-center">
                 <BookOpen className="w-5 h-5 mr-2 text-primary" />
                 Bu Yazıda
               </h3>
-              <nav className="space-y-2">
-                <a href="#giris" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  • Giriş
-                </a>
-                <a href="#react-server-components" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  • React Server Components
-                </a>
-                <a href="#turbopack" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  • Turbopack Entegrasyonu
-                </a>
-                <a href="#caching" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  • Yeni Caching Stratejileri
-                </a>
-                <a href="#sonuc" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  • Sonuç
-                </a>
-              </nav>
+              <div className="text-sm text-muted-foreground">
+                <p>İçerik yapısı yazı yüklendikten sonra oluşturulacak</p>
+              </div>
             </div>
 
             {/* Newsletter CTA */}
@@ -400,8 +413,8 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <User className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <div className="font-semibold">{post.author.name}</div>
-                  <div className="text-sm text-muted-foreground">{post.author.bio}</div>
+                  <div className="font-semibold">{post.authorName}</div>
+                  <div className="text-sm text-muted-foreground">Full-stack Developer</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
@@ -421,43 +434,11 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
             </div>
 
-            {/* Popular Posts */}
+            {/* Popular Posts - This would need another API endpoint */}
             <div className="bg-white rounded-xl p-6 border border-gray-200">
               <h3 className="font-semibold mb-4">🔥 Popüler Yazılar</h3>
-              <div className="space-y-4">
-                <div className="border-b border-gray-100 pb-3">
-                  <Link href="/blog/react-server-components" className="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
-                    React Server Components Derinlemesine İnceleme
-                  </Link>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    <span>10 dk</span>
-                    <Eye className="w-3 h-3" />
-                    <span>2.1K</span>
-                  </div>
-                </div>
-                <div className="border-b border-gray-100 pb-3">
-                  <Link href="/blog/typescript-best-practices" className="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
-                    TypeScript Best Practices 2024
-                  </Link>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    <span>8 dk</span>
-                    <Eye className="w-3 h-3" />
-                    <span>1.8K</span>
-                  </div>
-                </div>
-                <div>
-                  <Link href="/blog/nodejs-microservices" className="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
-                    Node.js ile Microservices Mimarisi
-                  </Link>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    <span>18 dk</span>
-                    <Eye className="w-3 h-3" />
-                    <span>1.5K</span>
-                  </div>
-                </div>
+              <div className="text-sm text-muted-foreground">
+                <p>Popüler yazılar yükleniyor...</p>
               </div>
             </div>
 
@@ -485,6 +466,22 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
 
+      </div>
+    </div>
+  );
+}
+
+// Loading component for when the page is being generated
+export function Loading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-6 lg:px-24 py-20 pt-32">
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="text-gray-600">Blog yazısı yükleniyor...</p>
+          </div>
+        </div>
       </div>
     </div>
   );
