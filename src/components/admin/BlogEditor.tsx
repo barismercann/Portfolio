@@ -152,6 +152,28 @@ export default function BlogEditor({ postId, isEdit = false }: BlogEditorProps) 
 
   // Auto-save functionality
   useEffect(() => {
+    const handleAutoSave = async () => {
+      if (!isEdit || !postId) return;
+
+      try {
+        const formData = watchedValues;
+        const response = await fetch(`/api/blogs/${postId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          setLastSaved(new Date());
+          setIsSaved(true);
+        }
+      } catch (error) {
+        console.error('Auto-save failed:', error);
+      }
+    };
+
     if (isDirty && !isSubmitting && isSaved && isEdit) {
       const timer = setTimeout(() => {
         handleAutoSave();
@@ -159,7 +181,7 @@ export default function BlogEditor({ postId, isEdit = false }: BlogEditorProps) 
 
       return () => clearTimeout(timer);
     }
-  }, [isDirty, isSubmitting, isSaved, isEdit]);
+  }, [isDirty, isSubmitting, isSaved, isEdit, postId, watchedValues]);
 
   const handleAutoSave = async () => {
     if (!isEdit || !postId) return;

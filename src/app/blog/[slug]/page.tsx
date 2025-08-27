@@ -8,7 +8,6 @@ import {
   Calendar,
   Clock,
   Eye,
-  Loader2,
   Share2,
   Tag,
   User
@@ -85,6 +84,8 @@ function SafeHTMLContent({ content }: { content: string }) {
     />
   );
 }
+
+
 
 // 🔥 FIX: Blog post fetch fonksiyonu düzeltildi
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -196,6 +197,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     }
   };
 }
+
+
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
@@ -490,18 +493,5 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   );
 }
 
-// Loading component
-export function Loading() {
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <div className="container mx-auto px-6 lg:px-24 py-20 pt-32">
-        <div className="flex items-center justify-center min-h-96">
-          <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
-            <p className="text-gray-600">Blog yazısı yükleniyor...</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+
+
