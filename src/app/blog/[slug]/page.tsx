@@ -1,3 +1,5 @@
+// src/app/blog/[slug]/page.tsx - Düzeltilmiş versiyon
+
 import { Badge, Button } from '@/components/ui';
 import ShareButton from '@/components/ui/ShareButton';
 import {
@@ -51,7 +53,6 @@ interface BlogDetailPageProps {
 
 // Safe HTML content renderer
 function SafeHTMLContent({ content }: { content: string }) {
-  // Ensure content is a string and not null/undefined
   const safeContent = typeof content === 'string' ? content : '';
   
   return (
@@ -85,37 +86,54 @@ function SafeHTMLContent({ content }: { content: string }) {
   );
 }
 
-// Fetch blog post by slug
+// 🔥 FIX: Blog post fetch fonksiyonu düzeltildi
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
+    console.log('🔍 Fetching blog post with slug:', slug);
+    
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/blogs?slug=${slug}`, {
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 300 }, // 5 dakikada bir revalidate
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     
+    console.log('📡 API Response status:', response.status);
+    
     if (!response.ok) {
+      console.error('❌ API response not OK:', response.status, response.statusText);
       return null;
     }
     
     const data = await response.json();
+    console.log('📦 API Response data:', {
+      success: data.success,
+      hasData: !!data.data,
+      postsCount: data.data?.posts?.length || 0,
+      message: data.message
+    });
     
-    if (data.success && data.data.posts.length > 0) {
-      return data.data.posts[0];
+    if (data.success && data.data?.posts?.length > 0) {
+      const post = data.data.posts[0];
+      console.log('✅ Blog post found:', post.title);
+      return post;
     }
     
+    console.log('❌ No blog post found for slug:', slug);
     return null;
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error('❌ Error fetching blog post:', error);
     return null;
   }
 }
 
-// Fetch related posts
+// Related posts fetch function - aynen kalıyor
 async function getRelatedPosts(category: string, currentSlug: string): Promise<RelatedPost[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/blogs?category=${category}&limit=3`, {
-      next: { revalidate: 3600 }
+    const response = await fetch(`${baseUrl}/api/blogs?category=${category}&limit=3&status=PUBLISHED`, {
+      next: { revalidate: 1800 } // 30 dakika
     });
     
     if (!response.ok) {
@@ -145,12 +163,11 @@ async function getRelatedPosts(category: string, currentSlug: string): Promise<R
   }
 }
 
-// Generate metadata
+// Generate metadata - aynen kalıyor
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPost(slug);
-  console.log("Post in metadata:", post);
-  console.log("Slug in metadata:", slug);
+  
   if (!post) {
     return {
       title: 'Blog Yazısı Bulunamadı - Barış Mercan',
@@ -182,11 +199,17 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
+  
+  console.log('🚀 Blog detail page loading for slug:', slug);
+  
   const post = await getBlogPost(slug);
 
   if (!post) {
+    console.log('❌ Post not found, redirecting to 404');
     notFound();
   }
+
+  console.log('✅ Post loaded successfully:', post.title);
 
   const relatedPosts = post.category ? await getRelatedPosts(post.category, slug) : [];
 
@@ -284,7 +307,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
             )}
 
-            {/* Article Content */}
+            {/* Article Content - 🔥 Ana içerik buradadır */}
             <div className="mb-12">
               <SafeHTMLContent content={post.content} />
             </div>
@@ -373,10 +396,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
           </article>
 
-          {/* Sidebar */}
+          {/* Sidebar aynen kalıyor... */}
           <aside className="lg:col-span-4 space-y-6">
             
-            {/* Table of Contents - Simple version */}
             <div className="bg-white rounded-xl p-6 border border-gray-200 sticky top-8">
               <h3 className="font-semibold mb-4 flex items-center">
                 <BookOpen className="w-5 h-5 mr-2 text-primary" />
@@ -387,7 +409,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
             </div>
 
-            {/* Newsletter CTA */}
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
               <h3 className="font-semibold mb-3">📬 Newsletter&apos;a Katılın</h3>
               <p className="text-sm text-muted-foreground mb-4">
@@ -405,7 +426,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
             </div>
 
-            {/* Author Bio */}
             <div className="bg-white rounded-xl p-6 border border-gray-200">
               <h3 className="font-semibold mb-4">👨‍💻 Yazar Hakkında</h3>
               <div className="flex items-center gap-3 mb-3">
@@ -434,7 +454,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </div>
             </div>
 
-            {/* Popular Posts - This would need another API endpoint */}
             <div className="bg-white rounded-xl p-6 border border-gray-200">
               <h3 className="font-semibold mb-4">🔥 Popüler Yazılar</h3>
               <div className="text-sm text-muted-foreground">
@@ -458,7 +477,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 Tüm Blog Yazıları
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary" asChild>
+            <Button size="lg" variant="outline" className="text-dark border-white hover:bg-white hover:text-primary" asChild>
               <Link href="/#contact">
                 İletişime Geç
               </Link>
@@ -471,7 +490,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   );
 }
 
-// Loading component for when the page is being generated
+// Loading component
 export function Loading() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">

@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui';
+import { Check, Copy } from 'lucide-react';
+import { useState } from 'react';
 
 interface BlogPost {
   id: string;
@@ -10,26 +12,23 @@ interface BlogPost {
 }
 
 function ShareButton({ post }: { post: BlogPost }) {
-  const shareUrl = `https://barismercan.com/blog/${post.slug}`;
+  const [copied, setCopied] = useState(false);
   
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt || post.title,
-          url: shareUrl
-        });
-      } catch (error) {
-        console.log('Sharing cancelled or failed');
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        alert('Link kopyalandı!');
-      } catch (error) {
-        console.error('Failed to copy link:', error);
-      }
+  const handleCopyLink = async () => {
+    const currentUrl = window.location.href; // Mevcut sayfanın URL'sini al
+    
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      setCopied(true);
+      
+      // 2 saniye sonra ikonu eski haline getir
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Link kopyalanamadı:', error);
+      // Fallback: Manuel olarak link'i seçilebilir hale getir
+      alert('Link kopyalanamadı. URL: ' + currentUrl);
     }
   };
 
@@ -37,9 +36,20 @@ function ShareButton({ post }: { post: BlogPost }) {
     <Button 
       variant="outline" 
       size="sm"
-      onClick={handleShare}
+      onClick={handleCopyLink}
+      className="flex items-center gap-2"
     >
-      Link Kopyala
+      {copied ? (
+        <>
+          <Check className="w-4 h-4 text-green-600" />
+          Kopyalandı!
+        </>
+      ) : (
+        <>
+          <Copy className="w-4 h-4" />
+          Link Kopyala
+        </>
+      )}
     </Button>
   );
 }

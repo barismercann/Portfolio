@@ -1,13 +1,13 @@
 import { verifyAuth } from '@/lib/auth';
 import { prisma } from '@/lib/database';
 import {
-    blogPostSchema,
-    BlogPostWhereClause
+  blogPostSchema,
+  BlogPostWhereClause
 } from '@/types/blog.types';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-// GET /api/blogs - List all blog posts
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -16,10 +16,11 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | null;
     const category = searchParams.get('category');
     const search = searchParams.get('search');
+    
 
+    const slug = searchParams.get('slug');
     const skip = (page - 1) * limit;
 
-    // Build type-safe where clause
     const where: BlogPostWhereClause = {};
     
     if (status) {
@@ -28,6 +29,56 @@ export async function GET(request: NextRequest) {
     
     if (category) {
       where.category = category;
+    }
+    
+    if (slug) {
+      const singlePost = await prisma.blogPost.findUnique({
+        where: { 
+          slug,
+          status: 'PUBLISHED',
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          content: true,
+          coverImage: true,
+          metaTitle: true,
+          metaDescription: true,
+          keywords: true,
+          status: true,
+          publishedAt: true,
+          readTime: true,
+          viewCount: true,
+          category: true,
+          tags: true,
+          authorName: true,
+          authorEmail: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      if (singlePost) {
+        // View count artır
+        await prisma.blogPost.update({
+          where: { id: singlePost.id },
+          data: { viewCount: { increment: 1 } },
+        });
+      }
+
+      return NextResponse.json({
+        success: !!singlePost,
+        data: singlePost ? {
+          posts: [singlePost],
+          pagination: { page: 1, limit: 1, total: 1, totalPages: 1 }
+        } : {
+          posts: [],
+          pagination: { page: 1, limit: 1, total: 0, totalPages: 0 }
+        },
+        message: singlePost ? 'Blog yazısı bulundu' : 'Blog yazısı bulunamadı',
+      });
     }
     
     if (search) {
@@ -49,7 +100,11 @@ export async function GET(request: NextRequest) {
           title: true,
           slug: true,
           excerpt: true,
+          content: true, // Detay sayfası için content da eklendi
           coverImage: true,
+          metaTitle: true,
+          metaDescription: true,
+          keywords: true,
           status: true,
           publishedAt: true,
           readTime: true,
@@ -57,6 +112,7 @@ export async function GET(request: NextRequest) {
           category: true,
           tags: true,
           authorName: true,
+          authorEmail: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -85,10 +141,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/blogs - Create new blog post
+// POST route aynen kalıyor...
 export async function POST(request: NextRequest) {
   try {
-    // Check authentication
     const authPayload = await verifyAuth(request);
     if (!authPayload) {
       return NextResponse.json({
@@ -100,7 +155,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = blogPostSchema.parse(body);
 
-    // Check if slug already exists
     const existingPost = await prisma.blogPost.findUnique({
       where: { slug: validatedData.slug },
     });
@@ -112,7 +166,6 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Prepare data for database insertion
     const postData = {
       title: validatedData.title,
       slug: validatedData.slug,
