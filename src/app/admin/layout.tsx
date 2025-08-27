@@ -132,13 +132,13 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Debug Info */}
-      {process.env.NODE_ENV === 'development' && (
+      {/* {process.env.NODE_ENV === 'development' && (
         <div className="fixed top-0 left-0 z-[9999] bg-green-500 text-white p-2 text-xs font-mono">
           <div>ADMIN LAYOUT ACTIVE</div>
           <div>Path: {pathname}</div>
           <div>User: {user.name}</div>
         </div>
-      )}
+      )} */}
 
       {/* Sidebar */}
       <div className={`${isSidebarOpen ? 'w-64' : 'w-16'} bg-white shadow-lg transition-all duration-300 flex flex-col`}>

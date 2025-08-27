@@ -68,7 +68,7 @@ export function ClientLayout({ children, messages }: ClientLayoutProps) {
     return (
         <>
         {/* 🔍 Debug Info - Sadece development modunda göster */}
-        {process.env.NODE_ENV === 'development' && (
+        {/* {process.env.NODE_ENV === 'development' && (
             <div className="fixed top-0 right-0 z-[9999] bg-purple-500 text-white p-2 text-xs font-mono">
             <div>CLIENT Path: {pathname}</div>
             <div>Admin: {isAdminRoute ? 'YES' : 'NO'}</div>
@@ -76,7 +76,7 @@ export function ClientLayout({ children, messages }: ClientLayoutProps) {
             <div>H/F: {showHeaderFooter ? 'SHOW' : 'HIDE'}</div>
             <div>Locale: {locale}</div>
             </div>
-        )}
+        )} */}
 
         {/* ✅ Pass extracted locale */}
         <NextIntlClientProvider messages={messages} locale={locale}>
