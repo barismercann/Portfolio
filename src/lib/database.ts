@@ -1,4 +1,10 @@
-import { BudgetRange, MessagePriority, MessageStatus, Prisma, PrismaClient, ProjectType } from '@prisma/client';
+import type {
+  BudgetRange,
+  MessagePriority,
+  MessageStatus,
+  ProjectType
+} from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 // Global Prisma instance to prevent connection issues
 const globalForPrisma = globalThis as unknown as {
@@ -212,15 +218,15 @@ export async function authenticateUser(email: string, password: string) {
         email: true,
         name: true,
         role: true,
-        hashedPassword: true,
+        password: true, // Using password field directly
       },
     });
 
-    if (!user || !user.hashedPassword) {
+    if (!user || !user.password) {
       return null;
     }
 
-    const isValidPassword = await verifyPassword(password, user.hashedPassword);
+    const isValidPassword = await verifyPassword(password, user.password);
     if (!isValidPassword) {
       return null;
     }

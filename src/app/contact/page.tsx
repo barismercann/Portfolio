@@ -4,7 +4,6 @@ import { ProjectStartForm } from '@/components/forms/project-start-form';
 import { Badge, Button } from '@/components/ui';
 import { motion } from 'framer-motion';
 import {
-    ArrowLeft,
     Calendar,
     CheckCircle2,
     Clock,
@@ -20,26 +19,13 @@ import {
     Users,
     Zap
 } from 'lucide-react';
-import Link from 'next/link';
 
 export default function ContactPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-6 lg:px-24 py-20 pt-32">
             
-            {/* Back Button */}
-            <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="mb-8"
-            >
-            <Button variant="outline" asChild className="group">
-                <Link href="/">
-                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Ana Sayfaya Dön
-                </Link>
-            </Button>
-            </motion.div>
+            
 
             {/* Header */}
             <motion.div
@@ -188,7 +174,7 @@ export default function ContactPage() {
                     &apos;Barış ile çalışmak harika bir deneyimdi. Projemizi zamanında ve beklentilerimizin üzerinde teslim etti.&apos;
                 </p>
                 <div className="text-xs text-blue-600 font-medium">
-                    - Ahmet K., Fabrikam Corp CEO
+                    - Ahmet Y.
                 </div>
                 </div>
             </motion.div>

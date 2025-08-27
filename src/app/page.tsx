@@ -7,7 +7,6 @@ import { ServicesSection } from "@/components/sections/services";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-
 function IntroOverlay() {
   const [animationPhase, setAnimationPhase] = useState("initial");
 
@@ -15,7 +14,9 @@ function IntroOverlay() {
     const timer1 = setTimeout(() => setAnimationPhase("nameVisible"), 400);
     const timer2 = setTimeout(() => setAnimationPhase("lineAppear"), 2000);
     const timer3 = setTimeout(() => setAnimationPhase("splitScreen"), 2800);
-    const timer4 = setTimeout(() => setAnimationPhase("exit"), 4000);
+    const timer4 = setTimeout(() => {
+      setAnimationPhase("exit");
+    }, 4000);
     
     return () => {
       clearTimeout(timer1);
@@ -36,7 +37,6 @@ function IntroOverlay() {
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50"
         style={{ overflow: "visible" }}
       >
-
         <div className="relative z-50" style={{ overflow: "visible" }}>
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -51,7 +51,6 @@ function IntroOverlay() {
             className="absolute -inset-20 rounded-full bg-gradient-to-r from-purple-400/30 via-blue-300/30 to-pink-300/30 blur-2xl"
             style={{ zIndex: -1 }}
           />
-
           <motion.div
             initial={{ y: 40, opacity: 0, scale: 0.9 }}
             animate={{ 
@@ -78,8 +77,6 @@ function IntroOverlay() {
             >
               Barış Mercan
             </div>
-            
-            {/* Parçacık Efektleri */}
             <div className="absolute -inset-12 pointer-events-none" style={{ zIndex: -1 }}>
               {Array.from({ length: 4 }).map((_, i) => (
                 <motion.div
@@ -106,8 +103,6 @@ function IntroOverlay() {
             </div>
           </motion.div>
         </div>
-
-        {/* Çizgi Animasyonu */}
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ 
@@ -119,8 +114,6 @@ function IntroOverlay() {
           }}
           className="absolute inset-y-0 left-1/2 transform -translate-x-0.5 w-0.5 bg-gradient-to-b from-purple-500 to-blue-500 origin-top z-30"
         />
-
-        {/* Sol Panel */}
         <motion.div
           initial={{ x: 0 }}
           animate={{ 
@@ -132,8 +125,6 @@ function IntroOverlay() {
           }}
           className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-white to-gray-50 z-10"
         />
-        
-        {/* Sağ Panel */}
         <motion.div
           initial={{ x: 0 }}
           animate={{ 
@@ -145,8 +136,6 @@ function IntroOverlay() {
           }}
           className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-white to-gray-50 z-10"
         />
-
-        {/* Enerji Dalgası */}
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ 
@@ -165,17 +154,24 @@ function IntroOverlay() {
 }
 
 export default function HomePage() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [pageReady, setPageReady] = useState(false);
 
   useEffect(() => {
-    const readyTimer = setTimeout(() => setPageReady(true), 50);
+    const hasSeenIntro = sessionStorage.getItem('introSeen');
     
-    // Ana animasyon süresi
-    const introTimer = setTimeout(() => setShowIntro(false), 4500);
+    if (!hasSeenIntro) {
+      setShowIntro(true); 
+      sessionStorage.setItem('introSeen', 'true'); 
+    }
+    
+    const introTimer = setTimeout(() => {
+      setShowIntro(false);
+    }, 4500); 
+
+    setPageReady(true);
     
     return () => {
-      clearTimeout(readyTimer);
       clearTimeout(introTimer);
     };
   }, []);
