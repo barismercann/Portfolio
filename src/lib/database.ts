@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client';
-import { JsonValue } from '@prisma/client/runtime/library';
+import { BudgetRange, MessagePriority, MessageStatus, Prisma, PrismaClient, ProjectType } from '@prisma/client';
+
 // Global Prisma instance to prevent connection issues
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -10,12 +10,6 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({
 });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
-
-// Define enum types locally
-export type BudgetRange = 'RANGE_1500_5000' | 'RANGE_5000_15000' | 'RANGE_15000_50000' | 'RANGE_50000_100000' | 'RANGE_100000_PLUS';
-export type ProjectType = 'WEB_DEVELOPMENT' | 'MOBILE_APP' | 'CONSULTING' | 'MAINTENANCE' | 'OTHER';
-export type MessagePriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-export type MessageStatus = 'NEW' | 'IN_PROGRESS' | 'REPLIED' | 'CLOSED';
 
 // Types
 interface ContactMessageData {
@@ -184,7 +178,7 @@ export async function getBlogPosts(published = true) {
 export async function trackEvent(
   event: string,
   page?: string,
-  data?: JsonValue,
+  data?: Prisma.JsonValue,
   sessionInfo?: SessionInfo
 ) {
   try {
@@ -205,7 +199,7 @@ export async function trackEvent(
   }
 }
 
-// User authentication
+// User authentication - ADD THIS
 export async function authenticateUser(email: string, password: string) {
   try {
     // Import auth functions to avoid circular imports
