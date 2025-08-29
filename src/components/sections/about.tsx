@@ -1,135 +1,22 @@
 "use client";
 
-import { Badge } from '@/components/ui';
-import { SKILLS } from '@/lib/constants';
+import { Badge, Button } from '@/components/ui';
 import { motion } from 'framer-motion';
 import {
-  Cloud,
+  ArrowRight,
+  Award,
+  CheckCircle,
+  Clock,
   Code2,
   Globe,
-  Server
+  Heart,
+  Shield,
+  Star,
+  Target,
+  Users,
+  Zap
 } from 'lucide-react';
-
-// React Icons import (install: npm install react-icons)
-import {
-  SiAmazonwebservices,
-  SiDocker,
-  SiExpress,
-  SiGit,
-  SiGithubactions,
-  SiGraphql,
-  SiGreensock,
-  SiMongodb,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPostgresql,
-  SiPrisma,
-  SiReact,
-  SiRedux,
-  SiTailwindcss,
-  SiTypescript,
-  SiVercel
-} from 'react-icons/si';
-
-// Gerçek teknoloji logoları mapping
-const skillIcons = {
-  'React': SiReact,
-  'Next.js': SiNextdotjs,
-  'TypeScript': SiTypescript,
-  'Tailwind CSS': SiTailwindcss,
-  'Redux': SiRedux,
-  'GSAP': SiGreensock,
-  'Node.js': SiNodedotjs,
-  'Express': SiExpress,
-  'PostgreSQL': SiPostgresql,
-  'MongoDB': SiMongodb,
-  'Prisma': SiPrisma,
-  'GraphQL': SiGraphql,
-  'AWS': SiAmazonwebservices,
-  'Docker': SiDocker,
-  'Vercel': SiVercel,
-  'CI/CD': SiGithubactions,
-  'Git': SiGit
-};
-
-// Her teknoloji için özel renk tanımları
-const skillColors = {
-  'React': '#61DAFB',
-  'Next.js': '#000000',
-  'TypeScript': '#3178C6',
-  'Tailwind CSS': '#06B6D4',
-  'Redux': '#764ABC',
-  'GSAP': '#88CE02',
-  'Node.js': '#339933',
-  'Express': '#000000',
-  'PostgreSQL': '#336791',
-  'MongoDB': '#47A248',
-  'Prisma': '#2D3748',
-  'GraphQL': '#E10098',
-  'AWS': '#FF9900',
-  'Docker': '#2496ED',
-  'Vercel': '#000000',
-  'CI/CD': '#2088FF',
-  'Git': '#F05032'
-};
-
-// Container animasyon varyantları
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2
-    }
-  }
-};
-
-// Card animasyon varyantları
-const cardVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 60,
-    scale: 0.8
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 0.46, 0.45, 0.94]
-    }
-  },
-  hover: {
-    scale: 1.05,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  }
-};
-
-// Skill item animasyon varyantları
-// const skillItemVariants = {
-//   hidden: { opacity: 0, x: -20 },
-//   visible: {
-//     opacity: 1,
-//     x: 0,
-//     transition: {
-//       duration: 0.5,
-//       ease: "easeOut"
-//     }
-//   },
-//   hover: {
-//     scale: 1.02,
-//     x: 5,
-//     transition: {
-//       duration: 0.2,
-//       ease: "easeOut"
-//     }
-//   }
-// };
+import Link from 'next/link';
 
 export function AboutSection() {
   return (
@@ -144,369 +31,254 @@ export function AboutSection() {
           className="text-center mb-16"
         >
           <Badge variant="gradient" className="mb-4 px-4 py-2">
-            <Code2 className="w-5 h-5 mr-2" />
-            <p className='text-base'>Teknoloji Uzmanlığı</p>
+            <Shield className="w-5 h-5 mr-2" />
+            <p className="text-base">Profesyonel Yaklaşım</p>
           </Badge>
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Full Stack <span className="text-primary">Hakimiyeti</span>
+            Projelerinizi Bir Sonraki <span className="text-primary">Seviyeye</span> Taşımaya Hazır mısınız?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Modern web teknolojilerinde ile SaaS, B2B/B2C, e-ticaretve kurumsal projeler geliştiriyorum
+          <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            Markanızın öne çıkmasına ve müşteri memnuniyetini en üst düzeye çıkarmasına yardımcı olmak için 
+            modern ve sezgisel web deneyimleri tasarlayan, deneyimli bir freelance geliştirici.
           </p>
         </motion.div>
 
-        {/* Skills Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid lg:grid-cols-3 gap-8"
-        >
-          {/* Frontend Development */}
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+          {/* Left Content */}
           <motion.div
-            variants={cardVariants}
-            whileHover="hover"
-            className="bg-white rounded-2xl p-8 shadow-lg border border-blue-100 cursor-pointer relative group"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            {/* Hover glow effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10" />
-            
-            <div className="flex items-center mb-6">
-              <motion.div 
-                className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Globe className="w-6 h-6 text-blue-600" />
-              </motion.div>
-              <h3 className="text-xl font-semibold">Frontend Development</h3>
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Deneyim ve Uzmanlık</h3>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                <strong className="text-foreground">5 yıllık</strong> frontend ve web geliştirme deneyimi, 
+                <strong className="text-foreground"> 1,400+ saat</strong> çalışma süresi ve 
+                <strong className="text-foreground"> 40+ tamamlanmış proje</strong> ile müşterilerimin hedeflerini 
+                aşmayı ve hedef kitlelerinin beklentilerini karşılamayı seviyorum.
+              </p>
+              
+              <div className="bg-blue-50 border-l-4 border-primary p-4 rounded-r-lg mb-6">
+                <p className="text-sm text-blue-800 italic">
+                  &apos;Uzmanlığım sadece web siteleriyle sınırlı değil; aynı zamanda kullanıcı dostu web uygulamaları, 
+                  interaktif panolar ve dönüşümleri artıran, marka değerini yükselten veri açısından zengin platformlar oluşturmada uzmanlaşıyorum.&apos;
+                </p>
+              </div>
             </div>
-            
-            <motion.div 
-              className="grid grid-cols-2 gap-4"
-              variants={containerVariants}
-            >
-              {SKILLS.frontend.map((skill, index) => {
-                const IconComponent = skillIcons[skill.name as keyof typeof skillIcons] || Code2;
-                const iconColor = skillColors[skill.name as keyof typeof skillColors] || '#3B82F6';
-                
-                return (
-                  <motion.div 
-                    key={skill.name} 
-                    whileHover="hover"
-                    custom={index}
-                    className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors duration-300 group"
-                  >
-                    <motion.div
-                      className="mr-3"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <IconComponent 
-                        className="w-5 h-5 transition-colors duration-300" 
-                        style={{ color: iconColor }}
-                      />
-                    </motion.div>
-                    <span className="text-sm font-medium">{skill.name}</span>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex items-start space-x-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Modern Teknolojiler</h4>
+                  <p className="text-sm text-muted-foreground">Next.js, React, TypeScript ile en güncel çözümler</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Zamanında Teslimat</h4>
+                  <p className="text-sm text-muted-foreground">Belirlenen sürelere %100 uyum</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Heart className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Müşteri Odaklı</h4>
+                  <p className="text-sm text-muted-foreground">Her projede %95 müşteri memnuniyeti</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-5 h-5 text-orange-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Güvenilir İş Ortağı</h4>
+                  <p className="text-sm text-muted-foreground">Uzun vadeli ilişkiler kuruyorum</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Backend & Database */}
+          {/* Right Content - Stats & Expertise */}
           <motion.div
-            variants={cardVariants}
-            whileHover="hover"
-            className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 cursor-pointer relative group"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            {/* Hover glow effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-400/20 to-emerald-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10" />
-            
-            <div className="flex items-center mb-6">
-              <motion.div 
-                className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Server className="w-6 h-6 text-green-600" />
-              </motion.div>
-              <h3 className="text-xl font-semibold">Backend & Database</h3>
-            </div>
-            
-            <motion.div 
-              className="grid grid-cols-2 gap-4"
-              variants={containerVariants}
-            >
-              {SKILLS.backend.map((skill, index) => {
-                const IconComponent = skillIcons[skill.name as keyof typeof skillIcons] || Server;
-                const iconColor = skillColors[skill.name as keyof typeof skillColors] || '#10B981';
-                
-                return (
-                  <motion.div 
-                    key={skill.name} 
-                    whileHover="hover"
-                    custom={index}
-                    className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-green-50 transition-colors duration-300"
-                  >
-                    <motion.div
-                      className="mr-3"
-                      whileHover={{ scale: 1.1, rotate: -5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <IconComponent 
-                        className="w-5 h-5 transition-colors duration-300" 
-                        style={{ color: iconColor }}
-                      />
-                    </motion.div>
-                    <span className="text-sm font-medium">{skill.name}</span>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </motion.div>
+            {/* Achievement Cards */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Target className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="text-2xl font-bold text-green-600 mb-1">40+</div>
+                <div className="text-sm text-gray-600">Başarılı Proje</div>
+              </div>
 
-          {/* DevOps & Deployment */}
-          <motion.div
-            variants={cardVariants}
-            whileHover="hover"
-            className="bg-white rounded-2xl p-8 shadow-lg border border-purple-100 cursor-pointer relative group"
-          >
-            {/* Hover glow effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10" />
-            
-            <div className="flex items-center mb-6">
-              <motion.div 
-                className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Cloud className="w-6 h-6 text-purple-600" />
-              </motion.div>
-              <h3 className="text-xl font-semibold">DevOps & Deployment</h3>
-            </div>
-            
-            <motion.div 
-              className="grid grid-cols-2 gap-4"
-              variants={containerVariants}
-            >
-              {SKILLS.cloud.map((skill, index) => {
-                const IconComponent = skillIcons[skill.name as keyof typeof skillIcons] || Cloud;
-                const iconColor = skillColors[skill.name as keyof typeof skillColors] || '#8B5CF6';
-                
-                return (
-                  <motion.div 
-                    key={skill.name} 
-                    whileHover="hover"
-                    custom={index}
-                    className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition-colors duration-300"
-                  >
-                    <motion.div
-                      className="mr-3"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <IconComponent 
-                        className="w-5 h-5 transition-colors duration-300" 
-                        style={{ color: iconColor }}
-                      />
-                    </motion.div>
-                    <span className="text-sm font-medium">{skill.name}</span>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </motion.div>
-        </motion.div>
+              <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100 text-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Users className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="text-2xl font-bold text-blue-600 mb-1">30+</div>
+                <div className="text-sm text-gray-600">Mutlu Müşteri</div>
+              </div>
 
-        {/* Expertise Levels */}
+              <div className="bg-white p-6 rounded-2xl shadow-lg border border-purple-100 text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Award className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="text-2xl font-bold text-purple-600 mb-1">1400+</div>
+                <div className="text-sm text-gray-600">Çalışma Saati</div>
+              </div>
+
+              <div className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100 text-center">
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Star className="w-6 h-6 text-orange-600" />
+                </div>
+                <div className="text-2xl font-bold text-orange-600 mb-1">5+</div>
+                <div className="text-sm text-gray-600">Yıl Deneyim</div>
+              </div>
+            </div>
+
+            {/* Expertise Areas */}
+            <div className="bg-gradient-to-br from-primary/10 to-blue-100 p-6 rounded-2xl">
+              <h4 className="text-xl font-bold mb-4 text-center">Uzmanlık Alanlarım</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Web Uygulamaları</span>
+                  <div className="flex items-center space-x-1">
+                    {[1,2,3,4,5].map((star) => (
+                      <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Kurumsal Çözümler</span>
+                  <div className="flex items-center space-x-1">
+                    {[1,2,3,4,5].map((star) => (
+                      <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">E-ticaret Platformları</span>
+                  <div className="flex items-center space-x-1">
+                    {[1,2,3,4].map((star) => (
+                      <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                    <Star className="w-4 h-4 text-gray-300" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Key Expertise Areas */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ 
-            duration: 0.6,
-            ease: "easeOut"
-          }}
-          className="mt-16 bg-dark rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden"
+          viewport={{ once: true }}
+          className="mb-16"
         >
-          {/* Background pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20" />
-            <div className="absolute top-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
-            <div className="absolute bottom-10 left-10 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
-          </div>
+          <h3 className="text-2xl font-bold text-center mb-12">Çalıştığım Sektörler ve Projeler</h3>
           
-          <div className="relative z-10">
-            <motion.h3 
-              className="text-2xl font-bold mb-8 text-center"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-            >
-              Uzmanlık Alanları
-            </motion.h3>
-            <motion.p 
-              className="text-center text-slate-300 mb-8"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-            >
-              Proje gereksinimlerine göre modern teknolojiler ile çözüm üretiyorum
-            </motion.p>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {[
-                { 
-                  percentage: 90, 
-                  title: "Full-Stack Development", 
-                  color: "from-green-400 to-emerald-500",
-                  bgColor: "bg-green-400/20",
-                  description: "React, Next.js, Node.js, TypeScript, Tailwind CSS, GSAP"
-                },
-                { 
-                  percentage: 84, 
-                  title: "Architecture & Design", 
-                  color: "from-purple-400 to-purple-600",
-                  bgColor: "bg-purple-400/20",
-                  description: "DDD, RESTful API, Microservices, System Design"
-                },
-                { 
-                  percentage: 86, 
-                  title: "Database & Backend", 
-                  color: "from-blue-400 to-blue-600",
-                  bgColor: "bg-blue-400/20",
-                  description: "MongoDB, PostgreSQL, Prisma, Express.js"
-                },
-                { 
-                  percentage: 89, 
-                  title: "DevOps & Deployment", 
-                  color: "from-cyan-400 to-teal-500",
-                  bgColor: "bg-cyan-400/20",
-                  description: "Docker, AWS, Vercel, CI/CD Pipeline"
-                },
-              ].map((skill, index) => (
-                <motion.div 
-                  key={skill.title}
-                  className="mb-8"
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    delay: 0.3 + index * 0.1, 
-                    duration: 0.6,
-                    ease: "easeOut"
-                  }}
-                >
-                  {/* Skill Header */}
-                  <div className="flex items-center justify-between mb-3">
-                    <motion.h4 
-                      className="text-lg font-semibold text-white"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.4 + index * 0.1, duration: 0.4 }}
-                    >
-                      {skill.title}
-                    </motion.h4>
-                    <motion.span 
-                      className={`text-xl font-bold bg-gradient-to-r ${skill.color} bg-clip-text text-transparent`}
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ 
-                        delay: 0.6 + index * 0.1,
-                        duration: 0.4,
-                        type: "spring",
-                        stiffness: 150
-                      }}
-                    >
-                      {skill.percentage}%
-                    </motion.span>
-                  </div>
-
-                  {/* Progress Bar Container */}
-                  <div className="relative">
-                    {/* Background Bar */}
-                    <div className="w-full h-3 bg-slate-700 rounded-full overflow-hidden">
-                      {/* Animated Progress Bar */}
-                      <motion.div
-                        className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative`}
-                        initial={{ width: "0%" }}
-                        whileInView={{ width: `${skill.percentage}%` }}
-                        viewport={{ once: true }}
-                        transition={{
-                          delay: 0.7 + index * 0.1,
-                          duration: 1.2,
-                          ease: [0.25, 0.46, 0.45, 0.94]
-                        }}
-                      >
-                        {/* Glow Effect */}
-                        <div className={`absolute inset-0 bg-gradient-to-r ${skill.color} rounded-full blur-sm opacity-50`} />
-                        
-                        {/* Shine Animation */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full"
-                          initial={{ x: "-100%" }}
-                          whileInView={{ x: "100%" }}
-                          viewport={{ once: true }}
-                          transition={{
-                            delay: 1.2 + index * 0.1,
-                            duration: 0.8,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      </motion.div>
-                    </div>
-
-                    {/* Skill Description */}
-                    <motion.p 
-                      className="text-sm text-slate-400 mt-2"
-                      initial={{ opacity: 0, y: 5 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.8 + index * 0.1, duration: 0.4 }}
-                    >
-                      {skill.description}
-                    </motion.p>
-                  </div>
-                </motion.div>
-              ))}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Accounting & Data Applications */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                <Globe className="w-6 h-6 text-green-600" />
+              </div>
+              <h4 className="text-lg font-bold mb-3">Muhasebe ve Veri Uygulamaları</h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                11 proje için detaylı gelir-gider raporları hazırladım, cari hesap güncellemelerini otomatikleştirdim, 
+                maliyet ve verimlilik analizi panoları oluşturdum.
+              </p>
+              <ul className="text-xs text-muted-foreground space-y-1">
+                <li>• Finansal dashboard geliştirme</li>
+                <li>• Otomatik raporlama sistemleri</li>
+                <li>• Veri görselleştirme çözümleri</li>
+              </ul>
             </div>
 
-            {/* Additional Skills Summary */}
-            <motion.div
-              className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 1.5, duration: 0.6 }}
-            >
-              {[
-                { label: "Proje Sayısı", value: "20+", icon: "📁" },
-                { label: "Teknoloji", value: "13+", icon: "🧩" },
-                { label: "Memnuniyet", value: "95%", icon: "🏅" },
-                { label: "Deneyim", value: "5+ Yıl", icon: "⏳" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="text-center p-4 bg-slate-800/50 rounded-xl border border-slate-700/50"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1.6 + index * 0.1, duration: 0.4 }}
-                >
-                  <div className="text-2xl mb-2">{stat.icon}</div>
-                  <div className="text-xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs text-slate-400">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
+            {/* E-commerce Solutions */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-blue-600" />
+              </div>
+              <h4 className="text-lg font-bold mb-3">E-ticaret Çözümleri</h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                4 farklı proje için satış, pazar yeri sipariş entegrasyonları ve sanal POS sistemlerini yeniden tasarladım. 
+                2 e-ticaret sitesini sıfırdan başlatıp canlıya aldım.
+              </p>
+              <ul className="text-xs text-muted-foreground space-y-1">
+                <li>• Ödeme sistemi entegrasyonları</li>
+                <li>• Envanter yönetim sistemleri</li>
+                <li>• Müşteri sadakat programları</li>
+              </ul>
+            </div>
 
+            {/* Corporate Websites */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                <Code2 className="w-6 h-6 text-purple-600" />
+              </div>
+              <h4 className="text-lg font-bold mb-3">Kurumsal ve Pazarlama Siteleri</h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                Portfolio, blog ve kurumsal siteler için etkileyici bir dijital varlık oluşturmak temel hedefim. 
+                Marka kimliğinizi en iyi yansıtan modern temalar ve özel tasarımlar.
+              </p>
+              <ul className="text-xs text-muted-foreground space-y-1">
+                <li>• Özel marka tasarımları</li>
+                <li>• SEO optimizasyonu</li>
+                <li>• Performans odaklı geliştirme</li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
 
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center bg-gradient-to-r from-primary to-blue-600 rounded-3xl p-8 lg:p-12 text-white"
+        >
+          <h3 className="text-2xl lg:text-3xl font-bold mb-4">
+            Fikirleriniz aylardır hayalinizde mi? Hadi onları gerçeğe dönüştürelim!
+          </h3>
+          <p className="text-lg lg:text-xl mb-8 opacity-90">
+            En doğru zamanda, en doğru yerdesiniz. Projenizi birlikte başlatalım.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" asChild>
+              <Link href="/#contact">
+                <Target className="w-5 h-5 mr-2" />
+                Proje Başlat
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="text-dark border-white hover:bg-white hover:text-primary" asChild>
+              <Link href="/portfolio">
+                Çalışmalarımı İncele
+              </Link>
+            </Button>
           </div>
         </motion.div>
       </div>
