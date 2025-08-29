@@ -45,24 +45,6 @@ const PORTFOLIO_PROJECTS = [
     featured: true,
     client: "Aycay Store"
   },
-  {
-    id: "saas-analytics-dashboard",
-    title: "SaaS Analitik Platformu",
-    description: "ML tahminleri ile gerçek zamanlı iş zekası platformu. Büyük veri işleme ve görselleştirme yetenekleri.",
-    technologies: ["React", "Express", "Redis", "AWS", "D3.js", "TensorFlow.js"],
-    category: "SaaS Platform",
-    metrics: "Günlük 250K+ veri noktası işleniyor",
-    image: "/images/projects/analytics-dashboard.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    status: "development",
-    completedAt: "2024-12-01",
-    duration: "4 ay",
-    teamSize: "2 kişi",
-    views: 650,
-    featured: false,
-    client: "DataCorp Analytics"
-  }
 ];
 
 // Proje durum badge'leri
@@ -386,6 +368,22 @@ export function PortfolioSection() {
             </div>
           </div>
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center hidden lg:block"
+        >
+          <Button size="lg" asChild className="bg-gradient-to-r from-primary to-lightBlue">
+            <Link href="/portfolio">
+              <span className="mr-2">📁</span>
+              Tüm Projeleri Gör
+              <ArrowUpRight className="w-5 h-5 ml-2" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
