@@ -442,7 +442,7 @@ export default async function PortfolioDetailPage(props: PageProps) {
                 Proje Başlat
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary" asChild>
+            <Button size="lg" variant="outline" className="text-dark border-white hover:bg-white hover:text-primary" asChild>
               <Link href="/portfolio">
                 Diğer Projeleri Gör
               </Link>

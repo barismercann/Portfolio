@@ -2,9 +2,10 @@
 
 import { Badge, Button, Card, CardContent } from '@/components/ui';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ExternalLink, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 // Portfolio içerikleri - gerçek proje görselleri ile güncellenecek
 const PORTFOLIO_PROJECTS = [
@@ -44,78 +45,24 @@ const PORTFOLIO_PROJECTS = [
     featured: true,
     client: "Aycay Store"
   },
-  // {
-  //   id: "saas-analytics-dashboard",
-  //   title: "SaaS Analitik Platformu",
-  //   description: "ML tahminleri ile gerçek zamanlı iş zekası platformu. Büyük veri işleme ve görselleştirme yetenekleri.",
-  //   technologies: ["React", "Express", "Redis", "AWS", "D3.js", "TensorFlow.js"],
-  //   category: "SaaS Platform",
-  //   metrics: "Günlük 250K+ veri noktası işleniyor",
-  //   image: "/images/projects/analytics-dashboard.jpg",
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  //   status: "development",
-  //   completedAt: "2024-12-01",
-  //   duration: "4 ay",
-  //   teamSize: "2 kişi",
-  //   views: 650,
-  //   featured: false,
-  //   client: "DataCorp Analytics"
-  // },
-  // {
-  //   id: "ai-chatbot-sistemi",
-  //   title: "Yapay Zeka Chatbot Sistemi",
-  //   description: "OpenAI GPT entegrasyonu ile müşteri hizmetleri chatbot. Doğal dil işleme ve otomatik yanıt sistemi.",
-  //   technologies: ["Python", "FastAPI", "OpenAI", "React", "WebSocket", "PostgreSQL"],
-  //   category: "AI Platform",
-  //   metrics: "85% otomatik çözüm oranı",
-  //   image: "/images/projects/ai-chatbot.jpg",
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  //   status: "demo",
-  //   completedAt: "2024-09-15",
-  //   duration: "2 ay",
-  //   teamSize: "1 kişi",
-  //   views: 420,
-  //   featured: false,
-  //   client: "TechSupport Inc"
-  // },
-  // {
-  //   id: "blockchain-voting-system",
-  //   title: "Blockchain Voting Sistemi",
-  //   description: "Güvenli ve şeffaf dijital oylama platformu. Blockchain teknolojisi ile manipülasyon-proof sistem.",
-  //   technologies: ["Solidity", "Web3.js", "React", "Ethereum", "MetaMask", "IPFS"],
-  //   category: "Blockchain",
-  //   metrics: "100% güvenlik, sıfır manipülasyon",
-  //   image: "/images/projects/blockchain-voting.jpg",
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  //   status: "beta",
-  //   completedAt: "2024-08-30",
-  //   duration: "3 ay",
-  //   teamSize: "1 kişi",
-  //   views: 780,
-  //   featured: false,
-  //   client: "VoteSecure"
-  // },
-  // {
-  //   id: "iot-monitoring-dashboard",
-  //   title: "IoT Monitoring Dashboard",
-  //   description: "Gerçek zamanlı IoT cihaz izleme ve kontrol paneli. Endüstriyel sensör yönetimi ve alarm sistemi.",
-  //   technologies: ["Vue.js", "Node.js", "MQTT", "InfluxDB", "Grafana", "Docker"],
-  //   category: "IoT Platform",
-  //   metrics: "1000+ cihaz eş zamanlı takip",
-  //   image: "/images/projects/iot-dashboard.jpg",
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  //   status: "live",
-  //   completedAt: "2024-07-10",
-  //   duration: "2 ay",
-  //   teamSize: "1 kişi",
-  //   views: 340,
-  //   featured: false,
-  //   client: "Industrial IoT Solutions"
-  // }
+  {
+    id: "saas-analytics-dashboard",
+    title: "SaaS Analitik Platformu",
+    description: "ML tahminleri ile gerçek zamanlı iş zekası platformu. Büyük veri işleme ve görselleştirme yetenekleri.",
+    technologies: ["React", "Express", "Redis", "AWS", "D3.js", "TensorFlow.js"],
+    category: "SaaS Platform",
+    metrics: "Günlük 250K+ veri noktası işleniyor",
+    image: "/images/projects/analytics-dashboard.jpg",
+    liveUrl: "#",
+    githubUrl: "#",
+    status: "development",
+    completedAt: "2024-12-01",
+    duration: "4 ay",
+    teamSize: "2 kişi",
+    views: 650,
+    featured: false,
+    client: "DataCorp Analytics"
+  }
 ];
 
 // Proje durum badge'leri
@@ -130,10 +77,34 @@ const getStatusBadge = (status: string) => {
   return statusConfig[status as keyof typeof statusConfig] || statusConfig.demo;
 };
 
+// Metin kısaltma fonksiyonu
+const truncateText = (text: string, maxLength: number = 120) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + "...";
+};
+
 export function PortfolioSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Navigation handlers
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === PORTFOLIO_PROJECTS.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? PORTFOLIO_PROJECTS.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
 
   return (
-    <section id="portfolio" className="px-6 md:px-24 py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section id="portfolio" className="px-4 md:px-12 lg:px-24 py-20 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto">
         {/* Header */}
         <motion.div
@@ -154,9 +125,9 @@ export function PortfolioSection() {
           </p>
         </motion.div>
 
-        {/* Projects Grid - 3 columns */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {PORTFOLIO_PROJECTS.slice(0, 3).map((project, index) => {
+        {/* Desktop Grid - Hidden on mobile */}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8 mb-12">
+          {PORTFOLIO_PROJECTS.map((project, index) => {
             const statusBadge = getStatusBadge(project.status);
             
             return (
@@ -171,7 +142,6 @@ export function PortfolioSection() {
                   <CardContent className="p-0 h-full flex flex-col">
                     {/* Project Preview Area */}
                     <div className="h-52 relative overflow-hidden bg-gray-50">
-                      {/* Live Preview Image */}
                       <div className="absolute inset-0">
                         <Image
                           src={project.image}
@@ -181,13 +151,11 @@ export function PortfolioSection() {
                         />
                       </div>
 
-                      {/* Saydam Gölge Overlay - Gradient Shadow */}
+                      {/* Gradient Shadow Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent group-hover:from-black/50 group-hover:via-black/15 transition-all duration-300" />
-                      
-                      {/* İlave saydam gölge overlay - daha güçlü efekt için */}
                       <div className="absolute inset-0 bg-black/15 group-hover:bg-black/20 transition-all duration-300" />
                       
-                      {/* Top badges - daha net görünmesi için backdrop-blur eklendi */}
+                      {/* Top badges */}
                       <div className="absolute top-4 left-4 flex gap-2 z-10">
                         <Badge variant="secondary" className="bg-white/95 text-gray-800 backdrop-blur-md shadow-lg">
                           {project.category}
@@ -197,17 +165,15 @@ export function PortfolioSection() {
                         </Badge>
                       </div>
 
-                      {/* Mobile view indicators - daha net görünmesi için */}
+                      {/* Mobile view indicators */}
                       <div className="absolute bottom-4 right-4 z-10">
                         <div className="flex items-center gap-1">
-                          {/* Desktop icon */}
                           <div className="w-4 h-3 bg-white/90 rounded-sm backdrop-blur-sm shadow-sm" />
-                          {/* Mobile icon */}
                           <div className="w-2 h-3 bg-white/90 rounded-sm backdrop-blur-sm shadow-sm" />
                         </div>
                       </div>
 
-                      {/* Project title overlay - daha net görünmesi için text-shadow eklendi */}
+                      {/* Project title overlay */}
                       <div className="absolute bottom-4 left-4 z-10">
                         <h4 className="text-white font-semibold text-sm drop-shadow-2xl bg-white/20 px-2 py-1 rounded" 
                             style={{ textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
@@ -227,11 +193,16 @@ export function PortfolioSection() {
 
                       {/* Technologies */}
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech) => (
+                        {project.technologies.slice(0, 3).map((tech) => (
                           <Badge key={tech} variant="outline" className="text-xs px-2 py-1">
                             {tech}
                           </Badge>
                         ))}
+                        {project.technologies.length > 3 && (
+                          <Badge variant="outline" className="text-xs px-2 py-1">
+                            +{project.technologies.length - 3}
+                          </Badge>
+                        )}
                       </div>
 
                       {/* Metrics */}
@@ -250,7 +221,7 @@ export function PortfolioSection() {
                         </Button>
                         <Button variant="outline" size="sm" asChild>
                           <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            Canlı Web Sitesi
+                            Canlı Site
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </Link>
                         </Button>
@@ -263,21 +234,158 @@ export function PortfolioSection() {
           })}
         </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Button size="lg" asChild className="bg-gradient-to-r from-primary to-lightBlue">
-            <Link href="/portfolio">
-              <span className="mr-2">📁</span>
-              Tüm Projeleri Gör
-              <ArrowUpRight className="w-5 h-5 ml-2" />
-            </Link>
-          </Button>
-        </motion.div>
+        {/* Mobile Carousel */}
+        <div className="lg:hidden mb-12">
+          {/* Carousel Container */}
+          <div className="relative">
+            {/* Main Slide */}
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-full"
+            >
+              {(() => {
+                const project = PORTFOLIO_PROJECTS[currentIndex];
+                const statusBadge = getStatusBadge(project.status);
+                
+                return (
+                  <Card className="overflow-hidden border-0 shadow-lg">
+                    <CardContent className="p-0">
+                      {/* Project Preview Area */}
+                      <div className="h-48 sm:h-56 relative overflow-hidden bg-gray-50">
+                        <div className="absolute inset-0">
+                          <Image
+                            src={project.image}
+                            alt={`${project.title} preview`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+
+                        {/* Gradient Shadow Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                        
+                        {/* Top badges */}
+                        <div className="absolute top-3 left-3 flex gap-2 z-10">
+                          <Badge variant="secondary" className="bg-white/95 text-gray-800 backdrop-blur-md shadow-lg text-xs">
+                            {project.category}
+                          </Badge>
+                          <Badge className={`${statusBadge.color} text-xs backdrop-blur-md shadow-lg`}>
+                            {statusBadge.text}
+                          </Badge>
+                        </div>
+
+                        {/* Project title overlay */}
+                        <div className="absolute bottom-3 left-3 right-3 z-10">
+                          <h4 className="text-white font-semibold text-lg leading-tight drop-shadow-lg">
+                            {project.title}
+                          </h4>
+                        </div>
+                      </div>
+
+                      <div className="p-4 sm:p-6">
+                        <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                          {truncateText(project.description, 80)}
+                        </p>
+
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.technologies.slice(0, 3).map((tech) => (
+                            <Badge key={tech} variant="outline" className="text-xs px-2 py-1">
+                              {tech}
+                            </Badge>
+                          ))}
+                          {project.technologies.length > 4 && (
+                            <Badge variant="outline" className="text-xs px-2 py-1">
+                              +{project.technologies.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+
+                        {/* Metrics */}
+                        <div className="flex items-center text-sm text-emerald-600 font-medium mb-4 bg-emerald-50 px-3 py-2 rounded-lg">
+                          <TrendingUp className="w-4 h-4 mr-2" />
+                          {truncateText(project.metrics, 30)}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <Button className="flex-1" asChild>
+                            <Link href={`/portfolio/${project.id}`}>
+                              Proje Detayları
+                              <ArrowUpRight className="w-4 h-4 ml-2" />
+                            </Link>
+                          </Button>
+                          <Button variant="outline" className="flex-1" asChild>
+                            <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                              Canlı Site
+                              <ExternalLink className="w-4 h-4 ml-2" />
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+            </motion.div>
+
+            {/* Navigation Controls - Ortalanmış */}
+            <div className="flex items-center justify-center mt-6 gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToPrevious}
+                className="h-10 w-10 p-0"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Button>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <Button size="lg" asChild className="bg-gradient-to-r from-primary to-lightBlue">
+                  <Link href="/portfolio">
+                    <span className="mr-2">📁</span>
+                    Tüm Projeleri Gör
+                    <ArrowUpRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </Button>
+              </motion.div>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToNext}
+                className="h-10 w-10 p-0"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Dot Indicators */}
+            <div className="flex justify-center mt-4 gap-2">
+              {PORTFOLIO_PROJECTS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex 
+                      ? 'bg-primary w-8' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
