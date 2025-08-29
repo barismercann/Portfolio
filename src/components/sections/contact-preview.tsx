@@ -7,15 +7,15 @@ import { ProjectStartForm } from '../forms/project-start-form';
 
 export function ContactPreviewSection() {
   return (
-    <section id="contact" className="px-4 lg:px-24 py-20 bg-gradient-to-b from-slate-50 to-white">
-      <div className="container mx-auto px-4">
+    <section id="contact" className=" md:px-12 lg:px-24 bg-gradient-to-b from-slate-50 to-white">
+      <div className="md:container md:mx-auto md:px-4">
         
         {/* Project Start Form - Now Dark Theme */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20 bg-dark rounded-3xl p-6 lg:p-8 text-white shadow-2xl"
+          className="mb-20 bg-dark md:rounded-3xl p-6 lg:p-8 text-white shadow-2xl"
         >
           <div className="text-center mb-6">
             <div className="inline-flex items-center px-4 py-2 bg-blue-600/20 text-blue-400 rounded-full text-sm font-medium mb-4">
@@ -34,7 +34,7 @@ export function ContactPreviewSection() {
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="grid lg:grid-cols-3 gap-8 items-start container mx-auto mb-20">
           {/* Left Content - Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}

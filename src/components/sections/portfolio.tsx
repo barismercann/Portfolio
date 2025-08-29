@@ -86,7 +86,7 @@ export function PortfolioSection() {
   };
 
   return (
-    <section id="portfolio" className="px-4 md:px-12 lg:px-24 py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section id="portfolio" className=" md:px-12 lg:px-24 md:py-10 lg:py-4 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto">
         {/* Header */}
         <motion.div
